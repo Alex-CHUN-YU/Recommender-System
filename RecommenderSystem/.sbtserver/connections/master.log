@@ -1,0 +1,13 @@
+New log file opened at Sun Nov 04 18:58:20 CST 2018 by 9572@DESKTOP-00UHQEK
+Taking next connection to: 52531
+New client attempting to connect on port: 52532-52531
+  Address = /192.168.82.15:52531
+This client on port 52532 has uuid 214f948d-e106-418c-ab94-45b99d04b96a configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-214f948d-e106-418c-ab94-45b99d04b96a
+Taking next connection to: 52531
+Checking to see if clients are empty...
+No non-daemon clients connected after 3 min. Shutting down.
+Server socket thread exiting.
+0 clients open, will close them...
+All client sockets have been closed.
+Closing the 9572@DESKTOP-00UHQEK logs at Sun Nov 04 19:01:20 CST 2018, goodbye.

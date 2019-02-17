@@ -1,0 +1,9 @@
+property:VA4
+Head:VA4
+head:VA4
+goal:VA4
+complement:VA4
+Head:VA11
+predication:VA13
+Head:VB11
+Head:VF1

@@ -1,0 +1,16 @@
+head:Nc
+property:Nc
+Head:Nca
+location:Nca
+property:Nca
+Head:Ncb
+head:Ncb
+location:Ncb
+apposition:Ncb
+property:Ncb
+theme:Ncb
+agent:Ncb
+head:Ncc
+property:Ncc
+property:Ncdb
+property:Nce

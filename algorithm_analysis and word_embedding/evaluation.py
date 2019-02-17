@@ -90,6 +90,7 @@ class Evaluation:
             score = []
             for data in r:
                 score.append(self.ndcg_at_k(data[:rank_max], rank_max, method = 1))
+            # 全部分數加起來在平均
             scores.append(reduce(lambda x, y: x + y, score) / len(score))
         return scores
 
@@ -100,6 +101,7 @@ class Evaluation:
             score = []
             for data in r:
                 score.append(data[rank_idx])
+            # 全部分數加起來除上總分
             scores.append(reduce(lambda x, y: x + y, score) / (len(score)*max_score))
         return scores
 

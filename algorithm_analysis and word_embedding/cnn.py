@@ -27,9 +27,10 @@ class CNN():
 		# Tuning Hyperparameter
 		# Cross Validation 最大平均正確率
 		self.max_score = 0
-		self.val_accuracy = 0
+		# self.val_accuracy = 0
+		# Cross Validation 最大正確率
 		self.max_accuracy = 0
-		self.epoch = 0
+		self.best_epoch = 0
 		# Save or Restore
 		self.saver = None
 		self.model_path = "cnn_net/"
@@ -117,7 +118,7 @@ class CNN():
 					if max_accuracy >= self.max_accuracy:
 						best_result = True
 						self.max_accuracy = max_accuracy
-						self.epoch = best_epoch
+						self.best_epoch = best_epoch
 						# Save model weights to disk
 						save_path = self.saver.save(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
 						print("Model saved in file: %s" % save_path)
@@ -134,7 +135,7 @@ class CNN():
 			plt.savefig(self.model_path + hyperparameter + "/cnn.png")
 			print("cnn.png is saved")
 			plt.close()
-		print("\nFinal Max accuracy:{0}, Final Best epoch:{1}".format(self.max_accuracy, self.epoch))
+		print("\nFinal Max accuracy:{0}, Final Best epoch:{1}".format(self.max_accuracy, self.best_epoch))
 		return max_accuracy
 
 	# Test
@@ -160,11 +161,11 @@ class CNN():
 		return result
 
 	# Cross Validaion and Tune Hyperparameters
-	def cross_validaion(self, data, target, n_split = 8):
+	def cross_validation(self, data, target, n_split = 8):
 		# fil = [50, 100]
 		# neu = [100, 150]
-		fil = [36, 50, 64, 75, 128, 150]
-		neu = [64, 128, 256, 300, 400, 512]
+		fil = [30, 50, 70, 80, 100, 120]
+		neu = [350, 400, 450]
 		# 將不同 hyperparameter 每次 cross validation 平均 Accuracy 記錄下來
 		parameters_socre = []
 		for f in fil:
@@ -198,14 +199,16 @@ class CNN():
 					})
 					parameters['scoring'] = []
 					parameters['scoring'].append({  
-					'accuracy': float(self.max_score)
+					'average accuracy': float(self.max_score),
+					'max accuracy': float(self.max_accuracy),
+					'best epoch': float(self.best_epoch)
 					})
 					with open('model/cnn_parameters', 'w', encoding = "utf-8") as cnn:
 						json.dump(parameters, cnn)
 					print("CNN Save Parameters Finished")
 				# Next train init(Cross Validation about Max Accuracy and Best Epoch)
 				self.max_accuracy = 0
-				self.epoch = 0
+				self.best_epoch = 0
 		print(parameters_socre)
 		
 	# 計算 accuracy 

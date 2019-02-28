@@ -20,12 +20,15 @@ public class InsertMovieParser {
         ParserClient monmouthCKIP = new MonmouthCKIPParserClient();
         // 寫入文章個數 221269 int i = 71945; i <= 221269
         for (int i = 1; i <= 3722 ; i++) {
-            ResultSet result = mysqlDatabaseController.execSelect("storyline", DatabaseConstant.MOVIES, "id = " + i);
+            ResultSet result = mysqlDatabaseController.execSelect("storyline", DatabaseConstant.MOVIES, "id=" + i + " and type != ''");
             try {
                 if (result.next()) {
                     content = result.getString(DatabaseConstant.STORYLINE);
 //                    System.out.println(title);
 //                    System.out.println(content);
+                } else {
+                    System.out.println("this id " + i + " not occur!");
+                    continue;
                 }
             } catch (SQLException e) {
                 System.out.println("Page " + i + " Extract ERROR!");

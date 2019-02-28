@@ -82,5 +82,6 @@ class Movie():
 		
 if __name__ == '__main__':
 	movie_mysql = Movie()
-	# movie_mysql.movies_insert_mysql()
-	movie_mysql.movies_parser_insert_mysql()
+	movie_mysql.movies_insert_mysql()
+	# 目前透過 java 已可以匯入
+	# movie_mysql.movies_parser_insert_mysql()

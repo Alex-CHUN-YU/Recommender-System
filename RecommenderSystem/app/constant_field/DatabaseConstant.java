@@ -41,6 +41,10 @@ public class DatabaseConstant {
     public static String RELATION_TITLE_NER = "relation_title_ner";
     public static String RELATION_CONTENT_NER = "relation_content_ner";
 
+    // Articles Table Name
+    public static String MOVIES = "movies";
+    // Column Name
+    public static String STORYLINE = "storyline";
     // Movies Parser Table Name
     public static String MOVIES_PARSER = "movies_parser";
     // Column Name

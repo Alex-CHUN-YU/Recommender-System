@@ -9,7 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class InsertParser {
+/**
+ * Insert Article Title Parser and Content Parser into Mysql
+ * @author ALEX-CHUN-YU
+ */
+public class InsertArticleParser {
     public static void main(String[] args) {
         String title = "", content = "";
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();

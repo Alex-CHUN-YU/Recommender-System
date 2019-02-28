@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
  * Insert Article Title and Content into Mysql
  * @author ALEX-CHUN-YU
  */
-
 public class InsertArticle {
 
     public static void main(String[] args) {

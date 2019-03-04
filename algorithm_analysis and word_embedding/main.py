@@ -292,34 +292,34 @@ def main():
 	# 	print(scenario_hadamard_vec)
 	# 	print(1 - t.vectors_similarity(scenario_add_vec, scenario_hadamard_vec))
 
-	# # CNN Training
-	# model = CNN()
-	# model.cross_validation(data, target)
-	# # 載入參數並顯示出來
-	# filter_n1 = ''
-	# neural_node = ''
-	# with open('model/cnn_parameters') as json_file:
-	# 	parameters = json.load(json_file)
-	# 	for p in parameters['hyperparameter']:
-	# 		filter_n1 = str(p['filter_n1'])
-	# 		neural_node = str(p['neural_node'])
-	# # Testing
-	# # 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
-	# X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
-	# model.test(X_test, y_test, filter_n1 + '_' + neural_node)
-	# print(model.predict(X_test[:1], filter_n1 + '_' + neural_node))
+	# CNN Training
+	model = CNN()
+	model.cross_validation(data, target)
+	# 載入參數並顯示出來
+	filter_n1 = ''
+	neural_node = ''
+	with open('model/cnn_parameters') as json_file:
+		parameters = json.load(json_file)
+		for p in parameters['hyperparameter']:
+			filter_n1 = str(p['filter_n1'])
+			neural_node = str(p['neural_node'])
+	# Testing
+	# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
+	X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
+	model.test(X_test, y_test, filter_n1 + '_' + neural_node)
+	print(model.predict(X_test[:1], filter_n1 + '_' + neural_node))
 
-	# print('='*50)
-	# # RNN Training
-	# model = LSTM()
-	# model.cross_validation(data, target)
+	'''print('='*50)
+	# RNN Training
+	model = LSTM()
+	model.cross_validation(data, target)
 	# # Testing
-	# # 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
-	# # X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
-	# model.test(X_test, y_test)
-	# print(model.predict(X_test[:1]))
+	# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
+	X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
+	model.test(X_test, y_test)
+	print(model.predict(X_test[:1]))'''
 
-	print('='*50)
+	'''print('='*50)
 	# RNN Training
 	model = RCNN()
 	model.cross_validation(data, target)
@@ -327,7 +327,7 @@ def main():
 	# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
 	X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
 	model.test(X_test, y_test)
-	print(model.predict(X_test[:1]))
+	print(model.predict(X_test[:1]))'''
 
 if __name__ == "__main__":
     main()

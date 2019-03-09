@@ -4,6 +4,7 @@ import database.SqlObject;
 import dictionary.ReadRoleDictionary;
 import nlp.GeneralFeaturesExtractor;
 import nlp.RelationFeaturesExtractor;
+import nlp.ScenarioFeaturesExtractor;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -59,6 +60,13 @@ public class NERArticles {
                 time += generalFeaturesExtractor.getTimeResult();
                 location += generalFeaturesExtractor.getLocationResult();
                 System.out.println("Content NER:" + contentNER);
+                // Scenario Features Generation.
+                ScenarioFeaturesExtractor scenarioFeaturesExtractor = new ScenarioFeaturesExtractor();
+                scenarioFeaturesExtractor.produceScenarioFeatures(titleParser);
+                String scenarioNER = scenarioFeaturesExtractor.getNERResult();
+                scenarioFeaturesExtractor.produceScenarioFeatures(contentParser);
+                scenarioNER += scenarioFeaturesExtractor.getNERResult();
+                System.out.println("Scenario NER:" + scenarioNER);
                 // Relation Features Generation.
                 String relationTitleNER = "";
                 int min = 6;
@@ -94,14 +102,15 @@ public class NERArticles {
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_LOCATION, location);
                 NERSQLObject.addSqlObject(DatabaseConstant.RELATION_TITLE_NER, relationTitleNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.RELATION_CONTENT_NER, relationContentNER);
+                NERSQLObject.addSqlObject(DatabaseConstant.SCENARIO_NER, scenarioNER);
                 mysqlDatabaseController.execInsert(DatabaseConstant.ARTICLES_NER, NERSQLObject);
-                SqlObject typeSQLObject = new SqlObject();
+                /*SqlObject typeSQLObject = new SqlObject();
                 // 1~5 label standard
                 if (min != 6) {
                     typeSQLObject.addSqlObject(DatabaseConstant.TYPE, min);
                     mysqlDatabaseController.execUpdate(DatabaseConstant.ARTICLES, typeSQLObject,
                             DatabaseConstant.ID + "=" + id);
-                }
+                }*/
             } else {
                 continue;
             }

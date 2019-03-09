@@ -20,7 +20,7 @@ public class DatabaseConstant {
     public static String ID = "id";
     public static String TITLE = "title";
     public static String CONTENT = "content";
-    public static String TYPE = "type";
+    public static String TYPE = "relationship_type";
 
     // Articles Parser Table Name
     public static String ARTICLES_PARSER = "articles_parser";

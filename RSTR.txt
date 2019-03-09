@@ -1,36 +1,55 @@
 Genre
-
-1. 親情(Kinship) Family
-
-
+Scenario(可分, 特定(*)與共同(=))
+= 親情, 愛情, 友情, 師生情, 商務情(無私, 難過, 討厭, 生氣, 擔心, 相處, 驚訝)
 
 
-2. 愛情(Romaic Relationship) Romance
-戀愛
-失戀
-回憶
+1.親情(Kinship) Family
+* 1.孝(filial)(下對上)
+* 2.回憶
+* 3.疼愛(上對下)
+* 4.背叛
+Ex:
+孝=article_id=4,movie_id=31,34
+疼愛=movie_id=15,16,38,45,49
+背叛=movie_id=26,42,44
+
+2.愛情(Romaic Relationship) Romance
+* 1.戀愛(In Love)(曖昧, 傳情, 愛, 相親, 喜歡, 愛上, 親密, 偷偷摸摸, 幸福, 約定)
+* 2.失戀(Lost Love)(阻礙, 欺騙)
+* 3.回憶
+* 4.情色(保守, 約砲, 低級)
 Ex: 
-愛，留在海灘那一天(戀愛)
-愛之病(失戀)
-燃燒烈愛(戀愛)
+戀愛=movie_id=1,2,3,4,5,6,7,8,12,17,19,22,27,28,33,35,36,39,40,41,43,48,51,298,
+失戀=article_id=3 movie_id=18,20,24,302,303
 
-3. 友情(Friendship) War
+3.友情(Friendship) War
+* 1.扶持()
+* 2.回憶
+* 3.背叛
+* 4.交友(外向, 內向)
+扶持=movie_id=296
+回憶=movie_id=10
+背叛=movie_id=11
 
-4. 師生情(Teacher-Student Relationship)
+4.師生情(Teacher-Student Relationship)
+* 1.學習(畢業, 上課, 讀書)
+學習=movie_id=32
 
-
-
-5. 商務情(Business Relationship) Action, Crime, Adventure, Sport, War
-競爭
-任務
+5.商務情(Business Relationship) Action, Crime, Adventure, Sport, War, political 
+* 1.競爭()
+* 2.任務(勇敢, 打工, 上班)
+* 3.背叛
 Ex: 
-決戰賽末點(競爭)
-洩密者們(任務)
+競爭=movie_id=2,13,14,25,297
+任務=movie_id=21,23,29,50,300
+背叛=movie_id=30
 
-
-6. 其他情(Other) Superhero, Sport
-追求自我
-
+6.其他情(Other) Superhero, Sport, Adventure
+* 1.追求自我(希望, 成長, 不後悔)
+* 2.自卑2()
+Ex: 
+追求自我=movie_id=37
+自卑=article_id=2,5,9,52 
 
 7. 沒有任何感情(No Relationship)
 

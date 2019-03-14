@@ -85,7 +85,8 @@ class CNN():
 		self.prediction = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
 		# The Error Between Prediction And Real Data
-		cross_entropy = tf.reduce_mean(-tf.reduce_sum(self.ys * tf.log(tf.clip_by_value(self.prediction, 1e-10,1.0)), reduction_indices = [1])) # loss
+		# cross_entropy = tf.reduce_mean(-tf.reduce_sum(self.ys * tf.log(tf.clip_by_value(self.prediction, 1e-10,1.0)), reduction_indices = [1])) # loss
+		cross_entropy = tf.losses.softmax_cross_entropy(onehot_labels = self.ys, logits = self.prediction)
 		self.optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate).minimize(cross_entropy)
 		self.saver = tf.train.Saver()
 
@@ -161,7 +162,7 @@ class CNN():
 		return result
 
 	# Cross Validaion and Tune Hyperparameters
-	def cross_validation(self, data, target, n_split = 8):
+	def cross_validation(self, data, target, n_split = 10):
 		# fil = [50, 100]
 		# neu = [100, 150]
 		fil = [10, 30, 50, 70, 80, 100, 120]

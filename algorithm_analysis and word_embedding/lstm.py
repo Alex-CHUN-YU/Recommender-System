@@ -160,7 +160,7 @@ class LSTM():
 		return result
 
 	# Cross Validation
-	def cross_validation(self, data, target, n_split = 8):
+	def cross_validation(self, data, target, n_split = 10):
 		# 將不同 hyperparameter 每次 cross validation 平均 Accuracy 記錄下來(目前 lstm 只有一次)
 		parameters_socre = []
 		kf = KFold(n_splits = n_split)

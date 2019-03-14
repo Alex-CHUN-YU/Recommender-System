@@ -3,15 +3,21 @@ __author__ = "ALEX-CHUN-YU (P76064538@mail.ncku.edu.tw)"
 from word2vec import Word2Vec as w2v
 import MySQLdb
 import numpy as np
-from tensorflow.examples.tutorials.mnist import input_data
 from cnn import CNN 
 from lstm import LSTM
 from rcnn import RCNN
 from sklearn.model_selection import train_test_split
 import json
+from sklearn import preprocessing
 
 def main():
-	'''# (1) 訓練 word2ve 模型
+	# vector_training()
+	# save_vector()
+	relationship_model_training()
+	# scenario_model_training()
+
+# 訓練向量模型(Using Word2vec)
+def vector_training():
 	# mysql setting
 	db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 	cursor = db.cursor()
@@ -34,9 +40,10 @@ def main():
 	print(t.term_ranking_in_corpus("幸福", 20))
 	print(t.term_to_vector("爸爸"))
 	print(t.terms_similarity("爸爸", "媽媽"))
-	print(1 - t.vectors_similarity(t.term_to_vector("在一起"), t.term_to_vector("過甜蜜")))'''
+	print(1 - t.vectors_similarity(t.term_to_vector("在一起"), t.term_to_vector("過甜蜜")))
 
-	'''# (2) Article 將向量存入資料庫
+# 將向量存入資料庫(For Articles Vector and Movies Vector) 
+def save_vector():
 	db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 	db.ping(True)
 	cursor = db.cursor()
@@ -45,9 +52,9 @@ def main():
 	t.train_file_setting("segmentation.txt", "result")
 	t.load_model()
 	dimension = t.size
-	# Access Articles NER
-	cursor.execute("SELECT id, relation_content_ner, emotion, event, person_object, time, location FROM articles_ner Where id >= 1 and id <= 221269")
-	sql = "INSERT INTO articles_vector (id, relation_content_add_vec, relation_content_hadamard_vec, relation_content_concatenate_vec, entity_add_concatenate_vec, entity_hadamard_concatenate_vec) VALUES (%s, %s, %s, %s, %s, %s)"
+	# Access Articles NER 221269
+	cursor.execute("SELECT id, relation_content_ner, emotion, event, person_object, time, location , scenario_ner FROM articles_ner Where id >= 1 and id <= 221269")
+	sql = "INSERT INTO articles_vector (id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_hadamard_concatenate_vec) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
 	results = cursor.fetchall()
 	for result in results:
 		article_id = result[0]
@@ -57,23 +64,34 @@ def main():
 		person_object =  result[4]
 		time =  result[5]
 		location =  result[6]
+		scenario_ner = result[7]
 		print(article_id)
-		# For all entity add, hadamard, concatenate
+		# For relationship all entity add, hadamard, concatenate(Relationship model)
 		add_sum = np.zeros(dimension) 
 		hadamard_sum = np.ones(dimension)
-		concatenate = []
+		# 此部分暫且不插入
+		# concatenate = []
 		for relation in relation_content_ner.split(" "):
 			if relation != "":
 				# print(relation)
 				# print(t.term_to_vector(relation))
 				add_sum += t.term_to_vector(relation)
 				hadamard_sum *= t.term_to_vector(relation)
-				concatenate = np.append(concatenate, t.term_to_vector(relation))
-				if len(concatenate) == 900:
-					break;
-		if len(concatenate) < 900:
-			concatenate = np.pad(concatenate, (0, 900 - len(concatenate)), 'constant', constant_values = (0)) 
-		# For entity add-concatenate, hadamard-concatenate
+				# concatenate = np.append(concatenate, t.term_to_vector(relation))
+				# if len(concatenate) == 900:
+				# 	break;
+		# if len(concatenate) < 900:
+		# 	concatenate = np.pad(concatenate, (0, 900 - len(concatenate)), 'constant', constant_values = (0)) 
+		# For scenario entity add, hadamard(Scenario model)
+		scenario_add_sum = np.zeros(dimension) 
+		scenario_hadamard_sum = np.ones(dimension)
+		scenario_add_concatenate = []
+		scenario_hadamard_concatenate = []
+		for scenario in scenario_ner.split(" "):
+			if scenario != "":
+				scenario_add_sum += t.term_to_vector(scenario)
+				scenario_hadamard_sum *= t.term_to_vector(scenario)
+		# For entity add-concatenate, hadamard-concatenate(every entity for relationship, emotion and event for scenario)
 		add_concatenate = []
 		hadamard_concatenate = []
 		emotion_add = np.zeros(dimension)
@@ -86,6 +104,8 @@ def main():
 		print(emotion_hadamard)
 		add_concatenate = np.append(add_concatenate, emotion_add)
 		hadamard_concatenate = np.append(hadamard_concatenate, emotion_hadamard)
+		scenario_add_concatenate = np.append(scenario_add_concatenate, emotion_add)
+		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, emotion_hadamard)
 		event_add = np.zeros(dimension)
 		event_hadamard = np.ones(dimension)
 		for e in event.split(" "):
@@ -96,6 +116,8 @@ def main():
 		print(event_hadamard)
 		add_concatenate = np.append(add_concatenate, event_add)
 		hadamard_concatenate = np.append(hadamard_concatenate, event_hadamard)
+		scenario_add_concatenate = np.append(scenario_add_concatenate, event_add)
+		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, event_hadamard)
 		person_object_add = np.zeros(dimension)
 		person_object_hadamard = np.ones(dimension)
 		for po in person_object.split(" "):
@@ -127,13 +149,13 @@ def main():
 		add_concatenate = np.append(add_concatenate, location_add)
 		hadamard_concatenate = np.append(hadamard_concatenate, location_hadamard)
 		# Insert Data Vector
-		val = (article_id, add_sum, hadamard_sum, str(list(concatenate)), str(list(add_concatenate)), str(list(hadamard_concatenate)))
+		val = (article_id, add_sum, hadamard_sum, str(list(add_concatenate)), str(list(hadamard_concatenate)), scenario_add_sum, scenario_hadamard_sum, str(list(scenario_add_concatenate)), str(list(scenario_hadamard_concatenate)))
 		cursor.execute(sql, val)
 		db.commit()
 
-	# Access Movies NER
+	# Access Movies NER 3722
 	cursor.execute("SELECT id, scenario_ner, emotion, event FROM movies_ner Where id >= 1 and id <= 3722")
-	sql = "INSERT INTO movies_vector (id, scenario_add_vec, scenario_hadamard_vec, entity_add_concatenate_vec, entity_hadamard_concatenate_vec) VALUES (%s, %s, %s, %s, %s)"
+	sql = "INSERT INTO movies_vector (id, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_hadamard_concatenate_vec) VALUES (%s, %s, %s, %s, %s)"
 	results = cursor.fetchall()
 	for result in results:
 		movie_id = result[0]
@@ -173,18 +195,19 @@ def main():
 		hadamard_concatenate = np.append(hadamard_concatenate, event_hadamard)
 		val = (movie_id, add_sum, hadamard_sum, add_concatenate, hadamard_concatenate)
 		cursor.execute(sql, val)
-		db.commit()'''
+		db.commit()
 
-	# (3) 將向量讀取出來並運用 For Relation Model
+# Relationship Model 提取向量並運用
+def relationship_model_training():
 	data = []
 	target = []
 	db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 	cursor = db.cursor()
-	cursor.execute("SELECT id, type FROM articles Where id >= 1 and type !=''")
+	cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and relationship_type !=''")
 	articles = cursor.fetchall()
 	for article in articles:
 		# Access Articles Vector
-		cursor.execute("SELECT id, relation_content_add_vec, relation_content_hadamard_vec, relation_content_concatenate_vec, entity_add_concatenate_vec, entity_hadamard_concatenate_vec FROM articles_vector Where id =" + str(article[0]))
+		cursor.execute("SELECT id, relationship_add_vec, relationship_hadamard_vec, relationship_concatenate_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec FROM articles_vector Where id =" + str(article[0]))
 		vectors = cursor.fetchall()
 		exist = False
 		for vector in vectors:
@@ -194,52 +217,52 @@ def main():
 			add_concatenate_vec = []
 			hadamard_concatenate_vec = []
 			article_id = vector[0]
-			relation_content_add_vec = vector[1]
-			relation_content_hadamard_vec = vector[2]
-			relation_content_concatenate_vec = vector[3]
-			entity_add_concatenate_vec = vector[4]
-			entity_hadamard_concatenate_vec = vector[5]
-			for s in relation_content_add_vec[1:-1].split(' '):
+			relationship_add_vec = vector[1]
+			relationship_hadamard_vec = vector[2]
+			# relationship_concatenate_vec = vector[3]
+			relationship_entity_add_concatenate_vec = vector[4]
+			relationship_entity_hadamard_concatenate_vec = vector[5]
+			for s in relationship_add_vec[1:-1].split(' '):
 				try:
 					if s != "":
 						add_vec.append(float(s))
 				except:
 					pass
-			for s in relation_content_hadamard_vec[1:-1].split(' '):
+			for s in relationship_hadamard_vec[1:-1].split(' '):
 				try:
 					if s != "":
 						hadamard_vec.append(float(s))
 				except:
 					pass	
-			for s in relation_content_concatenate_vec[1:-1].split(', '):
-				try:
-					if s != "":
-						concatenate_vec.append(float(s))
-				except:
-					pass
-			for s in entity_add_concatenate_vec[1:-1].split(', '):
+			# for s in relationship_concatenate_vec[1:-1].split(', '):
+			# 	try:
+			# 		if s != "":
+			# 			concatenate_vec.append(float(s))
+			# 	except:
+			# 		pass
+			for s in relationship_entity_add_concatenate_vec[1:-1].split(', '):
 				try:
 					if s != "":
 						add_concatenate_vec.append(float(s))
 				except:
 					pass
-			for s in entity_hadamard_concatenate_vec[1:-1].split(', '):
+			for s in relationship_entity_hadamard_concatenate_vec[1:-1].split(', '):
 				try:
 					if s != "":
 						hadamard_concatenate_vec.append(float(s))
 				except:
 					pass
 
-			relation_content_add_vec = np.array(add_vec).astype(np.float32)
-			relation_content_hadamard_vec = np.array(hadamard_vec).astype(np.float32)
-			relation_content_concatenate_vec = np.array(concatenate_vec).astype(np.float32)
-			entity_add_concatenate_vec = np.array(add_concatenate_vec).astype(np.float32)
-			entity_hadamard_concatenate_vec = np.array(hadamard_concatenate_vec).astype(np.float32)
-			# print(relation_content_add_vec)
-			# print(relation_content_hadamard_vec)
-			# print(relation_content_concatenate_vec)
-			# print(1 - t.vectors_similarity(relation_content_add_vec, relation_content_hadamard_vec))
-			data.append(entity_add_concatenate_vec)
+			relationship_add_vec = np.array(add_vec).astype(np.float32)
+			relationship_hadamard_vec = np.array(hadamard_vec).astype(np.float32)
+			# relationship_concatenate_vec = np.array(concatenate_vec).astype(np.float32)
+			relationship_entity_add_concatenate_vec = np.array(add_concatenate_vec).astype(np.float32)
+			relationship_entity_hadamard_concatenate_vec = np.array(hadamard_concatenate_vec).astype(np.float32)
+			# print(relationship_add_vec)
+			# print(relationship_hadamard_vec)
+			# print(relationship_concatenate_vec)
+			# print(1 - t.vectors_similarity(relationship_add_vec, relationship_hadamard_vec))
+			data.append(relationship_entity_add_concatenate_vec)
 			exist = True
 		if exist:
 			# Label
@@ -292,6 +315,9 @@ def main():
 	# 	print(scenario_hadamard_vec)
 	# 	print(1 - t.vectors_similarity(scenario_add_vec, scenario_hadamard_vec))
 
+	# Data Normalization(目前效果不佳)
+	# data = preprocessing.scale(data)
+	print(data[:3])
 	# CNN Training
 	model = CNN()
 	model.cross_validation(data, target)
@@ -309,25 +335,29 @@ def main():
 	model.test(X_test, y_test, filter_n1 + '_' + neural_node)
 	print(model.predict(X_test[:1], filter_n1 + '_' + neural_node))
 
-	'''print('='*50)
+	print('='*50)
 	# RNN Training
 	model = LSTM()
 	model.cross_validation(data, target)
 	# # Testing
 	# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
-	X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
+	# X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
 	model.test(X_test, y_test)
-	print(model.predict(X_test[:1]))'''
+	print(model.predict(X_test[:1]))
 
-	'''print('='*50)
+	print('='*50)
 	# RNN Training
-	model = RCNN()
-	model.cross_validation(data, target)
-	# Testing
-	# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
-	X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
-	model.test(X_test, y_test)
-	print(model.predict(X_test[:1]))'''
+	# model = RCNN()
+	# model.cross_validation(data, target)
+	# # Testing
+	# # 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
+	# X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
+	# model.test(X_test, y_test)
+	# print(model.predict(X_test[:1]))
+
+# Scenario Model 提取向量並運用
+def scenario_model_training():
+	pass
 
 if __name__ == "__main__":
     main()

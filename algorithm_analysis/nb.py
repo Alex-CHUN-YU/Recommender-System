@@ -8,7 +8,8 @@ import json
 # Naive Bayes Alogorithm(Probability model, continuous data)
 class NB():
     # NB Initialize
-    def __init__(self):
+    def __init__(self, name):
+        self.model_name = 'model/' + name + '_nb'
         #(Validation Parameter) cross_val_score
         self.cv = 10
         # Accuracy（validation_curve application）
@@ -28,7 +29,7 @@ class NB():
         clf = GaussianNB()
         clf.fit(X, y)
         # 透過 joblib 存 model
-        joblib.dump(clf, "model/nb.pkl")
+        joblib.dump(clf, self.model_name + '.pkl')
         print("NB Save Model Finished")
         # 儲存參數、準確性
         parameters = {}
@@ -36,22 +37,23 @@ class NB():
         parameters['scoring'].append({  
         self.scoring: self.score
         })
-        with open('model/nb_parameters', 'w', encoding = "utf-8") as nbf:
+        with open(self.model_name + '_parameters', 'w', encoding = "utf-8") as nbf:
             json.dump(parameters, nbf)
         print("NB Save Parameters Finished")
             
 if __name__ == '__main__':
     X, y = load_iris().data, load_iris().target
-    nb = NB()
+    name = 'iris'
+    nb = NB(name)
     nb.tuning_parameters(X, y)
     nb.train(X, y)
     # 載入參數並顯示出來
-    with open('model/nb_parameters') as json_file:  
+    with open(nb.model_name + '_parameters') as json_file:  
         data = json.load(json_file)
         # 不同的評分標準 key 要做更改
         for s in data['scoring']:
             print('accuracy: ' + str(s['accuracy']))
     # 載入 model 並去預測
-    nb = joblib.load("model/nb.pkl")
+    nb = joblib.load(nb.model_name + '.pkl')
     print(nb.score(X, y))
     

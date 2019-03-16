@@ -13,7 +13,9 @@ import json
 # Random Forest Classifier Alogorithm
 class RFC():
     # RFC Initialize
-    def __init__(self):
+    def __init__(self, name):
+        self.model_name = 'model/' + name + '_rfc'
+        self.image_name = 'image/' + name + '_rfc'
         # RFC Parameter
         self.n_estimators = 10
         self.criterion = 'gini'
@@ -103,7 +105,7 @@ class RFC():
                              mean_scores[ind] + std_scores[ind], alpha = 0.2)
             ind += 1
         plt.legend(loc = "best") # best location
-        plt.savefig('image/rfc.png')# save image
+        plt.savefig(self.image_name + '.png')# save image
         plt.close()
         print("RFC Save Image Finished")
         print("RFC Tuning Parameters Finished")
@@ -122,7 +124,7 @@ class RFC():
             X = preprocessing.scale(X)
         clf.fit(X, y)
         # 透過 joblib 存 model
-        joblib.dump(clf, "model/rfc.pkl")
+        joblib.dump(clf, self.model_name + '.pkl')
         print("RFC Save Model Finished")
         # 儲存參數、準確性
         parameters = {}
@@ -140,17 +142,18 @@ class RFC():
         parameters['preprocessing'].append({  
         'normalization': self.normalization
         })
-        with open('model/rfc_parameters', 'w', encoding = "utf-8") as rfcf:
+        with open(self.model_name + '_parameters', 'w', encoding = "utf-8") as rfcf:
             json.dump(parameters, rfcf)
         print("RFC Save Parameters Finished")
             
 if __name__ == '__main__':
     X, y = load_wine().data, load_wine().target
-    rfc = RFC()
+    name = 'wine'
+    rfc = RFC(name)
     rfc.tuning_parameters(X, y)
     rfc.train(X, y)
     # 載入參數並顯示出來
-    with open('model/rfc_parameters') as json_file:  
+    with open(rfc.model_name + '_parameters') as json_file:  
         data = json.load(json_file)
         for p in data['parameters']:
             print('n_estimators: ' + str(p['n_estimators']))
@@ -165,5 +168,5 @@ if __name__ == '__main__':
     # 載入 model 並去預測
     if normalization == True:
         X = preprocessing.scale(X)
-    rfc = joblib.load("model/rfc.pkl")
+    rfc = joblib.load(rfc.model_name + '.pkl')
     print(rfc.score(X, y))

@@ -19,7 +19,8 @@ public class SocketClient {
      * @return result
      */
     public String connecting(String data) {
-        String address = "140.116.245.146";
+//        String address = "140.116.245.146";
+        String address = "127.0.0.1";
         int port = 1994;
         Socket client = new Socket();
         InetSocketAddress isa = new InetSocketAddress(address, port);
@@ -52,6 +53,6 @@ public class SocketClient {
      */
     public static void main(String[] args) {
         SocketClient socketClient = new SocketClient();
-        System.out.println(socketClient.connecting("警察 女兒 所作所為 爸爸 職位 警察 兄弟 姐妹 表現 姐姐 妹妹 黑鍋 警察 身 "));
+        System.out.println(socketClient.connecting("警察 女兒 @所作所為 爸爸 @職位 警察 兄弟@ 姐妹 表現@ 姐姐 妹妹 黑鍋 警察 身 & 所作所為 爸爸"));
     }
 }

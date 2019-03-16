@@ -7,11 +7,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.externals import joblib
 import json
+import matplotlib
+matplotlib.use('Agg')
 
 # K Nearest Neighbor Alogorithm
 class KNN():
     # KNN Initialize
-    def __init__(self):
+    def __init__(self, name):
+        self.model_name = 'model/' + name + '_knn'
+        self.image_name = 'image/' + name + '_knn'
         # KNN Parameter
         self.n_neighbors = 5
         self.weights = 'uniform'
@@ -23,7 +27,7 @@ class KNN():
         self.n_jobs = -1
         #(Validation Parameter) validation_curve
         self.cv = 10
-        self.k_range = range(1, 40)
+        self.k_range = range(1, 20)
         # Accuracy（validation_curve application）
         self.score = 0
         self.scoring = 'accuracy'# f1、recall、 precision, your target must binary in sklearn(但貼心的 sklearn 還是有提供 f1_micro、f1_macro...)
@@ -80,12 +84,12 @@ class KNN():
         plt.plot(self.k_range, train_scores_mean, "-o", color = 'r', label = "Training score")# 畫出平均數值
         plt.fill_between(self.k_range, train_scores_mean - train_scores_std,# 畫出離散程度
                          train_scores_mean + train_scores_std, alpha = 0.2, color = "darkorange")
-        plt.plot(self.k_range, valid_scores_mean, "-o", color = 'b', label = "Test score")
+        plt.plot(self.k_range, valid_scores_mean, "-o", color = 'b', label = "Validation score")
         plt.fill_between(self.k_range, valid_scores_mean - valid_scores_std, 
                          valid_scores_mean + valid_scores_std, alpha = 0.2, color = "navy")      
         plt.legend(loc = "best")
         # save image
-        plt.savefig('image/knn.png')
+        plt.savefig(self.image_name + '.png')
         plt.close()
         print("KNN Save Image Finished")
         print("KNN Tuning Parameters Finished")
@@ -101,7 +105,7 @@ class KNN():
             X = preprocessing.scale(X)
         clf.fit(X, y)
         # 透過 joblib 存 model
-        joblib.dump(clf, "model/knn.pkl")
+        joblib.dump(clf, self.model_name + '.pkl')
         print("KNN Save Model Finished")
         # 儲存參數、準確性
         parameters = {}
@@ -117,17 +121,18 @@ class KNN():
         parameters['preprocessing'].append({  
         'normalization': self.normalization
         })
-        with open('model/knn_parameters', 'w', encoding = "utf-8") as knnf:
+        with open(self.model_name + '_parameters', 'w', encoding = "utf-8") as knnf:
             json.dump(parameters, knnf)
         print("KNN Save Parameters Finished")
             
 if __name__ == '__main__':
     X, y = load_wine().data, load_wine().target
-    knn = KNN()
+    name = 'wine'
+    knn = KNN(name)
     knn.tuning_parameters(X, y)
     knn.train(X, y)
     # 載入參數並顯示出來
-    with open('model/knn_parameters') as json_file:  
+    with open(knn.model_name + '_parameters') as json_file:  
         data = json.load(json_file)
         for p in data['parameters']:
             print('n_neighbors: ' + str(p['n_neighbors']))
@@ -140,6 +145,6 @@ if __name__ == '__main__':
     # 載入 model 並去預測
     if normalization == True:
         X = preprocessing.scale(X)
-    knn = joblib.load("model/knn.pkl")
+    knn = joblib.load(knn.model_name + '.pkl')
     print(knn.score(X, y))
     

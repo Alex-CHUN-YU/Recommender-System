@@ -1,0 +1,1 @@
+{"preprocessing": [{"normalization": false}], "parameters": [{"kernel": "poly", "C": 100, "gamma": "auto"}], "scoring": [{"accuracy": 0.8620689655172413}]}

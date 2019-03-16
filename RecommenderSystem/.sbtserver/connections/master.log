@@ -1,13 +1,16 @@
-New log file opened at Sun Mar 10 21:30:31 CST 2019 by 14724@DESKTOP-00UHQEK
-Taking next connection to: 56534
-New client attempting to connect on port: 56536-56534
-  Address = /192.168.82.15:56534
-This client on port 56536 has uuid a80d6088-d2f8-4112-8447-64912d0b0b44 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
-Connected Clients: play-fork-run-a80d6088-d2f8-4112-8447-64912d0b0b44
-Taking next connection to: 56534
+New log file opened at Sat Mar 16 23:36:46 CST 2019 by 5424@DESKTOP-00UHQEK
+Taking next connection to: 50074
+New client attempting to connect on port: 50075-50074
+  Address = /192.168.82.15:50074
+This client on port 50075 has uuid 1f8b8e77-7720-475c-9691-9e9bf3551186 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-1f8b8e77-7720-475c-9691-9e9bf3551186
+Taking next connection to: 50074
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 50074
 Checking to see if clients are empty...
 No non-daemon clients connected after 3 min. Shutting down.
 Server socket thread exiting.
 0 clients open, will close them...
 All client sockets have been closed.
-Closing the 14724@DESKTOP-00UHQEK logs at Sun Mar 10 21:33:33 CST 2019, goodbye.
+Closing the 5424@DESKTOP-00UHQEK logs at Sat Mar 16 23:42:46 CST 2019, goodbye.

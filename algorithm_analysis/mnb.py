@@ -9,7 +9,8 @@ import json
 # Multinomial Naive Bayes Alogorithm(Probability model, discrete data)
 class MNB():
     # MNB Initialize
-    def __init__(self):
+    def __init__(self, name):
+        self.model_name = 'model/' + name + '_mnb'
         #(Validation Parameter) cross_val_score
         self.cv = 10
         # Accuracy（validation_curve application）
@@ -44,7 +45,7 @@ class MNB():
             X = preprocessing.MinMaxScaler().fit_transform(X)
         clf.fit(X, y)
         # 透過 joblib 存 model
-        joblib.dump(clf, "model/mnb.pkl")
+        joblib.dump(clf, self.model_name + '.pkl')
         print("MNB Save Model Finished")
         # 儲存參數、準確性
         parameters = {}
@@ -56,17 +57,18 @@ class MNB():
         parameters['preprocessing'].append({  
         'normalization': self.normalization
         })
-        with open('model/mnb_parameters', 'w', encoding = "utf-8") as mnbf:
+        with open(self.model_name + '_parameters', 'w', encoding = "utf-8") as mnbf:
             json.dump(parameters, mnbf)
         print("MNB Save Parameters Finished")
             
 if __name__ == '__main__':
     X, y = load_iris().data, load_iris().target
-    mnb = MNB()
+    name = 'iris'
+    mnb = MNB(name)
     mnb.tuning_parameters(X, y)
     mnb.train(X, y)
     # 載入參數並顯示出來
-    with open('model/mnb_parameters') as json_file:  
+    with open(mnb.model_name + '_parameters') as json_file:  
         data = json.load(json_file)
         # 不同的評分標準 key 要做更改
         for s in data['scoring']:
@@ -77,5 +79,5 @@ if __name__ == '__main__':
     # 載入 model 並去預測
     if normalization == True:
         X = preprocessing.MinMaxScaler().fit_transform(X)
-    mnb = joblib.load("model/mnb.pkl")
+    mnb = joblib.load(mnb.model_name + '.pkl')
     print(mnb.score(X, y))

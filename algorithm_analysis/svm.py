@@ -12,7 +12,9 @@ import json
 # Support Vector Machine Alogorithm
 class SVM():
     # SVM Initialize
-    def __init__(self):
+    def __init__(self, name):
+        self.model_name = 'model/' + name + '_svm'
+        self.image_name = 'image/' + name + '_svm'
         # SVM Parameter
         self.C = 1.0
         self.kernel = 'linear'
@@ -39,7 +41,6 @@ class SVM():
         # Normalization        
         self.normalization = False 
 
-    # Find Best Parameter(RFC 有沒有 normalization 都沒差? 暫且留著)
     def tuning_parameters(self, X, y):
         # 第一次 tuning (找出 best C 和 best kernel 和 best gamma)
         # C 懲罰系數，即是對誤差的寬容度(c越高，越不能容忍出現誤差,容易 overfitting 。C越小，容易 underfitting)
@@ -86,12 +87,17 @@ class SVM():
             plt.xlabel("Value Of gamma For SVM " + self.kernel)
             plt.ylabel(self.scoring)
             # 4 * 5 
-            mean_scores = np.array(clf.cv_results_['mean_test_score'][:length]).reshape(len(self.Crange), len(self.gamma_range))
-            std_scores = np.array(clf.cv_results_['std_test_score'][:length]).reshape(len(self.Crange), len(self.gamma_range))
+            test_mean_scores = np.array(clf.cv_results_['mean_test_score'][:length]).reshape(len(self.Crange), len(self.gamma_range))
+            test_std_scores = np.array(clf.cv_results_['std_test_score'][:length]).reshape(len(self.Crange), len(self.gamma_range))
+            # train_mean_scores = np.array(clf.cv_results_['mean_train_score'][:length]).reshape(len(self.Crange), len(self.gamma_range))
+            # train_std_scores = np.array(clf.cv_results_['std_train_score'][:length]).reshape(len(self.Crange), len(self.gamma_range))
             for ind, i in enumerate(self.Crange):
-                plt.plot(self.gamma_range, mean_scores[ind], "-o", label = 'C: ' + str(i))
-                plt.fill_between(self.gamma_range, mean_scores[ind] - std_scores[ind], 
-                         mean_scores[ind] + std_scores[ind], alpha = 0.2)
+                plt.plot(self.gamma_range, test_mean_scores[ind], "-o", label = 'C: ' + str(i))
+                plt.fill_between(self.gamma_range, test_mean_scores[ind] - test_std_scores[ind], 
+                         test_mean_scores[ind] + test_std_scores[ind], alpha = 0.2)
+                # plt.plot(self.gamma_range, train_mean_scores[ind], "-o", label = 'C: ' + str(i))
+                # plt.fill_between(self.gamma_range, train_mean_scores[ind] - train_std_scores[ind], 
+                #          train_mean_scores[ind] + train_std_scores[ind], alpha = 0.2)
 #             print(clf.cv_results_['mean_test_score'][:20])
 #             print(clf.cv_results_['std_test_score'][:20])
         # For linear、poly、sigmoid Graph
@@ -100,25 +106,34 @@ class SVM():
             plt.ylabel(self.scoring)
             # 1 * 4
             if self.kernel == 'linear':
-                plt.plot(self.Crange, clf.cv_results_['mean_test_score'][length:length + len(self.Crange)], "-o", label = "Cross-validation score")
+                plt.plot(self.Crange, clf.cv_results_['mean_test_score'][length:length + len(self.Crange)], "-o", label = "Validation score")
                 plt.fill_between(self.Crange, clf.cv_results_['mean_test_score'][length:length + len(self.Crange)] - clf.cv_results_['std_test_score'][length:length + len(self.Crange)], 
                          clf.cv_results_['mean_test_score'][length:length + len(self.Crange)] + clf.cv_results_['std_test_score'][length:length + len(self.Crange)], alpha = 0.2)
+                plt.plot(self.Crange, clf.cv_results_['mean_train_score'][length:length + len(self.Crange)], "-o", label = "Training score")
+                plt.fill_between(self.Crange, clf.cv_results_['mean_train_score'][length:length + len(self.Crange)] - clf.cv_results_['std_train_score'][length:length + len(self.Crange)], 
+                         clf.cv_results_['mean_train_score'][length:length + len(self.Crange)] + clf.cv_results_['std_train_score'][length:length + len(self.Crange)], alpha = 0.2)
 #                 print(clf.cv_results_['mean_test_score'][20:24])
 #                 print(clf.cv_results_['std_test_score'][20:24])
             elif self.kernel == 'poly':
-                plt.plot(self.Crange, clf.cv_results_['mean_test_score'][length + len(self.Crange):length + len(self.Crange) * 2], "-o", label = "Cross-validation score")
+                plt.plot(self.Crange, clf.cv_results_['mean_test_score'][length + len(self.Crange):length + len(self.Crange) * 2], "-o", label = "Validation score")
                 plt.fill_between(self.Crange, clf.cv_results_['mean_test_score'][length + len(self.Crange):length + len(self.Crange) * 2] - clf.cv_results_['std_test_score'][length + len(self.Crange):length + len(self.Crange) * 2], 
                          clf.cv_results_['mean_test_score'][length + len(self.Crange):length + len(self.Crange) * 2] + clf.cv_results_['std_test_score'][length + len(self.Crange):length + len(self.Crange) * 2], alpha = 0.2)
+                plt.plot(self.Crange, clf.cv_results_['mean_train_score'][length + len(self.Crange):length + len(self.Crange) * 2], "-o", label = "Training score")
+                plt.fill_between(self.Crange, clf.cv_results_['mean_train_score'][length + len(self.Crange):length + len(self.Crange) * 2] - clf.cv_results_['std_train_score'][length + len(self.Crange):length + len(self.Crange) * 2], 
+                         clf.cv_results_['mean_train_score'][length + len(self.Crange):length + len(self.Crange) * 2] + clf.cv_results_['std_train_score'][length + len(self.Crange):length + len(self.Crange) * 2], alpha = 0.2)
 #                 print(clf.cv_results_['mean_test_score'][24:28])
 #                 print(clf.cv_results_['std_test_score'][24:28])
             elif self.kernel == 'sigmoid':
-                plt.plot(self.Crange, clf.cv_results_['mean_test_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], "-o", label = "Cross-validation score")
+                plt.plot(self.Crange, clf.cv_results_['mean_test_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], "-o", label = "Validation score")
                 plt.fill_between(self.Crange, clf.cv_results_['mean_test_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3] - clf.cv_results_['std_test_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], 
                          clf.cv_results_['mean_test_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3] + clf.cv_results_['std_test_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], alpha = 0.2)
+                plt.plot(self.Crange, clf.cv_results_['mean_train_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], "-o", label = "Training score")
+                plt.fill_between(self.Crange, clf.cv_results_['mean_train_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3] - clf.cv_results_['std_train_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], 
+                         clf.cv_results_['mean_train_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3] + clf.cv_results_['std_train_score'][length + len(self.Crange) * 2 :length + len(self.Crange) * 3], alpha = 0.2)
 #                 print(clf.cv_results_['mean_test_score'][28:32])
 #                 print(clf.cv_results_['std_test_score'][28:32])
         plt.legend(loc = "best")
-        plt.savefig('image/svm.png')
+        plt.savefig(self.image_name + '.png')
         plt.close()
         print("SVM Save Image Finished")
         print("SVM Tuning Parameters Finished")
@@ -134,7 +149,7 @@ class SVM():
             X = preprocessing.scale(X)
         clf.fit(X, y)
         # 透過 joblib 存 model
-        joblib.dump(clf, "model/svm.pkl")
+        joblib.dump(clf, self.model_name + '.pkl')
         print("SVM Save Model Finished")
         # 儲存參數、準確性
         parameters = {}
@@ -152,17 +167,18 @@ class SVM():
         parameters['preprocessing'].append({  
         'normalization': self.normalization
         })
-        with open('model/svm_parameters', 'w', encoding = "utf-8") as svmf:
+        with open(self.model_name + '_parameters', 'w', encoding = "utf-8") as svmf:
             json.dump(parameters, svmf)
         print("SVM Save Parameters Finished")
             
 if __name__ == '__main__':
     X, y = load_digits().data, load_digits().target
-    svm = SVM()
+    name = 'digits'
+    svm = SVM(name)
     svm.tuning_parameters(X, y)
     svm.train(X, y)
     # 載入參數並顯示出來
-    with open('model/svm_parameters') as json_file:  
+    with open(svm.model_name + '_parameters') as json_file:  
         data = json.load(json_file)
         for p in data['parameters']:
             print('C: ' + str(p['C']))
@@ -177,5 +193,5 @@ if __name__ == '__main__':
     # 載入 model 並去預測
     if normalization == True:
         X = preprocessing.scale(X)
-    svm = joblib.load("model/svm.pkl")
+    svm = joblib.load(svm.model_name + '.pkl')
     print(svm.score(X, y))

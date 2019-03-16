@@ -14,50 +14,56 @@ from sklearn.model_selection import train_test_split
 # Classification Selection
 class Classification():
     # Classification Initialize
-    def __init__(self, train_X, train_y):
+    def __init__(self, train_X, train_y, name):
+        self.name = name
         self.train_X = train_X
         self.train_y = train_y
+        self.knn = None
+        self.svm = None
+        self.nb = None
+        self.mnb = None
+        self.rfc = None
 
     # KNN Alogorithm
-    def knn(self):
+    def knn_model(self):
         # KNN Alogorithm
-        knn = KNN()
-        knn.tuning_parameters(self.train_X, self.train_y)
-        knn.train(self.train_X, self.train_y)
+        self.knn = KNN(self.name)
+        self.knn.tuning_parameters(self.train_X, self.train_y)
+        self.knn.train(self.train_X, self.train_y)
         
     # SVM Alogorithm
-    def svm(self):
+    def svm_model(self):
         # SVM Alogorithm
-        svm = SVM()
-        svm.tuning_parameters(self.train_X, self.train_y)
-        svm.train(self.train_X, self.train_y)
+        self.svm = SVM(self.name)
+        self.svm.tuning_parameters(self.train_X, self.train_y)
+        self.svm.train(self.train_X, self.train_y)
     
     # NB Alogorithm
-    def nb(self):
+    def nb_model(self):
         # NB Alogorithm
-        nb = NB()
-        nb.tuning_parameters(self.train_X, self.train_y)
-        nb.train(self.train_X, self.train_y)
+        self.nb = NB(self.name)
+        self.nb.tuning_parameters(self.train_X, self.train_y)
+        self.nb.train(self.train_X, self.train_y)
 
     # MNB Alogorithm
-    def mnb(self):
+    def mnb_model(self):
         # MNB Alogorithm
-        mnb = MNB()
-        mnb.tuning_parameters(self.train_X, self.train_y)
-        mnb.train(self.train_X, self.train_y)
+        self.mnb = MNB(self.name)
+        self.mnb.tuning_parameters(self.train_X, self.train_y)
+        self.mnb.train(self.train_X, self.train_y)
 
     # RFC Alogorithm
-    def rfc(self):
+    def rfc_model(self):
         # RFC Alogorithm
-        rfc = RFC()
-        rfc.tuning_parameters(self.train_X, self.train_y)
-        rfc.train(self.train_X, self.train_y)
+        self.rfc = RFC(self.name)
+        self.rfc.tuning_parameters(self.train_X, self.train_y)
+        self.rfc.train(self.train_X, self.train_y)
 
     # Find Best Estimator
     def find_best_estimator(self, X_test, y_test):
         print('-'*20, end = '\nK Nearest Neighbor:\n')
         # 載入參數並顯示出來
-        with open('model/knn_parameters') as json_file:  
+        with open(self.knn.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
             for p in data['parameters']:
                 print('n_neighbors: ' + str(p['n_neighbors']))
@@ -73,13 +79,13 @@ class Classification():
             X = preprocessing.scale(X_test)
         else:
             X = X_test
-        knn = joblib.load("model/knn.pkl")
+        knn = joblib.load(self.knn.model_name + '.pkl')
         print("unknown data predictive score:", end = '')
         print(knn.score(X, y_test))
         #######################################
         print('-'*20, end = '\nSupport Vector Machine:\n')
         # 載入參數並顯示出來
-        with open('model/svm_parameters') as json_file:  
+        with open(self.svm.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
             for p in data['parameters']:
                 print('C: ' + str(p['C']))
@@ -97,25 +103,25 @@ class Classification():
             X = preprocessing.scale(X_test)
         else:
             X = X_test
-        svm = joblib.load("model/svm.pkl")
+        svm = joblib.load(self.svm.model_name + ".pkl")
         print("unknown data predictive score:", end = '')
         print(svm.score(X, y_test))
         #######################################
         print('-'*20, end = '\nNaive Bayes:\n')
         # 載入參數並顯示出來
-        with open('model/nb_parameters') as json_file:  
+        with open(self.nb.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
                 print('accuracy: ' + str(s['accuracy']))
         # 載入 model 並去預測
-        nb = joblib.load("model/nb.pkl")
+        nb = joblib.load(self.nb.model_name + ".pkl")
         print("unknown data predictive score:", end = '')
         print(nb.score(X_test, y_test))
         #######################################
         print('-'*20, end = '\nMultinomial Naive Bayes:\n')
         # 載入參數並顯示出來
-        with open('model/mnb_parameters') as json_file:  
+        with open(self.mnb.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
@@ -128,13 +134,13 @@ class Classification():
             X = preprocessing.MinMaxScaler().fit_transform(X_test)
         else:
             X = X_test
-        mnb = joblib.load("model/mnb.pkl")
+        mnb = joblib.load(self.mnb.model_name + ".pkl")
         print("unknown data predictive score:", end = '')
         print(mnb.score(X, y_test))
         #######################################
         print('-'*20, end = '\nRandom Forest Classifier:\n')
         # 載入參數並顯示出來
-        with open('model/rfc_parameters') as json_file:  
+        with open(self.rfc.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
             for p in data['parameters']:
                 print('n_estimators: ' + str(p['n_estimators']))
@@ -151,7 +157,7 @@ class Classification():
             X = preprocessing.scale(X_test)
         else:
             X = X_test
-        rfc = joblib.load("model/rfc.pkl")
+        rfc = joblib.load(self.rfc.model_name + ".pkl")
         print("unknown data predictive score:", end = '')
         print(rfc.score(X, y_test))       
 
@@ -172,10 +178,10 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25)
     clf = Classification(X_train, y_train)
     # 已有 Model 可以註解掉(model test data dimension and train data dimension must same!)
-    clf.knn()
-    clf.svm()
-    clf.nb()
-    clf.mnb()
-    clf.rfc()
+    clf.knn_model()
+    clf.svm_model()
+    clf.nb_model()
+    clf.mnb_model()
+    clf.rfc_model()
     clf.find_best_estimator(X_test, y_test)
 

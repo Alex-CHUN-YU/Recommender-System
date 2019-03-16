@@ -1,10 +1,15 @@
 package controllers;
 
+import ckip.MonmouthCKIPParserClient;
+import ckip.ParserClient;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import dictionary.ReadRoleDictionary;
 import json.JSONArray;
 import json.JSONObject;
 import ml_model_client.SocketClient;
+import nlp.GeneralFeaturesExtractor;
+import nlp.ScenarioFeaturesExtractor;
 import play.libs.Json;
 import play.mvc.*;
 import scala.collection.immutable.List;
@@ -36,8 +41,45 @@ public class MainController extends Controller {
 //        int value = userDataJsonObject.getInt("value");
 //        System.out.println(text + ":" + value);
         System.out.println("Origin:"+ article);
+        // Parser
+        ParserClient monmouthCKIP = new MonmouthCKIPParserClient();
+        article = article.replaceAll("\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", "");
+        // Remain import Punctuation(對於有以下符號所分開的斷句本身就會被 CKIP 認為不同句子，即使當同一個句子進去，也是一樣視為不同)
+        article = article.replaceAll("。|\\.|\\?|？|!|;|,|，|；|:|~|：", "\n");
+        article = article.replaceAll( "[\\pP+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]" , "");
+        String[] sentences = article.split("\n");
+        String contentParserResult = "";
+        // 本來想去掉空白，但考慮到某些文章存在重要的詞彙，例:這是測試\n               測試!
+        for (String sentence : sentences) {
+            if (sentence.length() >= 4) {
+//                    System.out.println(sentence);
+                ArrayList<String> list1 = (ArrayList<String>) monmouthCKIP.parse(sentence);
+                for (String s : list1) {
+                    contentParserResult += s;
+                    contentParserResult += "@";
+                    // System.out.println(s);
+                }
+            }
+        }
+        System.out.println(contentParserResult);
+        // NER
+        ReadRoleDictionary readThematicRolePOSPairDictionary = new ReadRoleDictionary();
+        readThematicRolePOSPairDictionary.setRoleDictionary();
+        GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
+        generalFeaturesExtractor.produceGenerationFeatures(contentParserResult);
+        String emotions = generalFeaturesExtractor.getEmotionsResult();
+        String events = generalFeaturesExtractor.getEventsResult();
+        String personObject = generalFeaturesExtractor.getPersonObjectsResult();
+        String time = generalFeaturesExtractor.getTimeResult();
+        String location = generalFeaturesExtractor.getLocationResult();
+        ScenarioFeaturesExtractor scenarioFeaturesExtractor = new ScenarioFeaturesExtractor();
+        scenarioFeaturesExtractor.produceScenarioFeatures(contentParserResult);
+        String scenarioNER = scenarioFeaturesExtractor.getNERResult();
+        String relationshipResult = emotions + "@" + events + "@" + personObject + "@" + time + "@" + location;
+        String result = relationshipResult + "&" + scenarioNER;
+        System.out.println(result);
         SocketClient socketClient = new SocketClient();
-        String test = socketClient.connecting(article);
+        String test = socketClient.connecting(result);
         System.out.println("Result:" + test);
         /*DatabaseController databaseController = new DatabaseController();
         JsonNode request = request().body().asJson();

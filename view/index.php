@@ -121,7 +121,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 					console.log("success!");
 					console.log(response);
 					
-					for (order = 0; order <= 1; order++) {
+					for (order = 0; order <= 2; order++) {
 						song = response[order];
 						replaceRecommendSong(order, song);
 					}

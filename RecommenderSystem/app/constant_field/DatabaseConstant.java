@@ -21,13 +21,11 @@ public class DatabaseConstant {
     public static String TITLE = "title";
     public static String CONTENT = "content";
     public static String TYPE = "relationship_type";
-
     // Articles Parser Table Name
     public static String ARTICLES_PARSER = "articles_parser";
     // Column Name
     public static String TITLE_PARSER_RESULT = "title_parser_result";
     public static String CONTENT_PARSER_RESULT = "content_parser_result";
-
     // Articles NER Table Name
     public static String ARTICLES_NER = "articles_ner";
     // Column Name
@@ -41,15 +39,16 @@ public class DatabaseConstant {
     public static String RELATION_TITLE_NER = "relation_title_ner";
     public static String RELATION_CONTENT_NER = "relation_content_ner";
 
-    // Articles Table Name
+    // Movies Table Name
     public static String MOVIES = "movies";
     // Column Name
     public static String STORYLINE = "storyline";
+    public static String MOVIE_NAME = "name";
+    public static String MOVIE_LINK = "link";
     // Movies Parser Table Name
     public static String MOVIES_PARSER = "movies_parser";
     // Column Name
     public static String STORYLINE_PARSER_RESULT = "storyline_parser_result";
-
     // Movies NER Table Name
     public static String MOVIES_NER = "movies_ner";
     // Column Name

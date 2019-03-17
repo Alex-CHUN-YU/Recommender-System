@@ -155,30 +155,30 @@ def main():
 	# print(others_data)
 	# print(others_target)
 
-	# name = 'kinship'
-	# print(kinship_data.shape)
-	# print(kinship_target.shape)
-	# training(name, kinship_data, kinship_target)
+	name = 'kinship'
+	print(kinship_data.shape)
+	print(kinship_target.shape)
+	training(name, kinship_data, kinship_target)
 	name = 'romantic_relationship'
 	print(romantic_relationship_data.shape)
 	print(romantic_relationship_target.shape)
 	training(name, romantic_relationship_data, romantic_relationship_target)
-	# name = 'friendship'
-	# print(friendship_data.shape)
-	# print(friendship_target.shape)
-	# training(name, friendship_data, friendship_target)
+	name = 'friendship'
+	print(friendship_data.shape)
+	print(friendship_target.shape)
+	training(name, friendship_data, friendship_target)
 	# name = 'teacher_student_relationship'
 	# print(teacher_student_relationship_data.shape)
 	# print(teacher_student_relationship_target.shape)
 	# training(name, teacher_student_relationship_data, teacher_student_relationship_target)
-	# name = 'business_relationship'
-	# print(business_relationship_data.shape)
-	# print(business_relationship_target.shape)
-	# training(name, business_relationship_data, business_relationship_target)
-	# name = 'others'
-	# print(others_data.shape)
-	# print(others_target.shape)
-	# training(name, others_data, others_target)
+	name = 'business_relationship'
+	print(business_relationship_data.shape)
+	print(business_relationship_target.shape)
+	training(name, business_relationship_data, business_relationship_target)
+	name = 'others'
+	print(others_data.shape)
+	print(others_target.shape)
+	training(name, others_data, others_target)
 
 def training(name, data, target):
 	clf = Classification(data, target, name)

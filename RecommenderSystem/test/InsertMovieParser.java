@@ -18,9 +18,9 @@ public class InsertMovieParser {
         String content = "";
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         ParserClient monmouthCKIP = new MonmouthCKIPParserClient();
-        // 寫入文章個數 221269 int i = 71945; i <= 221269
-        for (int i = 1; i <= 3722 ; i++) {
-            ResultSet result = mysqlDatabaseController.execSelect("storyline", DatabaseConstant.MOVIES, "id=" + i + " and type != ''");
+        // 寫入電影個數 3722
+        for (int i = 1; i <= 286 ; i++) {
+            ResultSet result = mysqlDatabaseController.execSelect("storyline", DatabaseConstant.MOVIES, "id=" + i);
             try {
                 if (result.next()) {
                     content = result.getString(DatabaseConstant.STORYLINE);

@@ -12,8 +12,8 @@ from sklearn import preprocessing
 
 def main():
 	# vector_training()
-	# save_vector()
-	relationship_model_training()
+	save_vector()
+	# relationship_model_training()
 	# scenario_model_training()
 
 # 訓練向量模型(Using Word2vec)

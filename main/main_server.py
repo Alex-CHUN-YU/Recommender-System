@@ -80,9 +80,11 @@ class RecommenderSystem():
 		# 		pass
 		# data_vec.append(np.array(add_vec).astype(np.float32))
 		# data_vec = np.array(data_vec)
+		# 由於 Relationship LSTM Model Predict 的結果必須加一才有辦法對應到資料庫
+		relationship_type = relationship_type + 1
 		scenario_type = self.scenario_model(relationship_type, scenario_vector_list)
-		candidates = self.relationship_scenario_based_trailer_recommendation(str(relationship_type + 1), str(scenario_type), scenario_vector_list)
-		return entitys + ' result:' + candidates
+		candidates = self.relationship_scenario_based_trailer_recommendation(str(relationship_type), str(scenario_type), scenario_vector_list)
+		return candidates
 
 	def vector_produce(self, add_concatenate, entitys):
 		entity_add = np.zeros(self.w2v.size)
@@ -147,8 +149,31 @@ class RecommenderSystem():
 		# data_vec = np.array(data_vec)
 		# print(data_vec.shape)
 		data_vec = vector
+		# Kinship
+		if relationship == 1:
+			# 載入參數並顯示出來
+			with open('model/kinship_knn_parameters') as json_file:  
+				data = json.load(json_file)
+				for p in data['parameters']:
+					print('n_neighbors: ' + str(p['n_neighbors']))
+				# 不同的評分標準 key 要做更改
+				for s in data['scoring']:
+					print('accuracy: ' + str(s['accuracy']))
+					score = s['accuracy']
+				for p in data['preprocessing']:
+					print('normalization: ' + str(p['normalization']))
+					normalization = p['normalization']
+			# 載入 model 並去預測
+			if normalization == True:
+				data_vec = preprocessing.scale(data_vec)
+			else:
+				data_vec = data_vec
+			knn = joblib.load('model/kinship_knn.pkl')
+			result = int(knn.predict(data_vec[:1])[0])
+			print("predictive result:", end = '')
+			print(result)
 		# Romantic Relationship
-		if relationship == 0:
+		elif relationship == 2:
 			# 載入參數並顯示出來
 			with open('model/romantic_relationship_rfc_parameters') as json_file:  
 				data = json.load(json_file)
@@ -171,6 +196,80 @@ class RecommenderSystem():
 			result = int(rfc.predict(data_vec[:1])[0])
 			print("predictive result:", end = '')
 			print(result)
+		# Friendship
+		elif relationship == 3:
+			with open('model/friendship_knn_parameters') as json_file:  
+				data = json.load(json_file)
+				for p in data['parameters']:
+					print('n_neighbors: ' + str(p['n_neighbors']))
+				# 不同的評分標準 key 要做更改
+				for s in data['scoring']:
+					print('accuracy: ' + str(s['accuracy']))
+					score = s['accuracy']
+				for p in data['preprocessing']:
+					print('normalization: ' + str(p['normalization']))
+					normalization = p['normalization']
+			# 載入 model 並去預測
+			if normalization == True:
+				data_vec = preprocessing.scale(data_vec)
+			else:
+				data_vec = data_vec
+			knn = joblib.load('model/friendship_knn.pkl')
+			result = int(knn.predict(data_vec[:1])[0])
+			print("predictive result:", end = '')
+			print(result)
+		# Teacher Student Relationship
+		elif relationship == 4:
+			result = 1
+		# Business Relationship
+		elif relationship == 5:
+			# 載入參數並顯示出來
+			with open('model/business_relationship_knn_parameters') as json_file:  
+				data = json.load(json_file)
+				for p in data['parameters']:
+					print('n_neighbors: ' + str(p['n_neighbors']))
+				# 不同的評分標準 key 要做更改
+				for s in data['scoring']:
+					print('accuracy: ' + str(s['accuracy']))
+					score = s['accuracy']
+				for p in data['preprocessing']:
+					print('normalization: ' + str(p['normalization']))
+					normalization = p['normalization']
+			# 載入 model 並去預測
+			if normalization == True:
+				data_vec = preprocessing.scale(data_vec)
+			else:
+				data_vec = data_vec
+			knn = joblib.load('model/business_relationship_knn.pkl')
+			result = int(knn.predict(data_vec[:1])[0])
+			print("predictive result:", end = '')
+			print(result)
+		# Others
+		elif relationship == 6:
+			with open('model/others_svm_parameters') as json_file:  
+				data = json.load(json_file)
+				for p in data['parameters']:
+					print('C: ' + str(p['C']))
+					print('kernel: ' + p['kernel'])
+					print('gamma: ' + str(p['gamma']))
+				# 不同的評分標準 key 要做更改
+				for s in data['scoring']:
+					print('accuracy: ' + str(s['accuracy']))
+					score = s['accuracy']
+				for p in data['preprocessing']:
+					print('normalization: ' + str(p['normalization']))
+					normalization = p['normalization']
+			# 載入 model 並去預測
+			if normalization == True:
+				data_vec = preprocessing.scale(data_vec)
+			else:
+				data_vec = data_vec
+			svm = joblib.load('model/others_svm.pkl')
+			result = int(svm.predict(data_vec[:1])[0])
+			print("predictive result:", end = '')
+			print(result)
+		else:
+			result = 10
 		return result
 
 	def relationship_scenario_based_trailer_recommendation(self, relationship_type_result, scenario_type_result, vector):
@@ -202,13 +301,17 @@ class RecommenderSystem():
 						except:
 							pass
 					add_vec = np.array(add_vec).astype(np.float32)
-					print(vector.shape)
-					print(add_vec.shape)
+					# print(vector.shape)
+					# print(add_vec.shape)
 					similarity = 1 - self.w2v.vectors_similarity(add_vec, vector)
 					print(str(movies_id) + ":" + str(similarity))
 					candidates[str(movies_id)] = similarity
 		candidates = sorted(candidates, key = candidates.get, reverse = True)
-		return candidates[0] + "," + candidates[1] + "," + candidates[2]
+		print(candidates)
+		try:
+			return candidates[0] + "," + candidates[1] + "," + candidates[2];
+		except:
+			return ""
 
 if __name__ == '__main__':
 	recommender_system = RecommenderSystem()

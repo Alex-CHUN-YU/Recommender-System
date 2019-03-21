@@ -1,31 +1,34 @@
-New log file opened at Sun Mar 17 20:36:24 CST 2019 by 13376@DESKTOP-00UHQEK
-Taking next connection to: 62895
-New client attempting to connect on port: 62896-62895
-  Address = /192.168.82.15:62895
-This client on port 62896 has uuid 3d24fcad-c58c-4786-82fb-daac37f0feb8 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
-Connected Clients: play-fork-run-3d24fcad-c58c-4786-82fb-daac37f0feb8
-Taking next connection to: 62895
+New log file opened at Thu Mar 21 11:00:49 CST 2019 by 6552@DESKTOP-00UHQEK
+Taking next connection to: 53888
+New client attempting to connect on port: 53889-53888
+  Address = /192.168.82.15:53888
+This client on port 53889 has uuid 4ecaa28d-0f48-4ef9-80ef-25b093039a5a configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-4ecaa28d-0f48-4ef9-80ef-25b093039a5a
+Taking next connection to: 53888
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62895
+Taking next connection to: 53888
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62895
+Taking next connection to: 53888
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62895
+Taking next connection to: 53888
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62895
+Taking next connection to: 53888
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62895
+Taking next connection to: 53888
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 62895
+Taking next connection to: 53888
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 53888
 Checking to see if clients are empty...
 No non-daemon clients connected after 3 min. Shutting down.
 Server socket thread exiting.
 0 clients open, will close them...
 All client sockets have been closed.
-Closing the 13376@DESKTOP-00UHQEK logs at Sun Mar 17 20:57:24 CST 2019, goodbye.
+Closing the 6552@DESKTOP-00UHQEK logs at Thu Mar 21 11:24:49 CST 2019, goodbye.

@@ -1,5 +1,5 @@
-New log file opened at Sun Mar 17 20:33:15 CST 2019 by 6576@DESKTOP-00UHQEK
-jvm 6576@DESKTOP-00UHQEK
+New log file opened at Thu Mar 21 10:12:16 CST 2019 by 7996@DESKTOP-00UHQEK
+jvm 7996@DESKTOP-00UHQEK
 jvm vmName=Java HotSpot(TM) 64-Bit Server VM vmVendor=Oracle Corporation vmVersion=25.181-b13
 jvm specName=Java Virtual Machine Specification specVendor=Oracle Corporation specVersion=1.8
 jvm arguments: [-Xms256m, -Xmx1024m, -XX:MetaspaceSize=64m, -XX:MaxMetaspaceSize=256m]
@@ -27,7 +27,7 @@ sorting: ns: List(sbt.plugins.CorePlugin, sbt.plugins.IvyPlugin, sbt.plugins.Jvm
   :: sorted deduced result: List(sbt.plugins.CorePlugin, sbt.plugins.IvyPlugin, sbt.plugins.JvmPlugin, sbt.plugins.JUnitXmlReportPlugin)
 [Loading] Done in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\project, returning: (recommendersystem-build)
 Loading project definition from C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\project
-Running task... Cancel: sbt.TaskCancellationStrategy$Null$@55dae394, check cycles: false
+Running task... Cancel: sbt.TaskCancellationStrategy$Null$@560758c6, check cycles: false
 
 Initial source changes: 
 	removed:Set()
@@ -69,7 +69,7 @@ Set current project to RecommenderSystem (in build file:/C:/Users/alex/Desktop/P
 > server-handle-next-server-request
 > {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root/*:playForkConfig
 Evaluating tasks: *:playForkConfig
-Running task... Cancel: sbt.server.ServerTaskCancellation@5a3cdf4e, check cycles: false
+Running task... Cancel: sbt.server.ServerTaskCancellation@39495ad9, check cycles: false
 Read from stdout: Updating {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root...
 Updating {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root...
 Other repositories:
@@ -84,7 +84,7 @@ resolving dependencies for configuration 'compile'
 == resolving dependencies recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT->org.scala-lang#scala-library;2.11.7 [compile->default(compile)]
 Read from stdout: Resolving org.scala-lang#scala-library;2.11.7 ...
 Resolving org.scala-lang#scala-library;2.11.7 ...
-sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@7eaac007
+sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@42120b8d
 sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.7
 	found org.scala-lang#scala-library;2.11.7 in sbt-chain
 	[2.11.7] org.scala-lang#scala-library;2.11.7
@@ -8806,7 +8806,7 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.11;2.3.8!akka-actor_2.11.jar
 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.3.8!akka-testkit_2.11.jar
 	[NOT REQUIRED] com.typesafe#config;1.2.1!config.jar(bundle)
-:: resolution report :: resolve 3355ms :: artifacts dl 124ms
+:: resolution report :: resolve 3147ms :: artifacts dl 109ms
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT compile produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-compile.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT runtime produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-runtime.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT test produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-test.xml
@@ -8821,21 +8821,21 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT pom produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-pom.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT scala-tool produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-scala-tool.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT fork-run produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-fork-run.xml
-	resolve done (3355ms resolve - 124ms download)
+	resolve done (3147ms resolve - 109ms download)
 Read from stdout: Done updating.
 Done updating.
-Total time: 4 s, completed 2019/3/17 下午 08:33:24
+Total time: 4 s, completed 2019/3/21 上午 10:57:46
 > server-post-command-cleanup
 > server-handle-next-server-request
 > root/playForkNotifyStart http://localhost:9000
 Evaluating tasks: *:playForkNotifyStart
-Running task... Cancel: sbt.server.ServerTaskCancellation@7565cf0, check cycles: false
-Total time: 0 s, completed 2019/3/17 下午 08:33:25
+Running task... Cancel: sbt.server.ServerTaskCancellation@5db7d798, check cycles: false
+Total time: 0 s, completed 2019/3/21 上午 10:57:47
 > server-post-command-cleanup
 > server-handle-next-server-request
 > {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root/*:playForkReload
 Evaluating tasks: *:playForkReload
-Running task... Cancel: sbt.server.ServerTaskCancellation@33e8ef07, check cycles: false
+Running task... Cancel: sbt.server.ServerTaskCancellation@1e11ca08, check cycles: false
 
 Initial source changes: 
 	removed:Set()
@@ -8882,7 +8882,7 @@ Copy resource mappings:
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\romantic_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\romantic_relationship.list)
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\teacher_student_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\teacher_student_relationship.list)
 Warning: node.js detection failed, sbt will use the Rhino based Trireme JavaScript engine instead to run JavaScript assets compilation, which in some cases may be orders of magnitude slower than using node.js.
-Total time: 1 s, completed 2019/3/17 下午 08:33:41
+Total time: 1 s, completed 2019/3/21 上午 10:58:38
 > server-post-command-cleanup
 > server-handle-next-server-request
 Done executing sbt server engine, result Right(Exit(0))
@@ -8891,4 +8891,4 @@ Waiting for socket thread
 Waiting for request processor thread
 Waiting for command engine result
 Returning control to sbt launcher with result Exit(0)
-Closing the 6576@DESKTOP-00UHQEK logs at Sun Mar 17 20:36:17 CST 2019, goodbye.
+Closing the 7996@DESKTOP-00UHQEK logs at Thu Mar 21 11:00:42 CST 2019, goodbye.

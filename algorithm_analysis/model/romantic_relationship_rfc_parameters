@@ -1,1 +1,0 @@
-{"preprocessing": [{"normalization": false}], "parameters": [{"n_estimators": 50, "criterion": "gini", "max_features": "log2"}], "scoring": [{"accuracy": 0.8620689655172413}]}

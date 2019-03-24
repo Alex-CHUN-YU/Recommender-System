@@ -1,1 +1,0 @@
-{"preprocessing": [{"normalization": false}], "parameters": [{"n_neighbors": 2}], "scoring": [{"accuracy": 0.8666666666666666}]}

@@ -21,19 +21,21 @@ import java.util.Iterator;
  */
 public class ScenarioFeaturesExtractor {
     /**
-     * NER Result.
+     * NER Result(會經過辭典).
      */
     private String NERResult;
     /**
      * Stop Word list.
      */
-    private ReadFileController stopWords;
+    private ReadFileController stopWords, emotionDic, eventDic;
     /**
      * Constructor.
      */
     public ScenarioFeaturesExtractor() {
         try {
-            stopWords = new ReadFileController(FileName.FILTER + FileName.STOPWORDS);
+            stopWords = new ReadFileController(FileName.FILTER + FileName.STOP_WORDS);
+            emotionDic = new ReadFileController(FileName.FILTER + FileName.EMOTION);
+            eventDic = new ReadFileController(FileName.FILTER + FileName.EVENT);
         } catch (IOException e) {
             System.out.println("Can't load Stop word dictionary!");
         }
@@ -56,8 +58,6 @@ public class ScenarioFeaturesExtractor {
                 for (GeneralFeaturesExtractor.Quad r : NERCandidateWordList) {
                     // System.out.println(r.getSegmentWord() + ":" + r.getNER() + ":" + r.getTagging() + ":" + r.getThematicRole());
                     String result = r.getSegmentWord().toString();
-                    result = result.replaceAll("飾演", "");
-                    result = result.replaceAll("飾", "");
                     if (r.getNER().equals(ModuleConstant.STATE) || r.getNER().equals(ModuleConstant.EVENT)) {
                         boolean f = false;
                         for (String s : stopWords.getLineList()) {
@@ -66,7 +66,21 @@ public class ScenarioFeaturesExtractor {
                                 break;
                             }
                         }
-                        if (!f && !result.equals("")) {
+                        // (改成 false 才算是有讀辭典)
+                        boolean e = true;
+                        for (String s : emotionDic.getLineList()) {
+                            if (result.equals(s)) {
+                                e = true;
+                                break;
+                            }
+                        }
+                        for (String s : eventDic.getLineList()) {
+                            if (result.equals(s)) {
+                                e = true;
+                                break;
+                            }
+                        }
+                        if (!f && !result.equals("") && e) {
                             this.NERResult += result + " ";
                         }
                     }

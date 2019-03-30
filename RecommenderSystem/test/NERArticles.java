@@ -67,7 +67,7 @@ public class NERArticles {
                 scenarioFeaturesExtractor.produceScenarioFeatures(contentParser);
                 scenarioNER += scenarioFeaturesExtractor.getNERResult();
                 System.out.println("Scenario NER:" + scenarioNER);
-                // Relation Features Generation.
+                // Relation Features Generation.(主要透過 E-HowNet 來劃分)
                 String relationTitleNER = "";
                 int min = 6;
                 String relationContentNER = "";
@@ -93,17 +93,20 @@ public class NERArticles {
                 // Import MYSQL Data
                 SqlObject NERSQLObject = new SqlObject();
                 NERSQLObject.addSqlObject(DatabaseConstant.ID, id);
+                // 不會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.TITLE_NER, titleNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.CONTENT_NER, contentNER);
+                NERSQLObject.addSqlObject(DatabaseConstant.RELATION_TITLE_NER, relationTitleNER);
+                NERSQLObject.addSqlObject(DatabaseConstant.RELATION_CONTENT_NER, relationContentNER);
+                // 會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_EMOTIONS, emotions);
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_EVENTS, events);
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_PERSON_OBJECT, personObject);
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_TIME, time);
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_LOCATION, location);
-                NERSQLObject.addSqlObject(DatabaseConstant.RELATION_TITLE_NER, relationTitleNER);
-                NERSQLObject.addSqlObject(DatabaseConstant.RELATION_CONTENT_NER, relationContentNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.SCENARIO_NER, scenarioNER);
                 mysqlDatabaseController.execInsert(DatabaseConstant.ARTICLES_NER, NERSQLObject);
+                // 標記所判斷的 relationship feature 也就是 relationship type
                 /*SqlObject typeSQLObject = new SqlObject();
                 // 1~5 label standard
                 if (min != 6) {

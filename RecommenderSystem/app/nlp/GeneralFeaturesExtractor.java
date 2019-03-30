@@ -9,7 +9,6 @@ import generictree.Node;
 import generictree.Tree;
 import read_write_file.ReadFileController;
 
-import javax.swing.text.StyledEditorKit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,13 +22,13 @@ import java.util.Iterator;
  */
 public class GeneralFeaturesExtractor {
     /**
-     * NER Result.
+     * NER Result(不會經過辭典).
      */
     private String NERResult;
     /**
      * Stop Word list.
      */
-    private ReadFileController stopWords;
+    private ReadFileController stopWords, character_objectDic, locationDic, timeDic, emotionDic, eventDic;
     /**
      * Person Object Result.
      */
@@ -64,7 +63,12 @@ public class GeneralFeaturesExtractor {
      */
     public GeneralFeaturesExtractor() {
         try {
-            stopWords = new ReadFileController(FileName.FILTER + FileName.STOPWORDS);
+            stopWords = new ReadFileController(FileName.FILTER + FileName.STOP_WORDS);
+            character_objectDic = new ReadFileController(FileName.FILTER + FileName.CHARACTER_OBJECT);
+            locationDic = new ReadFileController(FileName.FILTER + FileName.LOCATION);
+            timeDic = new ReadFileController(FileName.FILTER + FileName.TIME);
+            emotionDic = new ReadFileController(FileName.FILTER + FileName.EMOTION);
+            eventDic = new ReadFileController(FileName.FILTER + FileName.EVENT);
         } catch (IOException e) {
             System.out.println("Can't load Stop word dictionary!");
         }
@@ -104,27 +108,71 @@ public class GeneralFeaturesExtractor {
                     // System.out.println(r.getSegmentWord() + ":" + r.getNER() + ":" + r.getTagging() + ":" + r.getThematicRole());
                     boolean f = false;
                     String result = r.getSegmentWord().toString();
-                    result = result.replaceAll("飾演", "");
-                    result = result.replaceAll("飾", "");
                     for (String s : stopWords.getLineList()) {
                         if (result.equals(s)) {
                             f = true;
                             break;
                         }
                     }
+                    // 透過辭典來過濾部必要的詞彙(改成 false 才算是有讀辭典)
+                    boolean co = true;
+                    boolean lo = true;
+                    boolean ti = true;
+                    boolean em = true;
+                    boolean ev = true;
                     // 非 Stop word 在進入
                     if (!f && !result.equals("")) {
                         this.NERResult += result + " ";
                         if (r.getNER().equals(ModuleConstant.PERSON_OBJECT)) {
-                            personObjects += result + " ";
+                            for (String c : character_objectDic.getLineList()) {
+                                if (result.equals(c)) {
+                                    co = true;
+                                    break;
+                                }
+                            }
+                            if (co) {
+                                personObjects += result + " ";
+                            }
                         } else if (r.getNER().equals(ModuleConstant.TIME)) {
-                            time += result + " ";
+                            for (String t : timeDic.getLineList()) {
+                                if (result.equals(t)) {
+                                    ti = true;
+                                    break;
+                                }
+                            }
+                            if (ti) {
+                                time += result + " ";
+                            }
                         } else if (r.getNER().equals(ModuleConstant.LOCATION)) {
-                            location += result + " ";
+                            for (String l : locationDic.getLineList()) {
+                                if (result.equals(l)) {
+                                    lo = true;
+                                    break;
+                                }
+                            }
+                            if (lo) {
+                                location += result + " ";
+                            }
                         } else if (r.getNER().equals(ModuleConstant.EVENT)) {
-                            events += result + " ";
+                            for (String e : eventDic.getLineList()) {
+                                if (result.equals(e)) {
+                                    ev = true;
+                                    break;
+                                }
+                            }
+                            if (ev) {
+                                events += result + " ";
+                            }
                         } else if (r.getNER().equals(ModuleConstant.STATE)) {
-                            emotions += result + " ";
+                            for (String e : emotionDic.getLineList()) {
+                                if (result.equals(e)) {
+                                    em = true;
+                                    break;
+                                }
+                            }
+                            if (em) {
+                                emotions += result + " ";
+                            }
                         }
 //                        // Statistic
 //                        if (r.getNER().equals(ModuleConstant.PERSON_OBJECT)) {

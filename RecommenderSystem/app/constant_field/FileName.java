@@ -15,5 +15,11 @@ public class FileName {
     public static final String BUSINESS_RELATIONSHIP = "business_relationship.list";
     // Filter
     public static final String FILTER = "resources/filter/";
-    public static final String STOPWORDS = "stopwords.txt";
+    public static final String STOP_WORDS = "stopwords.txt";
+    public static final String CHARACTER_OBJECT = "character_object.txt";
+    public static final String LOCATION = "location.txt";
+    public static final String TIME = "time.txt";
+    public static final String EMOTION = "emotion.txt";
+    public static final String EVENT = "event.txt";
+
 }

@@ -39,7 +39,7 @@ public class RelationFeaturesExtractor {
      */
     public RelationFeaturesExtractor() throws IOException {
         try {
-            stopWords = new ReadFileController(FileName.FILTER + FileName.STOPWORDS);
+            stopWords = new ReadFileController(FileName.FILTER + FileName.STOP_WORDS);
         } catch (IOException e) {
             System.out.println("Can't load Stop word dictionary!");
         }
@@ -73,8 +73,6 @@ public class RelationFeaturesExtractor {
                 for (GeneralFeaturesExtractor.Quad r : NERCandidateWordList) {
                     // System.out.println(r.getSegmentWord() + ":" + r.getNER() + ":" + r.getTagging() + ":" + r.getThematicRole());
                     String result = r.getSegmentWord().toString();
-                    result = result.replaceAll("飾演", "");
-                    result = result.replaceAll("飾", "");
                     boolean f = false;
                     for (String s : stopWords.getLineList()) {
                         if (result.equals(s)) {

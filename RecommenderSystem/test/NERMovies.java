@@ -19,10 +19,10 @@ public class NERMovies {
         // 將 Rule 寫入
         ReadRoleDictionary readThematicRolePOSPairDictionary = new ReadRoleDictionary();
         readThematicRolePOSPairDictionary.setRoleDictionary();
-        // 讀取資料庫資料
+        // 讀取資料庫資料 3722
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
-        for (int id = 1; id <= 3722; id++) {
+        for (int id = 526; id <= 550; id++) {
             String storylineParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(
                     DatabaseConstant.STORYLINE_PARSER_RESULT, DatabaseConstant.MOVIES_PARSER,
@@ -52,7 +52,9 @@ public class NERMovies {
                 // Import MYSQL Data
                 SqlObject NERSQLObject = new SqlObject();
                 NERSQLObject.addSqlObject(DatabaseConstant.ID, id);
+                // 不會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.STORYLINE_NER, storylineNER);
+                // 會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.FILM_EMOTIONS, emotions);
                 NERSQLObject.addSqlObject(DatabaseConstant.FILM_EVENTS, events);
                 NERSQLObject.addSqlObject(DatabaseConstant.SCENARIO_NER, scenarioNER);

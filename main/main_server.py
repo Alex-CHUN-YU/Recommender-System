@@ -85,8 +85,6 @@ class RecommenderSystem():
 		# 		pass
 		# data_vec.append(np.array(add_vec).astype(np.float32))
 		# data_vec = np.array(data_vec)
-		# 由於 Relationship LSTM Model Predict 的結果必須加一才有辦法對應到資料庫
-		relationship_type = relationship_type + 1
 		scenario_type = self.scenario_model(relationship_type, scenario_vector_list)
 		candidates = self.relationship_scenario_based_trailer_recommendation(str(relationship_type), str(scenario_type), scenario_vector_list)
 		return candidates
@@ -113,7 +111,9 @@ class RecommenderSystem():
 		# y_test = np.array([[0, 1, 0, 0, 0, 0, 0]]).astype(np.float32) 代表愛情(2, index = 1)
 		result = int(self.lstm.predict(vector[:1])[0])
 		print("predictive result:", end = '')
-		print(result + 1)
+		# 由於 Relationship LSTM Model Predict 的結果必須加一才有辦法對應到資料庫
+		result = result + 1
+		print(result)
 		return result
 
 	def scenario_model(self, relationship, vector):

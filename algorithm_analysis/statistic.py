@@ -187,6 +187,42 @@ class Statistic():
 		self.produce_dictionary(self.other_others_emotion_dic, "other_others_emotion_dic")
 		self.produce_dictionary(self.other_others_event_dic, "other_others_event_dic")
 
+		# 代表 all emotions
+		aaaa = dict(self.kinship_filial_emotion_dic)
+		aaaa.update(dict(self.kinship_love_emotion_dic))
+		aaaa.update(dict(self.kinship_betray_emotion_dic))
+		aaaa.update(dict(self.romantic_relationship_in_love_emotion_dic))
+		aaaa.update(dict(self.romantic_relationship_lost_love_emotion_dic))
+		aaaa.update(dict(self.romantic_relationship_sex_emotion_dic))
+		aaaa.update(dict(self.friendship_support_emotion_dic))
+		aaaa.update(dict(self.friendship_betray_emotion_dic))
+		aaaa.update(dict(self.friendship_memory_emotion_dic))
+		aaaa.update(dict(self.teacher_student_relationship_learning_emotion_dic))
+		aaaa.update(dict(self.business_relationship_competition_emotion_dic))
+		aaaa.update(dict(self.business_relationship_task_emotion_dic))
+		aaaa.update(dict(self.business_relationship_betray_emotion_dic))
+		aaaa.update(dict(self.business_relationship_reveal_emotion_dic))
+		aaaa.update(dict(self.other_pursuit_of_self_emotion_dic))
+		aaaa.update(dict(self.other_others_emotion_dic))
+		self.produce_dictionary(aaaa, "aaaa")
+		# 代表 all events
+		bbbb = dict(self.kinship_filial_event_dic)
+		bbbb.update(dict(self.kinship_love_event_dic))
+		bbbb.update(dict(self.kinship_betray_event_dic))
+		bbbb.update(dict(self.romantic_relationship_in_love_event_dic))
+		bbbb.update(dict(self.romantic_relationship_lost_love_event_dic))
+		bbbb.update(dict(self.romantic_relationship_sex_event_dic))
+		bbbb.update(dict(self.friendship_support_event_dic))
+		bbbb.update(dict(self.friendship_betray_event_dic))
+		bbbb.update(dict(self.friendship_memory_event_dic))
+		bbbb.update(dict(self.teacher_student_relationship_learning_event_dic))
+		bbbb.update(dict(self.business_relationship_competition_event_dic))
+		bbbb.update(dict(self.business_relationship_task_event_dic))
+		bbbb.update(dict(self.business_relationship_betray_event_dic))
+		bbbb.update(dict(self.business_relationship_reveal_event_dic))
+		bbbb.update(dict(self.other_pursuit_of_self_event_dic))
+		bbbb.update(dict(self.other_others_event_dic))
+		self.produce_dictionary(bbbb, "bbbb")
 	# 進行 emotion 和 event 統計
 	def statistic(self, id, statistic_dic, feature):
 		if feature == 'emotion':
@@ -214,6 +250,14 @@ class Statistic():
 					elif 'event' in name:
 						if statistic[0] in self.events:
 							file.write(statistic[0])
+							file.write('\n')
+					elif 'aaaa' in name:
+						if statistic in self.emotions:
+							file.write(statistic)
+							file.write('\n')
+					elif 'bbbb' in name:
+						if statistic in self.events:
+							file.write(statistic)
 							file.write('\n')
 				except:
 					print("An exception occurred")

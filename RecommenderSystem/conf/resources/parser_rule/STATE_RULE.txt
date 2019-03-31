@@ -18,8 +18,11 @@ Head:VK1
 Head:VK2
 Head:VJ2
 property:VJ2
+property:Nv4
 Head:VL1
 Head:Nv
 DUMMY1:Nv
 DUMMY2:Nv1
 DUMMY1:Nv4
+goal:VH11
+Head:VH14

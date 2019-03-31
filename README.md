@@ -16,6 +16,8 @@
 目的：爬蟲, 存取資料庫, CKIP Parser
 ### ehownet
 目的：產生 ehownet lexicon
+### test
+目的：測試資料用
 
 ## View
 ### view

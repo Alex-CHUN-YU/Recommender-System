@@ -12,6 +12,9 @@ class Statistic():
 		with open("dict_observation/event.txt", 'r', encoding='UTF-8') as fp:
 			self.events = fp.readlines()
 			self.events = [event.strip('\n') for event in self.events]
+		with open("dict_observation/filter_term.txt", 'r', encoding='UTF-8') as fp:
+			self.filter_term = fp.readlines()
+			self.filter_term = [term.strip('\n') for term in self.filter_term]
 		self.kinship_filial_emotion_dic = {}
 		self.kinship_filial_event_dic = {}
 		self.kinship_love_emotion_dic = {}
@@ -252,11 +255,11 @@ class Statistic():
 							file.write(statistic[0])
 							file.write('\n')
 					elif 'aaaa' in name:
-						if statistic in self.emotions:
+						if statistic in self.emotions and statistic not in self.filter_term:
 							file.write(statistic)
 							file.write('\n')
 					elif 'bbbb' in name:
-						if statistic in self.events:
+						if statistic in self.events and statistic not in self.filter_term:
 							file.write(statistic)
 							file.write('\n')
 				except:

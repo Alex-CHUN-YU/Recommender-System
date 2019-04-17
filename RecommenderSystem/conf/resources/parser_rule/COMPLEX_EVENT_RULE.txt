@@ -65,3 +65,4 @@ Head:VC31+manner:Dh
 goal:VD1+goal:Nab
 Head:VJ3+Head:Nac
 Head:VC32+Head:Nab
+predication:VC31+goal:Nab

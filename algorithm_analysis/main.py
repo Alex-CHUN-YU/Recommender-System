@@ -30,7 +30,7 @@ class Main():
 	# 主要將資料進行分析，選擇出適合的演算法，以及儲存每個演算法 model 和使用到的參數(Parameter)與它的精確性
 	def main(self):
 		# 1~7 可指定(目前只針對1~6) 另外此部分主要對應過去就是 label 代號
-		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id < 350 and relationship_type !=''")
+		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id <= 700 and relationship_type !=''")
 		movies = self.cursor.fetchall()	
 		for movie in movies:
 			movies_id = movie[0]
@@ -138,8 +138,8 @@ class Main():
 		return add_vec	
 	# 使用演算法訓練
 	def training(self, name, data, target):
-		clf = Classification(data, target, name)
-		X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.25)
+		X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.1)
+		clf = Classification(X_train, y_train, name)
 		clf.knn_model()
 		clf.nb_model()
 		clf.mnb_model()

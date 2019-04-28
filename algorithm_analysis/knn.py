@@ -115,7 +115,7 @@ class KNN():
         })
         parameters['scoring'] = []
         parameters['scoring'].append({  
-        self.scoring: self.score
+        'valid_score': self.score
         })
         parameters['preprocessing'] = []
         parameters['preprocessing'].append({  
@@ -138,7 +138,7 @@ if __name__ == '__main__':
             print('n_neighbors: ' + str(p['n_neighbors']))
         # 不同的評分標準 key 要做更改
         for s in data['scoring']:
-            print('accuracy: ' + str(s['accuracy']))
+            print('valid_score: ' + str(s['valid_score']))
         for p in data['preprocessing']:
             print('normalization: ' + str(p['normalization']))
             normalization = p['normalization']

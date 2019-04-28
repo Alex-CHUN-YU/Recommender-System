@@ -24,5 +24,9 @@ Head:Nv
 DUMMY1:Nv
 DUMMY2:Nv1
 DUMMY1:Nv4
+Head:Nv2
 goal:VH11
 Head:VH14
+manner:VH
+Head:VH12
+complement:VH14

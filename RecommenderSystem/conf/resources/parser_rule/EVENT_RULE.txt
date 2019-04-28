@@ -7,6 +7,7 @@ Head:VA11
 predication:VA13
 Head:VB11
 Head:VF1
-DUMMY1:Nv1
 Head:Nv1
 manner:Nv
+theme:VA4
+DUMMY1:Nv1

@@ -87,18 +87,18 @@ public class NERArticles {
                     relationFeaturesExtractor.produceRelationFeatures(contentParser);
                     relationContentNER = relationFeaturesExtractor.getNERResult();
                     System.out.println("Relation Content NER:" + relationContentNER);
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 // Import MYSQL Data
                 SqlObject NERSQLObject = new SqlObject();
                 NERSQLObject.addSqlObject(DatabaseConstant.ID, id);
-                // 不會經過辭典
+                // 不會經過辭典(但會經過 stop word)
                 NERSQLObject.addSqlObject(DatabaseConstant.TITLE_NER, titleNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.CONTENT_NER, contentNER);
+                // 會經過辭典(也會經過 stop word)
                 NERSQLObject.addSqlObject(DatabaseConstant.RELATION_TITLE_NER, relationTitleNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.RELATION_CONTENT_NER, relationContentNER);
-                // 會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_EMOTIONS, emotions);
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_EVENTS, events);
                 NERSQLObject.addSqlObject(DatabaseConstant.ARTICLE_PERSON_OBJECT, personObject);

@@ -35,7 +35,7 @@ class NB():
         parameters = {}
         parameters['scoring'] = []
         parameters['scoring'].append({  
-        self.scoring: self.score
+        'valid_score': self.score
         })
         with open(self.model_name + '_parameters', 'w', encoding = "utf-8") as nbf:
             json.dump(parameters, nbf)
@@ -52,7 +52,7 @@ if __name__ == '__main__':
         data = json.load(json_file)
         # 不同的評分標準 key 要做更改
         for s in data['scoring']:
-            print('accuracy: ' + str(s['accuracy']))
+            print('valid_score: ' + str(s['valid_score']))
     # 載入 model 並去預測
     nb = joblib.load(nb.model_name + '.pkl')
     print(nb.score(X, y))

@@ -10,12 +10,17 @@ import json
 from sklearn import preprocessing
 from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 
 # Classification Selection
 class Classification():
     # Classification Initialize
     def __init__(self, train_X, train_y, name):
         self.name = name
+        # Save Evaluate Results
+        self.model_name = 'model/' + self.name
         self.train_X = train_X
         self.train_y = train_y
         self.knn = None
@@ -58,6 +63,30 @@ class Classification():
         self.rfc = RFC(self.name)
         self.rfc.tuning_parameters(self.train_X, self.train_y)
         self.rfc.train(self.train_X, self.train_y)
+    
+    # Evaluate Result(accuracy, precision, recall, f1 score)
+    def evaluate_result(self, model_name, model, X, y_true):
+        # micro precision and recall and f1 score 都一樣, macro 則是每個類別的平均
+        accuracy_score_result = model.score(X, y_true)
+        precision_score_result = precision_score(y_true, model.predict(X), average = 'macro')
+        recall_score_result = recall_score(y_true, model.predict(X), average = 'macro')
+        f1_score_result = f1_score(y_true, model.predict(X), average = 'macro')
+        print("unknown data accuracy_score: " + str(accuracy_score_result))
+        print("unknown data precision_score: " + str(precision_score_result))
+        print("unknown data recall_score: " + str(recall_score_result))
+        print("unknown data f1_score: " + str(f1_score_result))
+        # 儲存評估結果
+        evaluate_result = {}
+        evaluate_result['result'] = []
+        evaluate_result['result'].append({  
+        'accuracy': accuracy_score_result,
+        'precision_score': precision_score_result,
+        'recall_score': recall_score_result,
+        'f1_score': f1_score_result
+        })
+        with open(self.model_name + "_" + model_name + '_evaluate_result', 'w', encoding = "utf-8") as result:
+            json.dump(evaluate_result, result)
+        print("Evaluate Result is Saved")
 
     # Find Best Estimator
     def find_best_estimator(self, X_test, y_test):
@@ -69,8 +98,7 @@ class Classification():
                 print('n_neighbors: ' + str(p['n_neighbors']))
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
-                print('accuracy: ' + str(s['accuracy']))
-                score = s['accuracy']
+                print('valid_score: ' + str(s['valid_score']))
             for p in data['preprocessing']:
                 print('normalization: ' + str(p['normalization']))
                 normalization = p['normalization']
@@ -80,8 +108,7 @@ class Classification():
         else:
             X = X_test
         knn = joblib.load(self.knn.model_name + '.pkl')
-        print("unknown data predictive score:", end = '')
-        print(knn.score(X, y_test))
+        self.evaluate_result("knn", knn, X, y_test)
         #######################################
         print('-'*20, end = '\nSupport Vector Machine:\n')
         # 載入參數並顯示出來
@@ -93,8 +120,7 @@ class Classification():
                 print('gamma: ' + str(p['gamma']))
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
-                print('accuracy: ' + str(s['accuracy']))
-                score = s['accuracy']
+                print('valid_score: ' + str(s['valid_score']))
             for p in data['preprocessing']:
                 print('normalization: ' + str(p['normalization']))
                 normalization = p['normalization']
@@ -104,8 +130,7 @@ class Classification():
         else:
             X = X_test
         svm = joblib.load(self.svm.model_name + ".pkl")
-        print("unknown data predictive score:", end = '')
-        print(svm.score(X, y_test))
+        self.evaluate_result("svm", svm, X, y_test)
         #######################################
         print('-'*20, end = '\nNaive Bayes:\n')
         # 載入參數並顯示出來
@@ -113,11 +138,10 @@ class Classification():
             data = json.load(json_file)
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
-                print('accuracy: ' + str(s['accuracy']))
+                print('valid_score: ' + str(s['valid_score']))
         # 載入 model 並去預測
         nb = joblib.load(self.nb.model_name + ".pkl")
-        print("unknown data predictive score:", end = '')
-        print(nb.score(X_test, y_test))
+        self.evaluate_result("nb", nb, X_test, y_test)
         #######################################
         print('-'*20, end = '\nMultinomial Naive Bayes:\n')
         # 載入參數並顯示出來
@@ -125,7 +149,7 @@ class Classification():
             data = json.load(json_file)
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
-                print('accuracy: ' + str(s['accuracy']))
+                print('valid_score: ' + str(s['valid_score']))
             for p in data['preprocessing']:
                 print('normalization: ' + str(p['normalization']))
                 normalization = p['normalization']
@@ -135,8 +159,7 @@ class Classification():
         else:
             X = X_test
         mnb = joblib.load(self.mnb.model_name + ".pkl")
-        print("unknown data predictive score:", end = '')
-        print(mnb.score(X, y_test))
+        self.evaluate_result("mnb", mnb, X, y_test)
         #######################################
         print('-'*20, end = '\nRandom Forest Classifier:\n')
         # 載入參數並顯示出來
@@ -148,7 +171,7 @@ class Classification():
                 print('max_features: ' + p['max_features'])
             # 不同的評分標準 key 要做更改
             for s in data['scoring']:
-                print('accuracy: ' + str(s['accuracy']))
+                print('valid_score: ' + str(s['valid_score']))
             for p in data['preprocessing']:
                 print('normalization: ' + str(p['normalization']))
                 normalization = p['normalization']
@@ -158,8 +181,7 @@ class Classification():
         else:
             X = X_test
         rfc = joblib.load(self.rfc.model_name + ".pkl")
-        print("unknown data predictive score:", end = '')
-        print(rfc.score(X, y_test))       
+        self.evaluate_result("rfc", rfc, X, y_test)      
 
 if __name__ == '__main__':
     # data sampling 必須是 cv(default = 10) * class number 以上

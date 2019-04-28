@@ -22,10 +22,10 @@ public class NERArticles {
         // 將 Rule 寫入
         ReadRoleDictionary readThematicRolePOSPairDictionary = new ReadRoleDictionary();
         readThematicRolePOSPairDictionary.setRoleDictionary();
-        // 讀取資料庫資料
+        // 讀取資料庫資料 221269
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
-        for (int id = 1; id <= 221269; id++) {
+        for (int id = 1; id <= 50; id++) {
             String titleParser = "";
             String contentParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(

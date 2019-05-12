@@ -12,8 +12,8 @@ from sklearn import preprocessing
 
 def main():
 	# vector_training()
-	save_vector()
-	# relationship_model_training()
+	# save_vector()
+	relationship_model_training()
 	# scenario_model_training()
 
 # 訓練向量模型(Using Word2vec)
@@ -232,20 +232,23 @@ def relationship_model_training():
 	for article in articles:
 		# Access Articles Vector
 		cursor.execute("SELECT id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec FROM articles_vector Where id =" + str(article[0]))
-		vectors = cursor.fetchall()
-		exist = False
-		for vector in vectors:
+		vector = cursor.fetchone()
+		target_list = article[1].split(",")
+		for t in target_list:
 			add_vec = []
 			hadamard_vec = []
 			concatenate_vec = []
 			add_concatenate_vec = []
 			hadamard_concatenate_vec = []
-			article_id = vector[0]
-			relationship_add_vec = vector[1]
-			relationship_hadamard_vec = vector[2]
-			# relationship_concatenate_vec = vector[3]
-			relationship_entity_add_concatenate_vec = vector[3]
-			relationship_entity_hadamard_concatenate_vec = vector[4]
+			try:
+				article_id = vector[0]
+				relationship_add_vec = vector[1]
+				relationship_hadamard_vec = vector[2]
+				# relationship_concatenate_vec = vector[3]
+				relationship_entity_add_concatenate_vec = vector[3]
+				relationship_entity_hadamard_concatenate_vec = vector[4]
+			except:
+				break
 			for s in relationship_add_vec[1:-1].split(' '):
 				try:
 					if s != "":
@@ -287,22 +290,20 @@ def relationship_model_training():
 			# print(relationship_concatenate_vec)
 			# print(1 - t.vectors_similarity(relationship_add_vec, relationship_hadamard_vec))
 			data.append(relationship_entity_add_concatenate_vec)
-			exist = True
-		if exist:
 			# Label
-			if article[1] == '1':
+			if t == '1':
 				target.append([1, 0, 0, 0, 0, 0, 0])
-			elif article[1] == '2':
+			elif t == '2':
 				target.append([0, 1, 0, 0, 0, 0, 0])
-			elif article[1] == '3':
+			elif t == '3':
 				target.append([0, 0, 1, 0, 0, 0, 0])
-			elif article[1] == '4':
+			elif t == '4':
 				target.append([0, 0, 0, 1, 0, 0, 0])
-			elif article[1] == '5':
+			elif t == '5':
 				target.append([0, 0, 0, 0, 1, 0, 0])
-			elif article[1] == '6':
+			elif t == '6':
 				target.append([0, 0, 0, 0, 0, 1, 0])
-			elif article[1] == '7':
+			elif t == '7':
 				target.append([0, 0, 0, 0, 0, 0, 1])
 	data = np.array(data)
 	target = np.array(target).astype(np.float32)
@@ -341,7 +342,6 @@ def relationship_model_training():
 
 	# Data Normalization(目前效果不佳)
 	# data = preprocessing.scale(data)
-	print(data[:3])
 	# CNN Training
 	model = CNN()
 	model.cross_validation(data, target)

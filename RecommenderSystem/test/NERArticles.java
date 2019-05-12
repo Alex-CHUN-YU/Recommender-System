@@ -25,7 +25,7 @@ public class NERArticles {
         // 讀取資料庫資料 221269
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
-        for (int id = 1; id <= 50; id++) {
+        for (int id = 3; id <= 3; id++) {
             String titleParser = "";
             String contentParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(

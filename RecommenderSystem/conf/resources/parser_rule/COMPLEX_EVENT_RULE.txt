@@ -99,3 +99,4 @@ property:P60+goal:Nab
 Head:VJ3+head:Nad
 Head:VC2+goal:Ncb
 Head:VC31+Head:Nab
+epistemics:Dbaa+Head:VC2

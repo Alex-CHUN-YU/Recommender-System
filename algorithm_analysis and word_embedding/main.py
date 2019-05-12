@@ -44,6 +44,19 @@ def vector_training():
 
 # 將向量存入資料庫(For Articles Vector and Movies Vector) 
 def save_vector():
+	'''
+	# 不經過辭典
+	sum_of_vec = 5 個 entity 向量總和
+	# 經過辭典
+	relationship_add_sum = 5 個 entity 向量總和
+	relationship_hadamard_sum = 5 個 entity 向量 hardmard
+	relationship_add_concatenate = 5 個 entity 分別向量總和在進行 concatenate
+	relationship_hadamard_concatenate = 5 個 entity 分別向量 hardmard 在進行 concatenate
+	scenario_add_sum = 2 個 entity 向量總和
+	scenario_hadamard_sum = 2 個 entity 向量 hardmard
+	scenario_add_concatenate = 2 個 entity 分別向量總和在進行 concatenate
+	scenario_hadamard_concatenate = 2 個 entity 分別向量 hardmard 在進行 concatenate
+	'''
 	db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 	db.ping(True)
 	cursor = db.cursor()
@@ -53,36 +66,26 @@ def save_vector():
 	t.load_model()
 	dimension = t.size
 	# Access Articles NER 221269
-	cursor.execute("SELECT id, relation_content_ner, emotion, event, person_object, time, location , scenario_ner FROM articles_ner Where id >= 1 and id <= 221269")
-	sql = "INSERT INTO articles_vector (id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_hadamard_concatenate_vec) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+	cursor.execute("SELECT id, relation_content_ner, scenario_ner, emotion, event, person_object, time, location, content_ner FROM articles_ner Where id >= 1 and id <= 221269")
+	sql = "INSERT INTO articles_vector (id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_hadamard_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 	results = cursor.fetchall()
 	for result in results:
 		article_id = result[0]
 		relation_content_ner = result[1]
-		emotion =  result[2]
-		event =  result[3]
-		person_object =  result[4]
-		time =  result[5]
-		location =  result[6]
-		scenario_ner = result[7]
+		scenario_ner = result[2]
+		emotion =  result[3]
+		event =  result[4]
+		person_object =  result[5]
+		time =  result[6]
+		location =  result[7]
+		content_ner = result[8]
 		print(article_id)
-		# For relationship all entity add, hadamard, concatenate(Relationship model)
-		add_sum = np.zeros(dimension) 
-		hadamard_sum = np.ones(dimension)
-		# 此部分暫且不插入
-		# concatenate = []
-		for relation in relation_content_ner.split(" "):
-			if relation != "":
-				# print(relation)
-				# print(t.term_to_vector(relation))
-				add_sum += t.term_to_vector(relation)
-				hadamard_sum *= t.term_to_vector(relation)
-				# concatenate = np.append(concatenate, t.term_to_vector(relation))
-				# if len(concatenate) == 900:
-				# 	break;
-		# if len(concatenate) < 900:
-		# 	concatenate = np.pad(concatenate, (0, 900 - len(concatenate)), 'constant', constant_values = (0)) 
-		# For scenario entity add, hadamard(Scenario model)
+		# For word2vec Baseline Vec
+		sum_of_vec = np.zeros(dimension)
+		for content in content_ner.split(" "):
+			if content != "":
+				sum_of_vec += t.term_to_vector(content)
+		# For scenario entity add, hadamard(Scenario model)		
 		scenario_add_sum = np.zeros(dimension) 
 		scenario_hadamard_sum = np.ones(dimension)
 		scenario_add_concatenate = []
@@ -91,9 +94,25 @@ def save_vector():
 			if scenario != "":
 				scenario_add_sum += t.term_to_vector(scenario)
 				scenario_hadamard_sum *= t.term_to_vector(scenario)
+		# For relationship all entity add, hadamard, concatenate(Relationship model)
+		relationship_add_sum = np.zeros(dimension) 
+		relationship_hadamard_sum = np.ones(dimension)
+		relationship_add_concatenate = []
+		relationship_hadamard_concatenate = []
+		# 此部分暫且不插入(資料庫欄位已刪)
+		# concatenate = []
+		for relation in relation_content_ner.split(" "):
+			if relation != "":
+				# print(relation)
+				# print(t.term_to_vector(relation))
+				relationship_add_sum += t.term_to_vector(relation)
+				relationship_hadamard_sum *= t.term_to_vector(relation)
+				# concatenate = np.append(concatenate, t.term_to_vector(relation))
+				# if len(concatenate) == 900:
+				# 	break;
+		# if len(concatenate) < 900:
+		# 	concatenate = np.pad(concatenate, (0, 900 - len(concatenate)), 'constant', constant_values = (0)) 
 		# For entity add-concatenate, hadamard-concatenate(every entity for relationship, emotion and event for scenario)
-		add_concatenate = []
-		hadamard_concatenate = []
 		emotion_add = np.zeros(dimension)
 		emotion_hadamard = np.ones(dimension)
 		for e in emotion.split(" "):
@@ -102,8 +121,8 @@ def save_vector():
 				emotion_hadamard *= t.term_to_vector(e)
 		print(emotion_add)
 		print(emotion_hadamard)
-		add_concatenate = np.append(add_concatenate, emotion_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, emotion_hadamard)
+		relationship_add_concatenate = np.append(relationship_add_concatenate, emotion_add)
+		relationship_hadamard_concatenate = np.append(relationship_hadamard_concatenate, emotion_hadamard)
 		scenario_add_concatenate = np.append(scenario_add_concatenate, emotion_add)
 		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, emotion_hadamard)
 		event_add = np.zeros(dimension)
@@ -114,8 +133,8 @@ def save_vector():
 				event_hadamard *= t.term_to_vector(e)
 		print(event_add)
 		print(event_hadamard)
-		add_concatenate = np.append(add_concatenate, event_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, event_hadamard)
+		relationship_add_concatenate = np.append(relationship_add_concatenate, event_add)
+		relationship_hadamard_concatenate = np.append(relationship_hadamard_concatenate, event_hadamard)
 		scenario_add_concatenate = np.append(scenario_add_concatenate, event_add)
 		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, event_hadamard)
 		person_object_add = np.zeros(dimension)
@@ -126,8 +145,8 @@ def save_vector():
 				person_object_hadamard *= t.term_to_vector(po)
 		print(person_object_add)
 		print(person_object_hadamard)
-		add_concatenate = np.append(add_concatenate, person_object_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, person_object_hadamard)
+		relationship_add_concatenate = np.append(relationship_add_concatenate, person_object_add)
+		relationship_hadamard_concatenate = np.append(relationship_hadamard_concatenate, person_object_hadamard)
 		time_add = np.zeros(dimension)
 		time_hadamard = np.ones(dimension)
 		for ti in time.split(" "):
@@ -136,8 +155,8 @@ def save_vector():
 				time_hadamard *= t.term_to_vector(ti)
 		print(time_add)
 		print(time_hadamard)
-		add_concatenate = np.append(add_concatenate, time_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, time_hadamard)
+		relationship_add_concatenate = np.append(relationship_add_concatenate, time_add)
+		relationship_hadamard_concatenate = np.append(relationship_hadamard_concatenate, time_hadamard)
 		location_add = np.zeros(dimension)
 		location_hadamard = np.ones(dimension)
 		for l in location.split(" "):
@@ -146,33 +165,38 @@ def save_vector():
 				location_hadamard *= t.term_to_vector(l)
 		print(location_add)
 		print(location_hadamard)
-		add_concatenate = np.append(add_concatenate, location_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, location_hadamard)
+		relationship_add_concatenate = np.append(relationship_add_concatenate, location_add)
+		relationship_hadamard_concatenate = np.append(relationship_hadamard_concatenate, location_hadamard)
 		# Insert Data Vector
-		val = (article_id, add_sum, hadamard_sum, str(list(add_concatenate)), str(list(hadamard_concatenate)), scenario_add_sum, scenario_hadamard_sum, str(list(scenario_add_concatenate)), str(list(scenario_hadamard_concatenate)))
+		val = (article_id, relationship_add_sum, relationship_hadamard_sum, str(list(relationship_add_concatenate)), str(list(relationship_hadamard_concatenate)), scenario_add_sum, scenario_hadamard_sum, str(list(scenario_add_concatenate)), str(list(scenario_hadamard_concatenate)), sum_of_vec)
 		cursor.execute(sql, val)
 		db.commit()
 
 	# Access Movies NER 3722
-	cursor.execute("SELECT id, scenario_ner, emotion, event FROM movies_ner Where id >= 1 and id <= 3722")
-	sql = "INSERT INTO movies_vector (id, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_hadamard_concatenate_vec) VALUES (%s, %s, %s, %s, %s)"
+	cursor.execute("SELECT id, scenario_ner, emotion, event, storyline_ner FROM movies_ner Where id >= 1 and id <= 3722")
+	sql = "INSERT INTO movies_vector (id, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_hadamard_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s)"
 	results = cursor.fetchall()
 	for result in results:
 		movie_id = result[0]
 		scenario_ner = result[1]
 		emotion = result[2]
 		event = result[3]
+		storyline_ner = result[4]
 		print(movie_id)
+		sum_of_vec = np.zeros(dimension)
+		for storyline in storyline_ner.split(" "):
+			if storyline != "":
+				sum_of_vec += t.term_to_vector(storyline)
 		# For all entity add, hadamard
-		add_sum = np.zeros(dimension) 
-		hadamard_sum = np.ones(dimension)
+		scenario_add_sum = np.zeros(dimension) 
+		scenario_hadamard_sum = np.ones(dimension)
+		scenario_add_concatenate = []
+		scenario_hadamard_concatenate = []
 		for scenario in scenario_ner.split(" "):
 			if scenario != "":
-				add_sum += t.term_to_vector(scenario)
-				hadamard_sum *= t.term_to_vector(scenario)
+				scenario_add_sum += t.term_to_vector(scenario)
+				scenario_hadamard_sum *= t.term_to_vector(scenario)
 		# For entity add-concatenate, hadamard-concatenate
-		add_concatenate = []
-		hadamard_concatenate = []
 		emotion_add = np.zeros(dimension) 
 		emotion_hadamard = np.ones(dimension)
 		for e in emotion.split(" "):
@@ -181,8 +205,8 @@ def save_vector():
 				emotion_hadamard *= t.term_to_vector(e)
 		print(emotion_add)
 		print(emotion_hadamard)
-		add_concatenate = np.append(add_concatenate, emotion_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, emotion_hadamard)
+		scenario_add_concatenate = np.append(scenario_add_concatenate, emotion_add)
+		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, emotion_hadamard)
 		event_add = np.zeros(dimension) 
 		event_hadamard = np.ones(dimension)
 		for e in event.split(" "):
@@ -191,9 +215,9 @@ def save_vector():
 				event_hadamard *= t.term_to_vector(e)
 		print(event_add)
 		print(event_hadamard)
-		add_concatenate = np.append(add_concatenate, event_add)
-		hadamard_concatenate = np.append(hadamard_concatenate, event_hadamard)
-		val = (movie_id, add_sum, hadamard_sum, add_concatenate, hadamard_concatenate)
+		scenario_add_concatenate = np.append(scenario_add_concatenate, event_add)
+		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, event_hadamard)
+		val = (movie_id, scenario_add_sum, scenario_hadamard_sum, scenario_add_concatenate, scenario_hadamard_concatenate, sum_of_vec)
 		cursor.execute(sql, val)
 		db.commit()
 
@@ -207,7 +231,7 @@ def relationship_model_training():
 	articles = cursor.fetchall()
 	for article in articles:
 		# Access Articles Vector
-		cursor.execute("SELECT id, relationship_add_vec, relationship_hadamard_vec, relationship_concatenate_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec FROM articles_vector Where id =" + str(article[0]))
+		cursor.execute("SELECT id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_hadamard_concatenate_vec FROM articles_vector Where id =" + str(article[0]))
 		vectors = cursor.fetchall()
 		exist = False
 		for vector in vectors:
@@ -220,8 +244,8 @@ def relationship_model_training():
 			relationship_add_vec = vector[1]
 			relationship_hadamard_vec = vector[2]
 			# relationship_concatenate_vec = vector[3]
-			relationship_entity_add_concatenate_vec = vector[4]
-			relationship_entity_hadamard_concatenate_vec = vector[5]
+			relationship_entity_add_concatenate_vec = vector[3]
+			relationship_entity_hadamard_concatenate_vec = vector[4]
 			for s in relationship_add_vec[1:-1].split(' '):
 				try:
 					if s != "":

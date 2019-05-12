@@ -90,11 +90,11 @@ public class RelationFeaturesExtractor {
                         }
                     }
                     // 透過辭典來過濾部必要的詞彙(改成 false 才算是有讀辭典)
-                    boolean co = true;
-                    boolean lo = true;
-                    boolean ti = true;
-                    boolean em = true;
-                    boolean ev = true;
+                    boolean co = false;
+                    boolean lo = false;
+                    boolean ti = false;
+                    boolean em = false;
+                    boolean ev = false;
                     if (!f && !result.equals("")) {
                         for (String c : character_objectDic.getLineList()) {
                             if (result.equals(c)) {

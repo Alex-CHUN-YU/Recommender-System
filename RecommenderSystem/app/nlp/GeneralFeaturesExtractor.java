@@ -118,11 +118,11 @@ public class GeneralFeaturesExtractor {
                         }
                     }
                     // 透過辭典來過濾部必要的詞彙(改成 false 才算是有讀辭典)
-                    boolean co = false;
-                    boolean lo = false;
-                    boolean ti = false;
-                    boolean em = false;
-                    boolean ev = false;
+                    boolean co = true;
+                    boolean lo = true;
+                    boolean ti = true;
+                    boolean em = true;
+                    boolean ev = true;
                     // 非 Stop word 在進入
                     if (!f && !result.equals("")) {
                         this.NERResult += result + " ";

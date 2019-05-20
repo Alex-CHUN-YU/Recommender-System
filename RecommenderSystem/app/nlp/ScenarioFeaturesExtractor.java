@@ -71,7 +71,7 @@ public class ScenarioFeaturesExtractor {
                             }
                         }
                         // (改成 false 才算是有讀辭典)
-                        boolean e = false;
+                        boolean e = true;
                         for (String s : emotionDic.getLineList()) {
                             if (result.equals(s)) {
                                 e = true;

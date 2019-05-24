@@ -30,7 +30,7 @@ class Main():
 	# 主要將資料進行分析，選擇出適合的演算法，以及儲存每個演算法 model 和使用到的參數(Parameter)與它的精確性
 	def main(self):
 		# 1~7 可指定(目前只針對1~6) 另外此部分主要對應過去就是 label 代號
-		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id <= 700 and relationship_type !=''")
+		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id <= 922 and relationship_type !=''")
 		movies = self.cursor.fetchall()	
 		for movie in movies:
 			movies_id = movie[0]

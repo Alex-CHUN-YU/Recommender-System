@@ -1,13 +1,18 @@
 Head:VH
+property:VH
 property:VH11
 Head:VH11
 head:VH11
 theme:VH11
 manner:VH11
 apposition:VH11
+causer:VH11
 Head:VH13
 Head:VH16
 manner:VH16
+DUMMY1:VH16
+goal:VH16
+theme:VH16
 Head:VH21
 head:VH21
 manner:VH21
@@ -19,6 +24,7 @@ Head:VK2
 Head:VJ2
 property:VJ2
 property:Nv4
+apposition:Nv2
 Head:VL1
 Head:Nv
 DUMMY1:Nv
@@ -30,3 +36,4 @@ Head:VH14
 manner:VH
 Head:VH12
 complement:VH14
+complement:VH11

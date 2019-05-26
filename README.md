@@ -3,8 +3,8 @@
 * Feature Generation</br>
 Article NER 不經過辭典(RecommenderSystem) > 產生 person-object, emotion, event, time, location 辭典(algorithm_analysis and word_embedding) > 將 emotion, event 辭典移至(algorithm_analysis) 做觀察並將 filter 也加入 > Moview NER 不經過辭典(RecommenderSystem) > 統計 storyline 中的 emotion 和 event 並考慮存在在文章中且不在 filter 的詞彙 > 將 emotion 和 event 辭典加入 Article 和 Movie NER 辭典當中在執行 Article 和 Movie NER 經過辭典(RecommenderSystem), 記得刪掉資料庫資料 > 進行 Entity2Vec model 訓練(algorithm_analysis and word_embedding) > 訓練完後儲存 relationship feature 和 scenario feature 到資料庫中(algorithm_analysis and word_embedding) > Entity2Vec model 供給 server 存取(main)</br>
 1. Person、Emotion: 透過 e-hownet 做抽取</br>
-2. Time、Location、Event: 透過 person 到 word2vec 找出 similarity > 0.5 詞彙且存在於 Article time 和 location 和 Event 詞中</br>
-3. Event 還必須存在於 stoyline 中有的</br>
+2. Time、Location、Event: 利用 person 到 word2vec 找出 similarity > 0.5 詞彙並透過 Article time 和 location 和 Event 詞彙做區分及取出</br>
+3. Event 還必須存在於 stoyline 中有的 event 才可</br>
 
 * Relationship Classifer</br>
 relationship classifier 訓練(algorithm_analysis and word_embedding) > 供給 server 存取(main)

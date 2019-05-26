@@ -26,8 +26,8 @@ scenario classifier 訓練(algorithm_analysis) > 供給 server 存取(main)
 目的：爬蟲, 存取資料庫, CKIP Parser
 ### movie(Pixnet and Yahoo)
 目的：爬蟲, 存取資料庫, CKIP Parser
-### ehownet
-目的：產生 ehownet lexicon
+### knowledge base
+目的：產生 relationship lexicon(person), emotion lexicon(emotion), time, location and event 辭典 
 ### test
 目的：測試資料用
 

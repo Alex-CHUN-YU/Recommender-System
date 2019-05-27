@@ -22,7 +22,7 @@ public class NERMovies {
         // 讀取資料庫資料 3722 =700 183
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
-        for (int id = 1; id <= 922; id++) {
+        for (int id = 1; id <= 3722; id++) {
             mysqlDatabaseController.execDelete(DatabaseConstant.MOVIES_NER, DatabaseConstant.ID + "=" + id);
             String storylineParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(

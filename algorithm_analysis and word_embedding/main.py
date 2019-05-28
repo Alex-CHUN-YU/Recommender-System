@@ -12,7 +12,7 @@ from sklearn import preprocessing
 
 def main():
 	# vector_training()
-	save_vector()
+	# save_vector()
 	# relationship_model_training()
 	# scenario_model_training()
 
@@ -37,9 +37,9 @@ def vector_training():
 		t.write_file(result[0], append = True)
 	t.train()
 	t.load_model()
-	print(t.term_ranking_in_corpus("幸福", 20))
+	print(t.term_ranking_in_corpus("母親", 50))
 	print(t.term_to_vector("爸爸"))
-	print(t.terms_similarity("爸爸", "媽媽"))
+	print(t.terms_similarity("媽媽", "母親節"))
 	print(1 - t.vectors_similarity(t.term_to_vector("在一起"), t.term_to_vector("過甜蜜")))
 
 # 將向量存入資料庫(For Articles Vector and Movies Vector) 
@@ -67,7 +67,6 @@ def save_vector():
 	dimension = t.size
 	# Access Articles NER 221269
 	cursor.execute("SELECT id, relation_content_ner, scenario_ner, emotion, event, person_object, time, location, content_ner FROM articles_ner Where id >= 1 and id <= 221269")
-	sql = "INSERT INTO articles_vector (id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_average_concatenate_vec, relationship_entity_hadamard_concatenate_vec, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, scenario_entity_hadamard_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 	results = cursor.fetchall()
 	for result in results:
 		article_id = result[0]
@@ -123,6 +122,8 @@ def save_vector():
 				emotion_count += 1
 				emotion_add += t.term_to_vector(e)
 				emotion_hadamard *= t.term_to_vector(e)
+		if emotion_count == 0:
+			emotion_count = 1
 		print(emotion_add)
 		print(emotion_hadamard)
 		relationship_add_concatenate = np.append(relationship_add_concatenate, emotion_add)
@@ -139,6 +140,8 @@ def save_vector():
 				event_count += 1
 				event_add += t.term_to_vector(e)
 				event_hadamard *= t.term_to_vector(e)
+		if event_count == 0:
+			event_count = 1
 		print(event_add)
 		print(event_hadamard)
 		relationship_add_concatenate = np.append(relationship_add_concatenate, event_add)
@@ -155,6 +158,8 @@ def save_vector():
 				person_object_count += 1
 				person_object_add += t.term_to_vector(po)
 				person_object_hadamard *= t.term_to_vector(po)
+		if person_object_count == 0:
+			person_object_count = 1		
 		print(person_object_add)
 		print(person_object_hadamard)
 		relationship_add_concatenate = np.append(relationship_add_concatenate, person_object_add)
@@ -168,6 +173,8 @@ def save_vector():
 				time_count += 1
 				time_add += t.term_to_vector(ti)
 				time_hadamard *= t.term_to_vector(ti)
+		if time_count == 0:
+			time_count = 1
 		print(time_add)
 		print(time_hadamard)
 		relationship_add_concatenate = np.append(relationship_add_concatenate, time_add)
@@ -181,19 +188,23 @@ def save_vector():
 				location_count += 1
 				location_add += t.term_to_vector(l)
 				location_hadamard *= t.term_to_vector(l)
+		if location_count == 0:
+			location_count = 1		
 		print(location_add)
 		print(location_hadamard)
 		relationship_add_concatenate = np.append(relationship_add_concatenate, location_add)
 		relationship_average_concatenate = np.append(relationship_average_concatenate, location_add/location_count)
 		relationship_hadamard_concatenate = np.append(relationship_hadamard_concatenate, location_hadamard)
 		# Insert Data Vector
-		val = (article_id, relationship_add_sum, relationship_hadamard_sum, str(list(relationship_add_concatenate)), str(list(relationship_average_concatenate)), str(list(relationship_hadamard_concatenate)), scenario_add_sum, scenario_hadamard_sum, str(list(scenario_add_concatenate)), str(list(scenario_average_concatenate)), str(list(scenario_hadamard_concatenate)), sum_of_vec)
+		# sql = "INSERT INTO articles_vector (id, relationship_add_vec, relationship_hadamard_vec, relationship_entity_add_concatenate_vec, relationship_entity_average_concatenate_vec, relationship_entity_hadamard_concatenate_vec, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, scenario_entity_hadamard_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+		# val = (article_id, relationship_add_sum, relationship_hadamard_sum, str(list(relationship_add_concatenate)), str(list(relationship_average_concatenate)), str(list(relationship_hadamard_concatenate)), scenario_add_sum, scenario_hadamard_sum, str(list(scenario_add_concatenate)), str(list(scenario_average_concatenate)), str(list(scenario_hadamard_concatenate)), sum_of_vec)
+		sql = "INSERT INTO articles_vector (id, relationship_entity_add_concatenate_vec, relationship_entity_average_concatenate_vec, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s)"
+		val = (article_id, str(list(relationship_add_concatenate)), str(list(relationship_average_concatenate)), str(list(scenario_add_concatenate)), str(list(scenario_average_concatenate)), sum_of_vec)
 		cursor.execute(sql, val)
 		db.commit()
 
 	# Access Movies NER 3722
-	cursor.execute("SELECT id, scenario_ner, emotion, event, storyline_ner FROM movies_ner Where id >= 1 and id <= 3722")
-	sql = "INSERT INTO movies_vector (id, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, scenario_entity_hadamard_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+	cursor.execute("SELECT id, scenario_ner, emotion, event, storyline_ner FROM movies_ner Where id >= 0 and id <= 0")
 	results = cursor.fetchall()
 	for result in results:
 		movie_id = result[0]
@@ -225,6 +236,8 @@ def save_vector():
 				emotion_count += 1
 				emotion_add += t.term_to_vector(e)
 				emotion_hadamard *= t.term_to_vector(e)
+		if emotion_count == 0:
+			emotion_count = 1
 		print(emotion_add)
 		print(emotion_hadamard)
 		scenario_add_concatenate = np.append(scenario_add_concatenate, emotion_add)
@@ -238,12 +251,18 @@ def save_vector():
 				event_count += 1
 				event_add += t.term_to_vector(e)
 				event_hadamard *= t.term_to_vector(e)
+		if event_count == 0:
+			event_count = 1		
 		print(event_add)
 		print(event_hadamard)
 		scenario_add_concatenate = np.append(scenario_add_concatenate, event_add)
 		scenario_average_concatenate = np.append(scenario_average_concatenate, event_add/event_count)
 		scenario_hadamard_concatenate = np.append(scenario_hadamard_concatenate, event_hadamard)
-		val = (movie_id, scenario_add_sum, scenario_hadamard_sum, scenario_add_concatenate, scenario_average_concatenate, scenario_hadamard_concatenate, sum_of_vec)
+		# Insert Data Vector
+		# sql = "INSERT INTO movies_vector (id, scenario_add_vec, scenario_hadamard_vec, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, scenario_entity_hadamard_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+		# val = (movie_id, scenario_add_sum, scenario_hadamard_sum, scenario_add_concatenate, scenario_average_concatenate, scenario_hadamard_concatenate, sum_of_vec)
+		sql = "INSERT INTO movies_vector (id, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s)"
+		val = (movie_id, scenario_add_concatenate, scenario_average_concatenate, sum_of_vec)
 		cursor.execute(sql, val)
 		db.commit()
 
@@ -324,7 +343,7 @@ def relationship_model_training():
 			# print(relationship_hadamard_vec)
 			# print(relationship_concatenate_vec)
 			# print(1 - t.vectors_similarity(relationship_add_vec, relationship_hadamard_vec))
-			data.append(relationship_entity_add_concatenate_vec)
+			data.append(relationship_entity_average_concatenate_vec)
 			# Label
 			if t == '1':
 				target.append([1, 0, 0, 0, 0, 0, 0])

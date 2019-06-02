@@ -9,10 +9,10 @@ from evaluation import Evaluation
 import matplotlib.pyplot as plt
 
 def main():
-	'''# (1)Save Ranking Data
+	# (1)Save Ranking Data
 	db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 	cursor = db.cursor()
-	cursor.execute("SELECT emotion, event FROM articles_ner Where id >= 1 and id <= 221269")
+	'''cursor.execute("SELECT emotion, event FROM articles_ner Where id >= 1 and id <= 221269")
 	results = cursor.fetchall()
 	emotion_dic = {}
 	event_dic = {}

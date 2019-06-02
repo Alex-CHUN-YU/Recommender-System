@@ -19,10 +19,10 @@ public class NERMovies {
         // 將 Rule 寫入
         ReadRoleDictionary readThematicRolePOSPairDictionary = new ReadRoleDictionary();
         readThematicRolePOSPairDictionary.setRoleDictionary();
-        // 讀取資料庫資料 3722 =700 183
+        // 讀取資料庫資料 3722 =922 195
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
-        for (int id = 1; id <= 3722; id++) {
+        for (int id = 1; id <= 922; id++) {
             mysqlDatabaseController.execDelete(DatabaseConstant.MOVIES_NER, DatabaseConstant.ID + "=" + id);
             String storylineParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(

@@ -39,6 +39,7 @@ class Evaluation:
         r = np.asfarray(r)[:k]
         if r.size:
             if method == 0:
+                # arange 主要用來產生數組
                 return r[0] + np.sum(r[1:] / np.log2(np.arange(2, r.size + 1)))
             elif method == 1:
                 return np.sum(r / np.log2(np.arange(2, r.size + 2)))
@@ -74,6 +75,7 @@ class Evaluation:
             Normalized discounted cumulative gain
         """
         # print("sorted:" + str(sorted(r, reverse=True)))
+        # 排完序最理想的結果分數
         dcg_max = self.dcg_at_k(sorted(r, reverse=True), k, method)
         # print("dcg_max:" + str(dcg_max))
         if not dcg_max:
@@ -89,8 +91,7 @@ class Evaluation:
         for rank_max in range(1, len(r[0]) + 1):
             score = []
             for data in r:
-                score.append(self.ndcg_at_k(data[:rank_max], rank_max, method = 1))
-            # 全部分數加起來在平均
+                score.append(self.ndcg_at_k(data[:rank_max], rank_max, method = 0))
             scores.append(reduce(lambda x, y: x + y, score) / len(score))
         return scores
 
@@ -101,7 +102,6 @@ class Evaluation:
             score = []
             for data in r:
                 score.append(data[rank_idx])
-            # 全部分數加起來除上總分
             scores.append(reduce(lambda x, y: x + y, score) / (len(score)*max_score))
         return scores
 
@@ -115,5 +115,5 @@ if __name__ == "__main__":
     # print(e.ndcg_at_k([0,1,1,1],6, method=1))
     # print(e.ndcg_at_k([2,1,1,1,1,0,1,0],5, method=1))
     # print(e.ndcg_at_k([2,1,1,1,1],5, method=1))
-    print("Average NDCG Result:" + str(e.average_ndcg([[0, 2, 3, 0, 0, 1, 2, 2, 3, 0],[2, 1, 1, 0, 0, 1, 2, 2, 3, 0],[3, 2, 3, 0, 0, 1, 2, 2, 3, 0]])), end = '\n\n')
+    print("Average NDCG Result:" + str(e.average_ndcg([[1, 2, 3, 0, 0, 1, 2, 2, 3, 0],[2, 0, 1, 0, 0, 1, 2, 2, 3, 0],[3, 2, 3, 0, 0, 1, 2, 2, 3, 0]])), end = '\n\n')
     print("Average Precision Result:" + str(e.average_precision([[3, 2, 3, 1, 0, 1, 2, 2, 3, 0],[2, 1, 1, 0, 0, 1, 2, 2, 3, 0],[3, 2, 3, 0, 0, 1, 2, 2, 3, 0]], 3)))

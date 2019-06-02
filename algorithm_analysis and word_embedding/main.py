@@ -11,7 +11,7 @@ import json
 from sklearn import preprocessing
 
 def main():
-	# vector_training()
+	vector_training()
 	# save_vector()
 	# relationship_model_training()
 	# scenario_model_training()
@@ -37,9 +37,9 @@ def vector_training():
 		t.write_file(result[0], append = True)
 	t.train()
 	t.load_model()
-	print(t.term_ranking_in_corpus("母親", 50))
+	print(t.term_ranking_in_corpus("教師節", 50))
 	print(t.term_to_vector("爸爸"))
-	print(t.terms_similarity("媽媽", "母親節"))
+	print(t.terms_similarity("母親", "母親節"))
 	print(1 - t.vectors_similarity(t.term_to_vector("在一起"), t.term_to_vector("過甜蜜")))
 
 # 將向量存入資料庫(For Articles Vector and Movies Vector) 
@@ -200,6 +200,15 @@ def save_vector():
 		# val = (article_id, relationship_add_sum, relationship_hadamard_sum, str(list(relationship_add_concatenate)), str(list(relationship_average_concatenate)), str(list(relationship_hadamard_concatenate)), scenario_add_sum, scenario_hadamard_sum, str(list(scenario_add_concatenate)), str(list(scenario_average_concatenate)), str(list(scenario_hadamard_concatenate)), sum_of_vec)
 		sql = "INSERT INTO articles_vector (id, relationship_entity_add_concatenate_vec, relationship_entity_average_concatenate_vec, scenario_entity_add_concatenate_vec, scenario_entity_average_concatenate_vec, sum_of_vec) VALUES (%s, %s, %s, %s, %s, %s)"
 		val = (article_id, str(list(relationship_add_concatenate)), str(list(relationship_average_concatenate)), str(list(scenario_add_concatenate)), str(list(scenario_average_concatenate)), sum_of_vec)
+		# 過濾 relationship 非 7 且 vector element 皆為 0, 也就是不訓練
+		'''cursor.execute("SELECT relationship_type FROM articles Where id ==" + str(article_id) + " and relationship_type !=''")
+		relationship_type = cursor.fetchone()
+		relationship_type = relationship_type[0]
+		if relationship_type != '7':
+			print(np.reshape(relationship_average_concatenate, (5, dimension)))
+			if np.max(relationship_average_concatenate) == 0.0 and np.min(relationship_average_concatenate) == 0.0:
+				print(article_id)
+				continue'''
 		cursor.execute(sql, val)
 		db.commit()
 
@@ -213,6 +222,10 @@ def save_vector():
 		event = result[3]
 		storyline_ner = result[4]
 		print(movie_id)
+		# 如果 emotion 和 event 皆為空就不儲存了(也就是 vector element 皆為 0, 不訓練)
+		if emotion == "" and event == "":
+			continue
+		# 之後當成 baseline 的向量
 		sum_of_vec = np.zeros(dimension)
 		for storyline in storyline_ner.split(" "):
 			if storyline != "":

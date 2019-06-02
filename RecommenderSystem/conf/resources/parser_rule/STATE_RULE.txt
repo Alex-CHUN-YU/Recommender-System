@@ -35,5 +35,8 @@ goal:VH11
 Head:VH14
 manner:VH
 Head:VH12
+property:VH12
 complement:VH14
 complement:VH11
+property:VH13
+Head:VH15

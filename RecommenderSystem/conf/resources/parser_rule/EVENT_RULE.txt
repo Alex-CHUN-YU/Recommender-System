@@ -3,6 +3,7 @@ Head:VA4
 head:VA4
 head:VA11
 Head:VA13
+property:VA13
 goal:VA4
 Head:VA2
 Head:VA12
@@ -19,3 +20,8 @@ manner:Nv
 theme:VA4
 Head:VB12
 complement:VB11
+Head:VC2
+Head:VJ1
+Head:VE12
+Head:VI2
+head:A

@@ -19,7 +19,7 @@ public class NERMovies {
         // 將 Rule 寫入
         ReadRoleDictionary readThematicRolePOSPairDictionary = new ReadRoleDictionary();
         readThematicRolePOSPairDictionary.setRoleDictionary();
-        // 讀取資料庫資料 3722 =922 195
+        // 讀取資料庫資料 3722 = label 數量: 922 目前只觀察到 195
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
         for (int id = 1; id <= 922; id++) {

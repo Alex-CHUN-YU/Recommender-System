@@ -58,7 +58,7 @@ def main():
 	t.train_file_setting("segmentation.txt", "result")
 	# word2vec dimension(150 or 300)
 	t.load_model()
-	sql = "INSERT INTO experiment (id, emotion_entity, emotion_similarity) VALUES (%s, %s, %s)"
+	sql = "INSERT INTO experiment_entity2vec (id, emotion_entity, emotion_similarity) VALUES (%s, %s, %s)"
 	# 0~50(150 dimension) or 50~100(300 dimension)
 	start = 50
 	end = 100
@@ -80,7 +80,7 @@ def main():
 			print("emotion finish...", end = "\n\n")
 			count = start
 			break
-	sql = "UPDATE experiment SET event_entity=%s, event_similarity=%s WHERE id=%s and event_entity = ''"
+	sql = "UPDATE experiment_entity2vec SET event_entity=%s, event_similarity=%s WHERE id=%s and event_entity = ''"
 	print(len(event_dic))
 	for event in sorted(event_dic.items(), key = lambda x:x[1], reverse = True):
 		print(event)
@@ -111,7 +111,7 @@ def main():
 	plt.close()
 	# plt.show()'''
 	# (2)Calculate Score
-	sql = "SELECT emotion_similarity, event_similarity From experiment WHERE id>= 1 and id <= 50"
+	sql = "SELECT emotion_similarity, event_similarity From experiment_entity2vec WHERE id>= 1 and id <= 50"
 	cursor.execute(sql)
 	results = cursor.fetchall()
 	scores_150 = []
@@ -132,7 +132,7 @@ def main():
 			if e != "":
 				score.append(int(e.split(":")[1]))
 		scores_150.append(score)
-	sql = "SELECT emotion_similarity, event_similarity From experiment WHERE id>= 51 and id <= 100"
+	sql = "SELECT emotion_similarity, event_similarity From experiment_entity2vec WHERE id>= 51 and id <= 100"
 	cursor.execute(sql)
 	results = cursor.fetchall()
 	scores_300 = []

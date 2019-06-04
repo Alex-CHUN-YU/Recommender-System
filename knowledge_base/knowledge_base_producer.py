@@ -3,6 +3,7 @@ from word2vec import Word2Vec as w2v
 import codecs
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 # 判斷是否有此資料夾, 沒有的話就建立它吧
 def createFolder(directory):
@@ -13,7 +14,7 @@ def createFolder(directory):
 		print ('Error: Creating directory. ' +  directory)
 
 thresholds = [0.8, 0.825, 0.85, 0.875, 0.9, 0.925, 0.95, 0.975]
-# thresholds = [0.95]
+thresholds = [0.85]
 # load entity2vec model
 t = w2v()
 t.train_file_setting("segmentation.txt", "result")
@@ -109,8 +110,13 @@ for threshold in thresholds:
 
 	with codecs.open('location.list', 'w', encoding='utf8') as location_file:
 		location_file.write('\n'.join(location))
-
+# scores
+print("scores:", end = "")
 print(scores)
+print("two different array element sum:", end = "")
+print(np.sum([scores,thresholds], axis = 0))
+print("max element:", end = "")
+print(np.max(np.sum([scores,thresholds], axis = 0)))
 plt.title("Experiment of Knowledge Base Threshold")
 plt.xlabel("The value of threshold")
 plt.ylabel("score")	   

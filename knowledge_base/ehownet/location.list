@@ -1243,7 +1243,6 @@ instance(village
 觀音
 巴西里亞
 全國
-instance(ResidentialArea
 蘭州
 矽谷
 籍
@@ -1295,7 +1294,6 @@ instance(ResidentialArea
 瘋人院
 南港
 波士頓
-instance(capital
 亞美利加
 界址
 集散地
@@ -1526,7 +1524,6 @@ local
 東北
 橫檳
 醮壇
-instance(country
 省力
 中立國家
 民主國
@@ -1947,7 +1944,6 @@ CentralAmerica
 延平
 新奧爾良
 節稅
-instance(county
 方圓
 策源地
 淶
@@ -2748,7 +2744,6 @@ RelatingToCountry
 鄞
 二水
 蘭嶼
-instance(place
 金華
 故城
 圃
@@ -2942,3 +2937,7 @@ Asia
 分公司
 公司
 宿舍
+髮廊
+吉他社
+月臺
+信義區

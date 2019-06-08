@@ -4,10 +4,9 @@
 Version1: </br>
 Article NER 不經過辭典(RecommenderSystem) > 產生 person-object, emotion, event, time, location 辭典(algorithm_analysis and word_embedding) > 將 emotion, event 辭典移至(algorithm_analysis) 做觀察並將 filter 也加入 > Moview NER 不經過辭典(RecommenderSystem) > 統計 storyline 中的 emotion 和 event 並考慮存在在文章中且不在 filter 的詞彙 > 將 emotion 和 event 辭典加入 Article 和 Movie NER 辭典當中在執行 Article 和 Movie NER 經過辭典(RecommenderSystem), 記得刪掉資料庫資料 > 進行 Entity2Vec model 訓練(algorithm_analysis and word_embedding) > 訓練完後儲存 relationship feature 和 scenario feature 到資料庫中(algorithm_analysis and word_embedding) > Entity2Vec model 供給 server 存取(main)</br></br>
 Version2: </br>
-透過 Article, Storyline NER 不經過辭典(RecommenderSystem) 將資料存到資料庫 > 透過 (knowledge base) statistic_no_dic 產生 event.txt, time.txt, location.txt, storyline_event.txt candidate > 訓練 Entity2Vec Model > 透過 knowledge_base_producer 進行 ehownet character_object.list 與已經訓練好的 entity2vec model 找出所有 candidate 並透過 event, time 和 location 做區分(knowledge base) 挑選條件就是 similarity >= threshold 另外 event 也必須與 storyline event 的 similarity >= threshold(threshold tuning 訓練時間大約 1~2 天) > 將 event.list, time.list 和 location.list 辭典加入 Article 和 Movie NER 辭典當中在執行 Article 和 Movie NER 經過辭典(RecommenderSystem), 記得刪掉資料庫資料 > 將 relationship feature 和 scenario feature 存到資料庫中(algorithm_analysis and word_embedding) > Entity2Vec model 供給 server 存取(main)</br></br>
+透過 Article, Storyline NER 不經過辭典(RecommenderSystem) 將資料存到資料庫 > 透過 (knowledge base) statistic_no_dic 產生 event.txt, time.txt, location.txt, storyline_event.txt candidate > 訓練 Entity2Vec Model > 透過 knowledge_base_producer 進行 ehownet character_object.list 與已經訓練好的 entity2vec model 找出所有 candidate 並透過 event, time 和 location 做區分(knowledge base) 挑選條件就是分別的 similarity >= 分別的 threshold(threshold tuning 訓練時間大約 1~2 天) > 將 event.list, time.list 和 location.list 辭典加入 Article 和 Movie NER 辭典當中在執行 Article 和 Movie NER 經過辭典(RecommenderSystem), 記得刪掉資料庫資料 > 將 relationship feature 和 scenario feature 存到資料庫中(algorithm_analysis and word_embedding) > Entity2Vec model 供給 server 存取(main)</br></br>
 1. Person、Emotion: 透過 e-hownet 做抽取</br>
-2. Time、Location、Event: 利用 person 到 entity2vec 找出 similarity >= threshold 詞彙並透過 Article time 和 location 和 Event 詞彙做區分及取出</br>
-3. Event 還必須滿足與 stoyline 中有的 event similarity >= threshold</br>
+2. Time、Location、Event: 利用 person 到 entity2vec 找出分別的 similarity >= 分別的 threshold 詞彙並透過 Article time 和 location 和 Event 詞彙做區分及取出</br>
 
 * Relationship Classifer</br>
 relationship classifier 訓練(algorithm_analysis and word_embedding) > 供給 server 存取(main)

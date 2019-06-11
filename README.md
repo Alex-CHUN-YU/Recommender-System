@@ -9,9 +9,9 @@ Version2: </br>
 2. Time、Location、Event: 利用 person 到 entity2vec 找出分別的 similarity >= 分別的 threshold 詞彙並透過 Article time 和 location 和 Event 詞彙做區分及取出</br>
 
 * Relationship Classifer</br>
-relationship classifier 訓練(algorithm_analysis and word_embedding) > 供給 server 存取(main)
+relationship classifier 訓練(relationship_algorithm_analysis) > 供給 server 存取(main)
 * Scenario Classifier</br>
-scenario classifier 訓練(algorithm_analysis) > 供給 server 存取(main)
+scenario classifier 訓練(scenario_algorithm_analysis) > 供給 server 存取(main)
 
 ## Main
 ### RecommenderSystem
@@ -20,16 +20,18 @@ scenario classifier 訓練(algorithm_analysis) > 供給 server 存取(main)
 目的：存取模型結果, Server 架設
 
 ## Preprocess
-### algorithm_analysis and word_embedding
-目的：訓練 relationship 模型
-### algorithm_analysis
-目的：訓練 scenario 模型
+### relationship_algorithm_analysis
+目的：訓練 relationship 模型(CNN)
+### scenario_algorithm_analysis
+目的：訓練 scenario 模型(KNN, NB, SVM, RFC)
+### main_embedding
+目的：針對 Entity2Vec-BERT, Entity2Vec-W2V-SG, Word2Vec-W2V-SG(baseline)
+### knowledge base
+目的：產生 relationship lexicon(person), emotion lexicon(emotion), time lexicon(time), location lexicon(location)and event 辭典 
 ### article(Dcard Mood)
 目的：爬蟲, 存取資料庫, CKIP Parser
 ### movie(Pixnet and Yahoo)
 目的：爬蟲, 存取資料庫, CKIP Parser
-### knowledge base
-目的：產生 relationship lexicon(person), emotion lexicon(emotion), time, location and event 辭典 
 ### test
 目的：測試資料用
 

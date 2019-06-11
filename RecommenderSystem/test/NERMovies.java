@@ -66,6 +66,8 @@ public class NERMovies {
             System.out.print(id + " finished");
             System.out.println("-----------------------------------");
         }
+        System.out.print("總共長度:");
+        System.out.println(generalFeaturesExtractor.getLength());
 //        // 印出統計結果
 //        generalFeaturesExtractor.printStatisticResult();
     }

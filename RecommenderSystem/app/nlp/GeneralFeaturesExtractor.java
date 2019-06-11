@@ -52,6 +52,7 @@ public class GeneralFeaturesExtractor {
     /**
      * Data Statistic.
      */
+    private int length = 0;
     private int Na, Naa, Nab, Nac, Nad, Naeb, Nba;
     private int Nc, Nca, Ncb, Ncc, Ncdb, Nce;
     private int Ndaad, Ndabd, Ndabe, Ndc, Ndda, Nddb, Nddc, Dd, Nd;
@@ -62,6 +63,7 @@ public class GeneralFeaturesExtractor {
      * Constructor.
      */
     public GeneralFeaturesExtractor() {
+        length = 0;
         try {
             stopWords = new ReadFileController(FileName.FILTER + FileName.STOP_WORDS);
             character_objectDic = new ReadFileController(FileName.FILTER + FileName.CHARACTER_OBJECT);
@@ -111,6 +113,7 @@ public class GeneralFeaturesExtractor {
                     // System.out.println(r.getSegmentWord() + ":" + r.getNER() + ":" + r.getTagging() + ":" + r.getThematicRole());
                     boolean f = false;
                     String result = r.getSegmentWord().toString();
+                    length += result.length();
                     for (String s : stopWords.getLineList()) {
                         if (result.equals(s)) {
                             f = true;
@@ -118,11 +121,11 @@ public class GeneralFeaturesExtractor {
                         }
                     }
                     // 透過辭典來過濾部必要的詞彙(改成 false 才算是有讀辭典)
-                    boolean co = true;
-                    boolean lo = true;
-                    boolean ti = true;
-                    boolean em = true;
-                    boolean ev = true;
+                    boolean co = false;
+                    boolean lo = false;
+                    boolean ti = false;
+                    boolean em = false;
+                    boolean ev = false;
                     // 非 Stop word 在進入
                     if (!f && !result.equals("")) {
                         this.NERResult += result + " ";
@@ -346,6 +349,13 @@ public class GeneralFeaturesExtractor {
      */
     public String getEmotionsResult() {
         return this.emotions;
+    }
+
+    /**
+     * Get Length.
+     */
+    public int getLength() {
+        return this.length;
     }
 
     /**

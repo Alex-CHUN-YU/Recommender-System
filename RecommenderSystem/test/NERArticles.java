@@ -7,6 +7,7 @@ import nlp.RelationFeaturesExtractor;
 import nlp.ScenarioFeaturesExtractor;
 
 import java.io.IOException;
+import java.security.cert.TrustAnchor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,6 +26,10 @@ public class NERArticles {
         // 讀取資料庫資料 221269
         MysqlDatabaseController mysqlDatabaseController = new MysqlDatabaseController();
         GeneralFeaturesExtractor generalFeaturesExtractor = new GeneralFeaturesExtractor();
+        // 計算 title 有出現兩個以上的詞彙篇數
+        int titleRelationshipSum = 0;
+        int titleRelationshipCount;
+        int titleLabelSum = 0;
         for (int id = 1; id <= 221269; id++) {
             String titleParser = "";
             String contentParser = "";
@@ -76,12 +81,33 @@ public class NERArticles {
                     relationFeaturesExtractor.produceTitleType(titleParser);
                     HashMap<String, Integer> relationshipCandidate = relationFeaturesExtractor.getTitleTypeResult();
                     if (relationshipCandidate != null) {
+                        // 區分是否有不同的關係
+                        boolean differentRelationship = false;
+                        int relationshipTemp = 0;
+                        titleRelationshipCount = 0;
                         for (String relationship : relationshipCandidate.keySet()) {
+                            titleRelationshipCount++;
+                            if (titleRelationshipCount == 1) {
+                                relationshipTemp = relationshipCandidate.get(relationship);
+                            } else {
+                                if (relationshipTemp != relationshipCandidate.get(relationship)) {
+                                    differentRelationship = true;
+                                }
+                            }
                             System.out.println("Relation Title NER:" + relationship + ":" + relationshipCandidate.get(relationship));
                             relationTitleNER += relationship + " ";
                             if (relationshipCandidate.get(relationship) < min) {
                                 min = relationshipCandidate.get(relationship);
                             }
+                        }
+
+                        // title 關係詞彙出現超過 2 次
+                        if (titleRelationshipCount >= 2 && differentRelationship) {
+                            titleRelationshipSum++;
+                        }
+                        if(titleRelationshipCount >= 1) {
+                            // 計算 透過 title 標記總數
+                            titleLabelSum++;
                         }
                     }
                     relationFeaturesExtractor.produceRelationFeatures(contentParser);
@@ -117,9 +143,16 @@ public class NERArticles {
             } else {
                 continue;
             }
-            System.out.print(id + " finished");
+            System.out.println(id + " finished");
             System.out.println("-----------------------------------");
         }
+        System.out.print("總共長度:");
+        System.out.println(generalFeaturesExtractor.getLength());
+        System.out.print("總共 label 總數:");
+        System.out.println(titleLabelSum);
+        System.out.print("Title NER 出現兩個以上的 relationship 詞彙:");
+        System.out.println(titleRelationshipSum);
+
 //        // 印出統計結果
 //        generalFeaturesExtractor.printStatisticResult();
     }

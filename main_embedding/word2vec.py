@@ -12,7 +12,7 @@ import multiprocessing
 class Word2Vec(object):
 	def __init__(self):
 		self.sg = 1 # 1 for skip-gram; otherwise CBOW.
-		self.size = 150
+		self.size = 150 # default
 		self.window = 6
 		self.min_count = 1
 		self.sample = 1e-3 # 越高會越受到高頻詞影響越重
@@ -20,6 +20,12 @@ class Word2Vec(object):
 		self.input_file = None
 		self.output_file = None
 		self.word_vectors = None
+
+	def hyperparameter(self, dimension = 150, window = 6, min_count = 1, sample = 1e-3):
+		self.size = dimension
+		self.window = window
+		self.min_count = min_count
+		self.sample = sample
 
 	def train_file_setting(self, input_file = None, output_file = None):
 		self.input_file = input_file

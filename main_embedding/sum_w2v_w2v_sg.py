@@ -6,7 +6,7 @@ import numpy as np
 import jieba
 import re
 # Baseline Vector
-class Sum_W2V_W2V_SG():
+class Sum_W2V_W2V_SG:
 	# init
 	def __init__(self):
 		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")

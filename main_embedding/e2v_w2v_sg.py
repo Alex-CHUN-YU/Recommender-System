@@ -13,21 +13,26 @@ class E2V_W2V_SG():
 		self.movies = []
 	# main function
 	def e2v_w2v_sg(self):
-		self.load_data()
-		self.vector_training()
-		# self.save_vector()
+		# 訓練 e2v model
+		# self.load_data()
+		# self.vector_training(dimension = 150)
+		# Must remove segmentation.txt
+		# self.vector_training(dimension = 300)
+		# 透過訓練完的 model 產生 relationship feature 和 scenario feature 並存到資料庫中
+		self.save_vector()
 	# load data
 	def load_data(self):
 		# articles ner 221269
-		self.cursor.execute("SELECT id, title_ner, content_ner FROM articles_ner Where id >= 1 and id <= 5")
-		self.articles = cursor.fetchall()
+		self.cursor.execute("SELECT id, title_ner, content_ner FROM articles_ner Where id >= 1 and id <= 221269")
+		self.articles = self.cursor.fetchall()
 		# movies ner 3722
-		self.cursor.execute("SELECT id, storyline_ner FROM movies_ner Where id >= 1 and id <= 5")
-		self.movies = cursor.fetchall()
+		self.cursor.execute("SELECT id, storyline_ner FROM movies_ner Where id >= 1 and id <= 3722")
+		self.movies = self.cursor.fetchall()
 	# 訓練向量模型(Using Word2vec)
-	def vector_training(self):
+	def vector_training(self, dimension):
 		# w2v setting
 		t = w2v()
+		t.hyperparameter(dimension = dimension)
 		t.train_file_setting("segmentation.txt", "e2v_w2v_sg")
 		# articles
 		for article in self.articles:
@@ -68,6 +73,18 @@ class E2V_W2V_SG():
 			print("article_id:", end = '')
 			print(article_id)
 			relationship_e2v_w2v_sg = []
+			person_object_count = 0
+			person_object_add = np.zeros(dimension)
+			for po in person_object.split(" "):
+				if po != "":
+					try:
+						person_object_add += t.term_to_vector(po)
+						person_object_count += 1
+					except:
+						continue
+			if person_object_count == 0:
+				person_object_count = 1
+			relationship_e2v_w2v_sg = np.append(relationship_e2v_w2v_sg, person_object_add/person_object_count)
 			scenario_e2v_w2v_sg = []
 			emotion_count = 0
 			emotion_add = np.zeros(dimension)
@@ -95,18 +112,18 @@ class E2V_W2V_SG():
 				event_count = 1
 			relationship_e2v_w2v_sg = np.append(relationship_e2v_w2v_sg, event_add/event_count)
 			scenario_e2v_w2v_sg = np.append(scenario_e2v_w2v_sg, event_add/event_count)
-			person_object_count = 0
-			person_object_add = np.zeros(dimension)
-			for po in person_object.split(" "):
-				if po != "":
+			location_count = 0
+			location_add = np.zeros(dimension)
+			for l in location.split(" "):
+				if l != "":
 					try:
-						person_object_add += t.term_to_vector(po)
-						person_object_count += 1
+						location_add += t.term_to_vector(l)
+						location_count += 1
 					except:
 						continue
-			if person_object_count == 0:
-				person_object_count = 1
-			relationship_e2v_w2v_sg = np.append(relationship_e2v_w2v_sg, person_object_add/person_object_count)
+			if location_count == 0:
+				location_count = 1
+			relationship_e2v_w2v_sg = np.append(relationship_e2v_w2v_sg, location_add/location_count)			
 			time_count = 0
 			time_add = np.zeros(dimension)
 			for ti in time.split(" "):
@@ -119,24 +136,12 @@ class E2V_W2V_SG():
 			if time_count == 0:
 				time_count = 1
 			relationship_e2v_w2v_sg = np.append(relationship_e2v_w2v_sg, time_add/time_count)
-			location_count = 0
-			location_add = np.zeros(dimension)
-			for l in location.split(" "):
-				if l != "":
-					try:
-						location_add += t.term_to_vector(l)
-						location_count += 1
-					except:
-						continue
-			if location_count == 0:
-				location_count = 1
-			relationship_e2v_w2v_sg = np.append(relationship_e2v_w2v_sg, location_add/location_count)
 			sql = "UPDATE articles_vector SET relationship_e2v_w2v_sg=%s, scenario_e2v_w2v_sg=%s WHERE id=%s" 
 			val = (str(list(relationship_e2v_w2v_sg)), str(list(scenario_e2v_w2v_sg)), article_id)
 			self.cursor.execute(sql, val)
 			self.db.commit()
 		# Access Movies NER 3722
-		self.cursor.execute("SELECT id, emotion, event FROM movies_ner Where id >= 0 and id <= 5")
+		self.cursor.execute("SELECT id, emotion, event FROM movies_ner Where id >= 1 and id <= 5")
 		movies_ner = self.cursor.fetchall()
 		for movie_ner in movies_ner:
 			movie_id = movie_ner[0]

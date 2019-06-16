@@ -30,7 +30,7 @@ public class NERArticles {
         int titleRelationshipSum = 0;
         int titleRelationshipCount;
         int titleLabelSum = 0;
-        for (int id = 147411; id <= 221269; id++) {
+        for (int id = 40001; id <= 50000; id++) {
             String titleParser = "";
             String contentParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(
@@ -59,6 +59,7 @@ public class NERArticles {
                 System.out.println("Title NER:" + titleNER);
                 generalFeaturesExtractor.produceGenerationFeatures(contentParser);
                 String contentNER = generalFeaturesExtractor.getNERResult();
+                String contentNERTag = generalFeaturesExtractor.getNERResultTag();
                 emotions += generalFeaturesExtractor.getEmotionsResult();
                 events += generalFeaturesExtractor.getEventsResult();
                 personObject += generalFeaturesExtractor.getPersonObjectsResult();
@@ -122,6 +123,7 @@ public class NERArticles {
                 // 不會經過辭典(但會經過 stop word)
                 NERSQLObject.addSqlObject(DatabaseConstant.TITLE_NER, titleNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.CONTENT_NER, contentNER);
+                NERSQLObject.addSqlObject(DatabaseConstant.CONTENT_NER_TAG, contentNERTag);
                 // 會經過辭典(也會經過 stop word)
                 NERSQLObject.addSqlObject(DatabaseConstant.RELATION_TITLE_NER, relationTitleNER);
                 NERSQLObject.addSqlObject(DatabaseConstant.RELATION_CONTENT_NER, relationContentNER);

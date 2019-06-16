@@ -42,6 +42,7 @@ public class NERMovies {
                 // General Features Generation.
                 generalFeaturesExtractor.produceGenerationFeatures(storylineParser);
                 String storylineNER = generalFeaturesExtractor.getNERResult();
+                String storylineNERTag = generalFeaturesExtractor.getNERResultTag();
                 String emotions = generalFeaturesExtractor.getEmotionsResult();
                 String events = generalFeaturesExtractor.getEventsResult();
                 System.out.println("Storyline NER:" + storylineNER);
@@ -55,6 +56,7 @@ public class NERMovies {
                 NERSQLObject.addSqlObject(DatabaseConstant.ID, id);
                 // 不會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.STORYLINE_NER, storylineNER);
+                NERSQLObject.addSqlObject(DatabaseConstant.STORYLINE_NER_Tag, storylineNERTag);
                 // 會經過辭典
                 NERSQLObject.addSqlObject(DatabaseConstant.FILM_EMOTIONS, emotions);
                 NERSQLObject.addSqlObject(DatabaseConstant.FILM_EVENTS, events);

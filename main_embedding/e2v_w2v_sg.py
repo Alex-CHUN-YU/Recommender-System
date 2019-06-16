@@ -61,7 +61,7 @@ class E2V_W2V_SG():
 		t.load_model()
 		dimension = t.size
 		# Access Articles NER 221269
-		self.cursor.execute("SELECT id, emotion, event, person_object, time, location FROM articles_ner Where id >= 1 and id <= 5")
+		self.cursor.execute("SELECT id, emotion, event, person_object, time, location FROM articles_ner Where id >= 1 and id <= 221269")
 		articles_ner = self.cursor.fetchall()
 		for article_ner in articles_ner:
 			article_id = article_ner[0]
@@ -141,7 +141,7 @@ class E2V_W2V_SG():
 			self.cursor.execute(sql, val)
 			self.db.commit()
 		# Access Movies NER 3722
-		self.cursor.execute("SELECT id, emotion, event FROM movies_ner Where id >= 1 and id <= 5")
+		self.cursor.execute("SELECT id, emotion, event FROM movies_ner Where id >= 1 and id <= 3722")
 		movies_ner = self.cursor.fetchall()
 		for movie_ner in movies_ner:
 			movie_id = movie_ner[0]

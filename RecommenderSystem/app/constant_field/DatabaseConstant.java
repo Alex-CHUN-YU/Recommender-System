@@ -31,6 +31,7 @@ public class DatabaseConstant {
     // Column Name
     public static String TITLE_NER = "title_ner";
     public static String CONTENT_NER = "content_ner";
+    public static String CONTENT_NER_TAG = "content_ner_tag";
     public static String ARTICLE_EMOTIONS = "emotion";
     public static String ARTICLE_EVENTS = "event";
     public static String ARTICLE_PERSON_OBJECT = "person_object";
@@ -53,6 +54,7 @@ public class DatabaseConstant {
     public static String MOVIES_NER = "movies_ner";
     // Column Name
     public static String STORYLINE_NER = "storyline_ner";
+    public static String STORYLINE_NER_Tag = "storyline_ner_tag";
     public static String FILM_EMOTIONS = "emotion";
     public static String FILM_EVENTS = "event";
     public static String SCENARIO_NER = "scenario_ner";

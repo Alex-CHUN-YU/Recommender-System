@@ -26,6 +26,10 @@ public class GeneralFeaturesExtractor {
      */
     private String NERResult;
     /**
+     * NER Result(不會經過辭典).
+     */
+    private String NERResultTag;
+    /**
      * Stop Word list.
      */
     private ReadFileController stopWords, character_objectDic, locationDic, timeDic, emotionDic, eventDic;
@@ -92,6 +96,7 @@ public class GeneralFeaturesExtractor {
      */
     public void produceGenerationFeatures(String parserResult) {
         NERResult = "";
+        NERResultTag = "";
         personObjects = "";
         time = "";
         location = "";
@@ -137,6 +142,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (co) {
+                                this.NERResultTag = this.NERResultTag + result + ":po ";
                                 personObjects += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.TIME)) {
@@ -147,6 +153,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (ti) {
+                                this.NERResultTag = this.NERResultTag + result + ":ti ";
                                 time += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.LOCATION)) {
@@ -157,6 +164,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (lo) {
+                                this.NERResultTag = this.NERResultTag + result + ":lo ";
                                 location += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.EVENT)) {
@@ -167,6 +175,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (ev) {
+                                this.NERResultTag = this.NERResultTag + result + ":ev ";
                                 events += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.STATE)) {
@@ -177,8 +186,12 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (em) {
+                                this.NERResultTag = this.NERResultTag + result + ":em ";
                                 emotions += result + " ";
                             }
+                        }
+                        if (!co & !em & !ev & !ti & !lo) {
+                            this.NERResultTag = this.NERResultTag + result + ":none ";
                         }
 //                        // Statistic
 //                        if (r.getNER().equals(ModuleConstant.PERSON_OBJECT)) {
@@ -302,6 +315,7 @@ public class GeneralFeaturesExtractor {
                         System.out.println("過濾掉的詞彙:" + r.getSegmentWord().toString());
                     }
                 }
+                this.NERResultTag = this.NERResultTag + "@";
 //                System.out.println("*********************************");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -314,6 +328,13 @@ public class GeneralFeaturesExtractor {
      */
     public String getNERResult() {
         return this.NERResult;
+    }
+
+    /**
+     * Get NER Result with Tag.
+     */
+    public String getNERResultTag() {
+        return this.NERResultTag;
     }
 
     /**

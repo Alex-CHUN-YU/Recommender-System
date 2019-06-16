@@ -7,7 +7,7 @@ from bert_embedding import BertEmbedding
 import codecs
 import re
 # Entity to Vector
-class E2V_BERT():
+class E2V_BERT:
 	# init
 	def __init__(self):
 		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
@@ -25,10 +25,10 @@ class E2V_BERT():
 	# load data
 	def load_data(self):
 		# articles ner 221269
-		self.cursor.execute("SELECT id, content_ner_tag FROM articles_ner Where id >= 1 and id <= 1000")
+		self.cursor.execute("SELECT id, content_ner_tag FROM articles_ner Where id >= 1 and id <= 50")
 		self.articles_ner_tag = self.cursor.fetchall()
 		# movies ner 3722
-		self.cursor.execute("SELECT id, storyline_ner_tag FROM movies_ner Where id >= 467 and id <= 500")
+		self.cursor.execute("SELECT id, storyline_ner_tag FROM movies_ner Where id >= 0 and id <= 0")
 		self.movies_ner_tag = self.cursor.fetchall()
 	# 取得向量(Using bert) 並產生 relationship feature 和 scenario feature 存入
 	def extract_vector_and_save_vector(self, dimension):

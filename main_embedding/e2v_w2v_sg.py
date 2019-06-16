@@ -4,7 +4,7 @@ from word2vec import Word2Vec as w2v
 import MySQLdb
 import numpy as np
 # Entity to Vector
-class E2V_W2V_SG():
+class E2V_W2V_SG:
 	# init
 	def __init__(self):
 		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")

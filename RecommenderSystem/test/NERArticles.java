@@ -30,7 +30,7 @@ public class NERArticles {
         int titleRelationshipSum = 0;
         int titleRelationshipCount;
         int titleLabelSum = 0;
-        for (int id = 40001; id <= 50000; id++) {
+        for (int id = 150001; id <= 221269; id++) {
             String titleParser = "";
             String contentParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(

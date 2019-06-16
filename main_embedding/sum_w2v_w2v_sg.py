@@ -117,7 +117,7 @@ class Sum_W2V_W2V_SG:
 							except:
 								continue
 				print('')
-			val = (article_id, article_sum_w2v_w2v_sg)
+			val = (article_id, str(list(article_sum_w2v_w2v_sg)))
 			print("sum")
 			print(article_sum_w2v_w2v_sg[:5], end = "\n\n")
 			self.cursor.execute(sql, val)
@@ -148,7 +148,7 @@ class Sum_W2V_W2V_SG:
 							except:
 								continue
 				print('')
-			val = (movie_id, movie_sum_w2v_w2v_sg)
+			val = (movie_id, str(list(movie_sum_w2v_w2v_sg)))
 			print("sum")
 			print(movie_sum_w2v_w2v_sg[:5], end = "\n\n")
 			self.cursor.execute(sql, val)

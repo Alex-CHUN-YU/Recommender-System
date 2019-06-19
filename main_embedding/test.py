@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 import jieba
 content = "為了不要透漏那】個人的身份\n我叫他為㊙️?靠邀★★"
@@ -10,3 +11,10 @@ for sentence in sentence_list:
 		seg_list = jieba.cut(sentence,  cut_all = False)
 		for seg in seg_list:
 			print(seg, end = ' ')
+
+result = []
+test = [[0.6, 0.3, 0.1], [0.4, 0.3, 0.3]]
+for t in test:
+	if max(t) >= 0.5:
+		print(t)
+		result.append()

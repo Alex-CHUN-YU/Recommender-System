@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
+from sklearn.metrics import accuracy_score
 
 # Classification Selection
 class Classification():
@@ -65,12 +66,27 @@ class Classification():
         self.rfc.train(self.train_X, self.train_y)
     
     # Evaluate Result(accuracy, precision, recall, f1 score)
-    def evaluate_result(self, model_name, model, X, y_true):
+    def evaluate_result(self, model_name, model, X, y_test):
+        # 只有信心程度大於等於 0.5 才去做算分
+        # y_pred = []
+        # y_true = []
+        # pred_proba = model.predict_proba(X)
+        # for i, sample_proba in enumerate(pred_proba):
+        #     if max(sample_proba) >= 0.5:
+        #         print(sample_proba)
+        #         print(np.argmax(sample_proba, 0))
+        #         print(model.predict(X[i]))
+        #         print(y_test[i])
+        #         y_pred.append(np.argmax(sample_proba, 0))
+        #         y_true.append(y_test[i])
+        # 原始資料做算分
+        y_pred = model.predict(X)
+        y_true = y_test
         # micro precision and recall and f1 score 都一樣, macro 則是每個類別的平均
-        accuracy_score_result = model.score(X, y_true)
-        precision_score_result = precision_score(y_true, model.predict(X), average = 'macro')
-        recall_score_result = recall_score(y_true, model.predict(X), average = 'macro')
-        f1_score_result = f1_score(y_true, model.predict(X), average = 'macro')
+        accuracy_score_result = accuracy_score(y_true, y_pred)
+        precision_score_result = precision_score(y_true, y_pred, average = 'macro')
+        recall_score_result = recall_score(y_true, y_pred, average = 'macro')
+        f1_score_result = f1_score(y_true, y_pred, average = 'macro')
         print("unknown data accuracy_score: " + str(accuracy_score_result))
         print("unknown data precision_score: " + str(precision_score_result))
         print("unknown data recall_score: " + str(recall_score_result))

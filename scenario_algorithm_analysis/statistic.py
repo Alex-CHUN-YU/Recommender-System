@@ -54,7 +54,7 @@ class Statistic():
 		self.other_others_event_dic = {}
 	# 主要做分類統計
 	def main(self):
-		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id < 551 and relationship_type !=''")
+		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id <= 800 and relationship_type !=''")
 		movies = self.cursor.fetchall()
 		for movie in movies:
 			movies_id = movie[0]

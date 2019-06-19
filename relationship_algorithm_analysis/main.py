@@ -8,6 +8,10 @@ from cnn_w2v_w2v_sg import CNN_W2V_W2V_SG
 from sklearn.model_selection import train_test_split
 import json
 from sklearn import preprocessing
+from sklearn.metrics import f1_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import accuracy_score
 
 # Relationship Classifer
 class Relationship:
@@ -21,14 +25,13 @@ class Relationship:
 	# relationship feature application
 	def relationship(self):
 		# self.relationship_model_training(self.relationship_e2v_bert_name)
-		# self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
-		self.relationship_model_training(self.sum_w2v_w2v_sg_name)
-
+		self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
+		# self.relationship_model_training(self.sum_w2v_w2v_sg_name)
 	# Relationship Model Training
 	def relationship_model_training(self, feature_type):
 		data = []
 		target = []
-		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <=50 and relationship_type !=''")
+		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <=500 and relationship_type !=''")
 		articles = self.cursor.fetchall()
 		for article in articles:
 			# Access Articles Vector
@@ -76,8 +79,11 @@ class Relationship:
 		elif feature_type == self.relationship_e2v_w2v_sg_name:
 			model = CNN_E2V_W2V_SG()	
 		elif feature_type == self.sum_w2v_w2v_sg_name:
-			model = CNN_W2V_W2V_SG()	
-		model.cross_validation(data, target)
+			model = CNN_W2V_W2V_SG()
+		# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
+		X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.1)
+		# cross validation	
+		model.cross_validation(X_train, y_train)
 		# 載入參數並顯示出來
 		filter_n1 = ''
 		neural_node = ''
@@ -87,11 +93,11 @@ class Relationship:
 				filter_n1 = str(p['filter_n1'])
 				neural_node = str(p['neural_node'])
 		# Testing
-		# 如果是 4 筆資料，1 筆測試，3 筆訓練(test data 如果太大, 可能會導致 GPU 暫存不夠)
-		X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
 		model.test(X_test, y_test, filter_n1 + '_' + neural_node)
 		print(model.predict(X_test[:1], filter_n1 + '_' + neural_node))
-		print('='*50)
+		y_pred = model.predict(X_test, filter_n1 + '_' + neural_node)
+		y_true = np.argmax(y_test, 1)
+		self.evaluate_result(feature_type, model, y_pred, y_true)
 		'''# RNN Training
 		model = LSTM()
 		model.cross_validation(data, target)
@@ -110,7 +116,30 @@ class Relationship:
 		# X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.01)
 		# model.test(X_test, y_test)
 		# print(model.predict(X_test[:1]))'''
+	# Evaluate Result(accuracy, precision, recall, f1 score)
+	def evaluate_result(self, model_name, model, y_pred, y_true):
+		# micro precision and recall and f1 score 都一樣, macro 則是每個類別的平均
+		accuracy_score_result = accuracy_score(y_true, y_pred)
+		precision_score_result = precision_score(y_true, y_pred, average = 'macro')
+		recall_score_result = recall_score(y_true, y_pred, average = 'macro')
+		f1_score_result = f1_score(y_true, y_pred, average = 'macro')
+		print("unknown data accuracy_score: " + str(accuracy_score_result))
+		print("unknown data precision_score: " + str(precision_score_result))
+		print("unknown data recall_score: " + str(recall_score_result))
+		print("unknown data f1_score: " + str(f1_score_result))
+		# 儲存評估結果
+		evaluate_result = {}
+		evaluate_result['result'] = []
+		evaluate_result['result'].append({  
+		'accuracy': accuracy_score_result,
+		'precision_score': precision_score_result,
+		'recall_score': recall_score_result,
+		'f1_score': f1_score_result
+		})
+		with open('model/' + model_name + '_evaluate_result', 'w', encoding = "utf-8") as result:
+			json.dump(evaluate_result, result)
+		print("Evaluate Result is Saved")
 
 if __name__ == "__main__":
-    relationship = Relationship()
-    relationship.relationship()
+	relationship = Relationship()
+	relationship.relationship()

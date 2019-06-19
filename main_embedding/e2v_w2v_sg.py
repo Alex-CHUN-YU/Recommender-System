@@ -16,7 +16,7 @@ class E2V_W2V_SG:
 		# 訓練 e2v model
 		# self.load_data()
 		# self.vector_training(dimension = 150)
-		# Must remove segmentation.txt
+		# Must remove segmentation.txt or mark load data method
 		# self.vector_training(dimension = 300)
 		# 透過訓練完的 model 產生 relationship feature 和 scenario feature 並存到資料庫中
 		self.save_vector()

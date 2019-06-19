@@ -46,6 +46,7 @@ public class DatabaseConstant {
     public static String STORYLINE = "storyline";
     public static String MOVIE_NAME = "name";
     public static String MOVIE_LINK = "link";
+    public static String SCENARIO_TYPE = "scenario_type";
     // Movies Parser Table Name
     public static String MOVIES_PARSER = "movies_parser";
     // Column Name

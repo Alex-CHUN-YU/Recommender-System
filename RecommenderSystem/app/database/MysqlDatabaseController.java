@@ -153,7 +153,7 @@ public class MysqlDatabaseController {
      */
     public ResultSet execSelect(String column, String tableName, String condition) {
         String sql = "SELECT " + column + " FROM " + tableName + " WHERE " + condition;
-        //System.out.println(sql);
+        System.out.println(sql);
         ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();

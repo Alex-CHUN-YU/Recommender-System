@@ -25,10 +25,10 @@ class E2V_BERT:
 	# load data
 	def load_data(self):
 		# articles ner 221269
-		self.cursor.execute("SELECT id, content_ner_tag FROM articles_ner Where id >= 1 and id <= 50")
+		self.cursor.execute("SELECT a.id, a.content_ner_tag FROM articles_ner as a, articles as b Where a.id = b.id and a.id >= 1 and a.id <= 221269 and b.relationship_type != ''")
 		self.articles_ner_tag = self.cursor.fetchall()
 		# movies ner 3722
-		self.cursor.execute("SELECT id, storyline_ner_tag FROM movies_ner Where id >= 0 and id <= 0")
+		self.cursor.execute("SELECT a.id, a.storyline_ner_tag FROM movies_ner as a, movies as b Where a.id = b.id and a.id >= 1 and a.id <= 3722 and b.scenario_type != ''")
 		self.movies_ner_tag = self.cursor.fetchall()
 	# 取得向量(Using bert) 並產生 relationship feature 和 scenario feature 存入
 	def extract_vector_and_save_vector(self, dimension):
@@ -95,8 +95,12 @@ class E2V_BERT:
 				print(result[0])
 				for i, entity in enumerate(entity_type_position_length_in_sentences[i]): 
 					entity_vector = np.zeros(dimension)
-					for i in range(entity[3]):
-						entity_vector += result[1][entity[2] + 1 + i]
+					try:
+						for i in range(entity[3]):
+							entity_vector += result[1][entity[2] + 1 + i]
+					except:
+						print("some illegal characters")
+						break
 					if entity[1] == 'none':
 						pass
 					elif entity[1] == 'po':
@@ -204,8 +208,12 @@ class E2V_BERT:
 				print(result[0])
 				for i, entity in enumerate(entity_type_position_length_in_sentences[i]): 
 					entity_vector = np.zeros(dimension)
-					for i in range(entity[3]):
-						entity_vector += result[1][entity[2] + 1 + i]
+					try:
+						for i in range(entity[3]):
+							entity_vector += result[1][entity[2] + 1 + i]
+					except:
+						print("some illegal characters")
+						break
 					if entity[1] == 'none':
 						pass
 					elif entity[1] == 'po':

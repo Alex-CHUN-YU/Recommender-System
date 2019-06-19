@@ -23,9 +23,9 @@ class Main_Embedding_Experiment:
 	# frequent entity and entity most similarity top 10
 	def frequent_entity_ranking(self):
 		# 計算數量並產生文字雲並將排序進行插入
-		# self.frequent_entity_cloud()
+		self.frequent_entity_cloud()
 		# self.insert_ranking(embedding_model = 'e2v_w2v_sg', frequent = 50, rank = 10)
-		# self.insert_ranking(embedding_model = 'e2v_bert', frequent = 50, rank = 10)
+		self.insert_ranking(embedding_model = 'e2v_bert', frequent = 50, rank = 10)
 		# 將分數提取出來並計算 ndcg 和 precision 以及畫出圖
 		# w2v_150_scores = self.extract_score(start = 1, end = 50)
 		# w2v_300_scores = self.extract_score(start = 51, end = 100)

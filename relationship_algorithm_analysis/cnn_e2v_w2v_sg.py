@@ -160,10 +160,10 @@ class CNN_E2V_W2V_SG:
 		return result
 	# Cross Validaion and Tune Hyperparameters
 	def cross_validation(self, data, target, n_split = 10):
-		fil = [30]
-		neu = [300]
-		# fil = [70, 90, 110, 130]
-		# neu = [250, 300, 350, 400, 450, 500]
+		# fil = [30]
+		# neu = [300]
+		fil = [70, 90, 110, 130]
+		neu = [350, 400, 450, 500]
 		# 將不同 hyperparameter 每次 cross validation 平均 Accuracy 記錄下來
 		parameters_socre = []
 		for f in fil:

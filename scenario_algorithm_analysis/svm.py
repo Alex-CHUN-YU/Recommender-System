@@ -22,7 +22,7 @@ class SVM():
         self.degree = 3
         self.coef0 = 0.0
         self.shrinking = True
-        self.probability = False
+        self.probability = True
         self.tol = 0.001
         self.cache_size = 200
         self.class_weight = None

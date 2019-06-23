@@ -25,19 +25,20 @@ class Relationship:
 	# relationship feature application
 	def relationship(self):
 		# self.relationship_model_training(self.relationship_e2v_bert_name)
-		self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
-		# self.relationship_model_training(self.sum_w2v_w2v_sg_name)
+		# self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
+		self.relationship_model_training(self.sum_w2v_w2v_sg_name)
 	# Relationship Model Training
 	def relationship_model_training(self, feature_type):
 		data = []
 		target = []
-		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <=500 and relationship_type !=''")
+		# Article 221269
+		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <=221269 and relationship_type !=''")
 		articles = self.cursor.fetchall()
 		for article in articles:
 			# Access Articles Vector
 			article_id = article[0]
 			relationships_type = article[1]
-			sql = "SELECT " + feature_type + " FROM articles_vector Where id=" + str(article_id) + " and " + feature_type + " is not null"
+			sql = "SELECT " + feature_type + " FROM articles_vector Where id=" + str(article_id) + " and " + feature_type + "!=''"
 			# print(sql)
 			self.cursor.execute(sql)
 			relationship_feature = self.cursor.fetchone()

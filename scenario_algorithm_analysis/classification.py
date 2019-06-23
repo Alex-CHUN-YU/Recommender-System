@@ -29,59 +29,53 @@ class Classification():
         self.nb = None
         self.mnb = None
         self.rfc = None
-
+        self.knn = KNN(self.name)
+        self.svm = SVM(self.name)
+        self.nb = NB(self.name)
+        self.mnb = MNB(self.name)
+        self.rfc = RFC(self.name)
     # KNN Alogorithm
     def knn_model(self):
         # KNN Alogorithm
-        self.knn = KNN(self.name)
         self.knn.tuning_parameters(self.train_X, self.train_y)
         self.knn.train(self.train_X, self.train_y)
-        
     # SVM Alogorithm
     def svm_model(self):
         # SVM Alogorithm
-        self.svm = SVM(self.name)
         self.svm.tuning_parameters(self.train_X, self.train_y)
         self.svm.train(self.train_X, self.train_y)
-    
     # NB Alogorithm
     def nb_model(self):
         # NB Alogorithm
-        self.nb = NB(self.name)
         self.nb.tuning_parameters(self.train_X, self.train_y)
         self.nb.train(self.train_X, self.train_y)
-
     # MNB Alogorithm
     def mnb_model(self):
         # MNB Alogorithm
-        self.mnb = MNB(self.name)
         self.mnb.tuning_parameters(self.train_X, self.train_y)
         self.mnb.train(self.train_X, self.train_y)
-
     # RFC Alogorithm
     def rfc_model(self):
         # RFC Alogorithm
-        self.rfc = RFC(self.name)
         self.rfc.tuning_parameters(self.train_X, self.train_y)
         self.rfc.train(self.train_X, self.train_y)
-    
     # Evaluate Result(accuracy, precision, recall, f1 score)
     def evaluate_result(self, model_name, model, X, y_test):
         # 只有信心程度大於等於 0.5 才去做算分
-        # y_pred = []
-        # y_true = []
-        # pred_proba = model.predict_proba(X)
-        # for i, sample_proba in enumerate(pred_proba):
-        #     if max(sample_proba) >= 0.5:
-        #         print(sample_proba)
-        #         print(np.argmax(sample_proba, 0))
-        #         print(model.predict(X[i]))
-        #         print(y_test[i])
-        #         y_pred.append(np.argmax(sample_proba, 0))
-        #         y_true.append(y_test[i])
-        # 原始資料做算分
+        y_pred = []
+        y_true = []
+        pred_proba = model.predict_proba(X)
+        # print(pred_proba.shape)
+        for i, sample_proba in enumerate(pred_proba):
+            if max(sample_proba) >= 0.5:
+                # print(sample_proba)
+                # print(np.argmax(sample_proba, 0))
+                # print(y_test[i])
+                y_pred.append(np.argmax(sample_proba, 0) + 1)
+                y_true.append(y_test[i])
+        '''# 原始資料做算分
         y_pred = model.predict(X)
-        y_true = y_test
+        y_true = y_test'''
         # micro precision and recall and f1 score 都一樣, macro 則是每個類別的平均
         accuracy_score_result = accuracy_score(y_true, y_pred)
         precision_score_result = precision_score(y_true, y_pred, average = 'macro')
@@ -103,10 +97,9 @@ class Classification():
         with open(self.model_name + "_" + model_name + '_evaluate_result', 'w', encoding = "utf-8") as result:
             json.dump(evaluate_result, result)
         print("Evaluate Result is Saved")
-
     # Find Best Estimator
     def find_best_estimator(self, X_test, y_test):
-        print('-'*20, end = '\nK Nearest Neighbor:\n')
+        '''print('-'*20, end = '\nK Nearest Neighbor:\n')
         # 載入參數並顯示出來
         with open(self.knn.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
@@ -124,7 +117,7 @@ class Classification():
         else:
             X = X_test
         knn = joblib.load(self.knn.model_name + '.pkl')
-        self.evaluate_result("knn", knn, X, y_test)
+        self.evaluate_result("knn", knn, X, y_test)'''
         #######################################
         print('-'*20, end = '\nSupport Vector Machine:\n')
         # 載入參數並顯示出來
@@ -159,7 +152,7 @@ class Classification():
         nb = joblib.load(self.nb.model_name + ".pkl")
         self.evaluate_result("nb", nb, X_test, y_test)
         #######################################
-        print('-'*20, end = '\nMultinomial Naive Bayes:\n')
+        '''print('-'*20, end = '\nMultinomial Naive Bayes:\n')
         # 載入參數並顯示出來
         with open(self.mnb.model_name + '_parameters') as json_file:  
             data = json.load(json_file)
@@ -175,7 +168,7 @@ class Classification():
         else:
             X = X_test
         mnb = joblib.load(self.mnb.model_name + ".pkl")
-        self.evaluate_result("mnb", mnb, X, y_test)
+        self.evaluate_result("mnb", mnb, X, y_test)'''
         #######################################
         print('-'*20, end = '\nRandom Forest Classifier:\n')
         # 載入參數並顯示出來
@@ -198,7 +191,6 @@ class Classification():
             X = X_test
         rfc = joblib.load(self.rfc.model_name + ".pkl")
         self.evaluate_result("rfc", rfc, X, y_test)      
-
 if __name__ == '__main__':
     # data sampling 必須是 cv(default = 10) * class number 以上
     # 如果是使用 knn,data sampling 必須大於設定的 n(default = 40) 值 

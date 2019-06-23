@@ -32,12 +32,12 @@ class Scenario():
 		self.sum_w2v_w2v_sg_name = 'sum_w2v_w2v_sg'
 	def scenario(self):
 		# self.scenario_model_training(self.scenario_e2v_bert_name)
-		self.scenario_model_training(self.scenario_e2v_w2v_sg_name)
-		# self.scenario_model_training(self.sum_w2v_w2v_sg_name)
+		# self.scenario_model_training(self.scenario_e2v_w2v_sg_name)
+		self.scenario_model_training(self.sum_w2v_w2v_sg_name)
 	# 主要將資料進行分析，選擇出適合的演算法，以及儲存每個演算法 model 和使用到的參數(Parameter)與它的精確性
 	def scenario_model_training(self, feature_type):
 		# 1~7 可指定(目前只針對1~6) 另外此部分主要對應過去就是 label 代號
-		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id <= 1150 and relationship_type !='' and scenario_type !=''")
+		self.cursor.execute("SELECT id, relationship_type, scenario_type FROM movies Where id >= 1 and id <= 1171 and relationship_type !='' and scenario_type !=''")
 		movies = self.cursor.fetchall()	
 		for movie in movies:
 			movies_id = movie[0]
@@ -131,25 +131,25 @@ class Scenario():
 		print(self.kinship_data.shape)
 		print(self.kinship_target.shape)
 		self.training(self.kinship_name, self.kinship_data, self.kinship_target)
-		# print(self.romantic_relationship_data.shape)
-		# print(self.romantic_relationship_target.shape)
-		# self.training(self.romantic_relationship_name, self.romantic_relationship_data, self.romantic_relationship_target)
-		# print(self.friendship_data.shape)
-		# print(self.friendship_target.shape)
-		# self.training(self.friendship_name, self.friendship_data, self.friendship_target)
-		# # print(teacher_student_relationship_data.shape)
-		# # print(teacher_student_relationship_target.shape)
-		# # self.training(self.teacher_student_relationship_name, teacher_student_relationship_data, teacher_student_relationship_target)
-		# print(self.business_relationship_data.shape)
-		# print(self.business_relationship_target.shape)
-		# self.training(self.business_relationship_name, self.business_relationship_data, self.business_relationship_target)
-		# print(self.others_data.shape)
-		# print(self.others_target.shape)
-		# self.training(self.others_name, self.others_data, self.others_target)
+		print(self.romantic_relationship_data.shape)
+		print(self.romantic_relationship_target.shape)
+		self.training(self.romantic_relationship_name, self.romantic_relationship_data, self.romantic_relationship_target)
+		print(self.friendship_data.shape)
+		print(self.friendship_target.shape)
+		self.training(self.friendship_name, self.friendship_data, self.friendship_target)
+		# print(teacher_student_relationship_data.shape)
+		# print(teacher_student_relationship_target.shape)
+		# self.training(self.teacher_student_relationship_name, teacher_student_relationship_data, teacher_student_relationship_target)
+		print(self.business_relationship_data.shape)
+		print(self.business_relationship_target.shape)
+		self.training(self.business_relationship_name, self.business_relationship_data, self.business_relationship_target)
+		print(self.others_data.shape)
+		print(self.others_target.shape)
+		self.training(self.others_name, self.others_data, self.others_target)
 	# 訓練資料集
 	def produce_training_data(self, movies_id, feature_type):
 		vector = []
-		sql = "SELECT " + feature_type + " FROM movies_vector Where id =" + str(movies_id) + " and " + feature_type + " is not null"
+		sql = "SELECT " + feature_type + " FROM movies_vector Where id =" + str(movies_id) + " and " + feature_type + " != ''"
 		self.cursor.execute(sql)
 		movies_vector = self.cursor.fetchone()
 		for s in movies_vector[0][1:-1].split(', '):
@@ -165,9 +165,9 @@ class Scenario():
 	def training(self, name, data, target):
 		X_train, X_test, y_train, y_test = train_test_split(data, target, test_size = 0.1)
 		clf = Classification(X_train, y_train, name)
-		clf.knn_model()
+		# clf.knn_model()
 		clf.nb_model()
-		clf.mnb_model()
+		# clf.mnb_model()
 		clf.rfc_model()
 		clf.svm_model()
 		clf.find_best_estimator(X_test, y_test)

@@ -38,7 +38,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 						<button type="submit" class="btn btn-primary test-btn pull-right">Recommend Trailer</button>
 						<!--inputdata-->
 						<div class="form-group">
-							<textarea id="article" class="form-control" rows="15" name="article" onkeyup="this.value=this.value.slice(0, 350)"></textarea>
+							<textarea id="article" class="form-control" rows="20" name="article" onkeyup="this.value=this.value.slice(0, 400)"></textarea>
 						</div>
 					</form>
 				</div>
@@ -56,25 +56,25 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 					<div class="col-md-12 col-sm-12 result-blk">
 						<div class="result-card">
 							<div class="result-rank">1</div>
-							<h5 class="result-title"><span id="artist0"></span>&nbsp &nbsp <span id="trailer_name0"></span></h5>
-							<iframe id="video0" class="video-display col-md-6 col-sm-12" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-							<p id="storyline0" class="result-lyrics col-md-6 col-sm-12"></p>
-						</div>
-					</div>
-					<div class="col-md-12 col-sm-12 result-blk">
-						<div class="result-card">
-							<div class="result-rank">2</div>
-							<h5 class="result-title"><span id="artist1"></span> &nbsp &nbsp <span id="trailer_name1"></span></h5>
-							<iframe id="video1" class="video-display col-md-6 col-sm-12" src="" frameborder="0"></iframe>
+							<h5 class="result-title"><span id="artist1"></span>&nbsp &nbsp <span id="trailer_name1"></span></h5>
+							<iframe id="video1" class="video-display col-md-6 col-sm-12" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 							<p id="storyline1" class="result-lyrics col-md-6 col-sm-12"></p>
 						</div>
 					</div>
 					<div class="col-md-12 col-sm-12 result-blk">
 						<div class="result-card">
-							<div class="result-rank">3</div>
-							<h5 class="result-title"><span id="artist2"></span>&nbsp &nbsp <span id="trailer_name2"></span></h5>
+							<div class="result-rank">2</div>
+							<h5 class="result-title"><span id="artist2"></span> &nbsp &nbsp <span id="trailer_name2"></span></h5>
 							<iframe id="video2" class="video-display col-md-6 col-sm-12" src="" frameborder="0"></iframe>
 							<p id="storyline2" class="result-lyrics col-md-6 col-sm-12"></p>
+						</div>
+					</div>
+					<div class="col-md-12 col-sm-12 result-blk">
+						<div class="result-card">
+							<div class="result-rank">3</div>
+							<h5 class="result-title"><span id="artist3"></span>&nbsp &nbsp <span id="trailer_name3"></span></h5>
+							<iframe id="video3" class="video-display col-md-6 col-sm-12" src="" frameborder="0"></iframe>
+							<p id="storyline3" class="result-lyrics col-md-6 col-sm-12"></p>
 						</div>
 					</div>
 					<!--<div class="col-md-12 col-sm-12 result-blk">
@@ -120,8 +120,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 				success: function(response) { // on success..
 					console.log("success!");
 					console.log(response);
-					
-					for (order = 0; order <= 2; order++) {
+					for (order = 1; order <= 3; order++) {
 						song = response[order];
 						replaceRecommendSong(order, song);
 					}
@@ -151,11 +150,15 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 	});
 	
 	function replaceRecommendSong(order, song){
+		console.log(song.hasOwnProperty('artist'));
+		console.log(song.hasOwnProperty('trailer_name'));
+		console.log(song.hasOwnProperty('link'));
+		console.log(song.hasOwnProperty('storyline'));
 		artistBlk = '#artist' + order.toString();
 		trailernameBlk = '#trailer_name' + order.toString();
 		videoBlk = '#video' + order.toString();
 		storylineBlk = '#storyline' + order.toString();
-		$(artistBlk).text(song['artist']); 
+		$(artistBlk).text(song['artist']);		
 		$(trailernameBlk).text(song['trailer_name']);
 		$(videoBlk).attr("src", song['link']);
 		$(storylineBlk).text(song['storyline']);

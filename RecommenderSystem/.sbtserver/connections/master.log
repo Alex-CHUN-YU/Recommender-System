@@ -1,34 +1,40 @@
-New log file opened at Thu Mar 21 11:00:49 CST 2019 by 6552@DESKTOP-00UHQEK
-Taking next connection to: 53888
-New client attempting to connect on port: 53889-53888
-  Address = /192.168.82.15:53888
-This client on port 53889 has uuid 4ecaa28d-0f48-4ef9-80ef-25b093039a5a configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
-Connected Clients: play-fork-run-4ecaa28d-0f48-4ef9-80ef-25b093039a5a
-Taking next connection to: 53888
+New log file opened at Sun Jun 23 21:14:01 CST 2019 by 2468@DESKTOP-00UHQEK
+Taking next connection to: 54997
+New client attempting to connect on port: 54999-54997
+  Address = /192.168.82.15:54997
+This client on port 54999 has uuid 5a0b19cf-0306-413f-915b-01931fc22dce configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-5a0b19cf-0306-413f-915b-01931fc22dce
+Taking next connection to: 54997
 Checking to see if clients are empty...
 We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
-Checking to see if clients are empty...
-We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
-Checking to see if clients are empty...
-We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
-Checking to see if clients are empty...
-We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
-Checking to see if clients are empty...
-We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
-Checking to see if clients are empty...
-We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
-Checking to see if clients are empty...
-We have 1 non-daemon clients, continuing serving connections.
-Taking next connection to: 53888
+Taking next connection to: 54997
+New client attempting to connect on port: 55028-54997
+  Address = /192.168.82.15:54997
+Handshake exception on socket: 55028
+sbt.impl.ipc.HandshakeException: Unable to perform handshake
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:46)
+	at sbt.impl.ipc.MultiClientServer.<init>(IPC.scala:150)
+	at sbt.server.SbtServerSocketHandler$$anon$1.run(SbtServerSocketHandler.scala:43)
+Caused by: java.net.SocketException: Software caused connection abort: recv failed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(Unknown Source)
+	at java.net.SocketInputStream.read(Unknown Source)
+	at java.net.SocketInputStream.read(Unknown Source)
+	at java.io.BufferedInputStream.fill(Unknown Source)
+	at java.io.BufferedInputStream.read(Unknown Source)
+	at java.io.DataInputStream.readInt(Unknown Source)
+	at sbt.impl.ipc.Peer.receive(IPC.scala:95)
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:49)
+	... 2 more
+Taking next connection to: 54997
+New client attempting to connect on port: 55029-54997
+  Address = /192.168.82.15:54997
+This client on port 55029 has uuid 892a1f2c-08a7-4016-90bd-6bd9f52da542 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-892a1f2c-08a7-4016-90bd-6bd9f52da542
+Taking next connection to: 54997
 Checking to see if clients are empty...
 No non-daemon clients connected after 3 min. Shutting down.
 Server socket thread exiting.
 0 clients open, will close them...
 All client sockets have been closed.
-Closing the 6552@DESKTOP-00UHQEK logs at Thu Mar 21 11:24:49 CST 2019, goodbye.
+Closing the 2468@DESKTOP-00UHQEK logs at Sun Jun 23 21:21:05 CST 2019, goodbye.

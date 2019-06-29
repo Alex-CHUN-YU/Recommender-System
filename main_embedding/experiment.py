@@ -23,11 +23,11 @@ class Main_Embedding_Experiment:
 	# frequent entity and entity most similarity top 10
 	def frequent_entity_ranking(self):
 		# 計算 extrovert event 和 hidden event 品質
-		# self.calculate_event_quality()
+		self.calculate_event_quality()
 		# 計算數量並產生文字雲並將排序進行插入
-		self.frequent_entity_cloud()
+		# self.frequent_entity_cloud()
 		# self.insert_ranking(embedding_model = 'e2v_w2v_sg', frequent = 50, rank = 10)
-		self.insert_ranking(embedding_model = 'e2v_bert', frequent = 50, rank = 10)
+		# self.insert_ranking(embedding_model = 'e2v_bert', frequent = 50, rank = 10)
 		# 將分數提取出來並計算 ndcg 和 precision 以及畫出圖
 		# w2v_150_scores = self.extract_score(start = 1, end = 50)
 		# w2v_300_scores = self.extract_score(start = 51, end = 100)
@@ -50,8 +50,10 @@ class Main_Embedding_Experiment:
 					hidden_event_score += int(event_label[2])
 			print("extroverted_event_score:", end = "")
 			print(extroverted_event_score/extroverted_event_sum)
+			print(extroverted_event_sum)
 			print("hidden_event_score:", end = "")
 			print(hidden_event_score/hidden_event_sum)
+			print(hidden_event_sum)
 	# create emotion and event entity dictionary and frequent term cloud
 	def frequent_entity_cloud(self):
 		# Article 221269

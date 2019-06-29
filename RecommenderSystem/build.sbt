@@ -23,6 +23,7 @@ libraryDependencies += "net.sf.json-lib" % "json-lib" % "2.4" classifier "jdk15"
 // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 libraryDependencies += "com.googlecode.json-simple" % "json-simple" % "1.1"
 
+PlayKeys.devSettings := Seq("play.server.http.port" -> "8309")
 
 
 fork in run := true

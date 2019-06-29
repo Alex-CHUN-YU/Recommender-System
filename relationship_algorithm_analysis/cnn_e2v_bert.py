@@ -22,8 +22,8 @@ class CNN_E2V_BERT:
 		self.prediction = None
 		self.learning_rate = 1e-4
 		self.optimizer = None
-		self.train_epoch = 100000
-		self.batch_size = 256
+		self.train_epoch = 10000
+		self.batch_size = 512
 		# Tuning Hyperparameter
 		# Cross Validation 最大平均正確率
 		self.max_score = 0
@@ -52,14 +52,40 @@ class CNN_E2V_BERT:
 		# print(x_image.shape) # [n_sample, 28, 28, 1]
 		self.ys = tf.placeholder(dtype = tf.float32, shape = [None, self.n_class]) # class 10 
 		self.keep_prob = tf.placeholder(dtype = tf.float32) # dropout
+		########################################
 		## convolution1 layer ##
-		W_conv1 = self.weight_variable([2, 2, 1, self.filter_n1], name = "W_conv1") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
-		b_conv1 = self.bias_variable([self.filter_n1], name = "b_conv1")
-		h_conv1 = tf.nn.relu(self.conv2d(self.x_image, W_conv1) + b_conv1) # output size 28*28*32
-		print(h_conv1.get_shape())
+		W_conv1_1 = self.weight_variable([2, 2, 1, self.filter_n1], name = "W_conv1_1") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
+		b_conv1_1 = self.bias_variable([self.filter_n1], name = "b_conv1_1")
+		h_conv1_1 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_1) + b_conv1_1) # output size 28*28*32
+		print(h_conv1_1.get_shape())
 		## pooling1 layer ##
-		h_pool1 = self.max_pool(h_conv1) # output size 14*14*32
-		print(h_pool1.get_shape())
+		h_pool1_1 = self.max_pool(h_conv1_1) # output size 14*14*32
+		print(h_pool1_1.get_shape())
+		########################################
+		W_conv1_2 = self.weight_variable([3, 3, 1, self.filter_n1], name = "W_conv1_2") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
+		b_conv1_2 = self.bias_variable([self.filter_n1], name = "b_conv1_2")
+		h_conv1_2 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_2) + b_conv1_2) # output size 28*28*32
+		print(h_conv1_2.get_shape())
+		## pooling1 layer ##
+		h_pool1_2 = self.max_pool(h_conv1_2) # output size 14*14*32
+		print(h_pool1_2.get_shape())
+		########################################
+		W_conv1_3 = self.weight_variable([4, 4, 1, self.filter_n1], name = "W_conv1_3") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
+		b_conv1_3 = self.bias_variable([self.filter_n1], name = "b_conv1_3")
+		h_conv1_3 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_3) + b_conv1_3) # output size 28*28*32
+		print(h_conv1_3.get_shape())
+		## pooling1 layer ##
+		h_pool1_3 = self.max_pool(h_conv1_3) # output size 14*14*32
+		print(h_pool1_3.get_shape())
+		########################################
+		W_conv1_4 = self.weight_variable([5, 5, 1, self.filter_n1], name = "W_conv1_4") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
+		b_conv1_4 = self.bias_variable([self.filter_n1], name = "b_conv1_4")
+		h_conv1_4 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_4) + b_conv1_4) # output size 28*28*32
+		print(h_conv1_4.get_shape())
+		## pooling1 layer ##
+		h_pool1_4 = self.max_pool(h_conv1_4) # output size 14*14*32
+		print(h_pool1_4.get_shape())
+		########################################
 		# ## convolution2 layer ##
 		# W_conv2 = self.weight_variable([2, 2, self.filter_n1, self.filter_n2], name = "W_conv2") # filter(patch or kernel) size = 5*5*32, filter 數量 = 64
 		# b_conv2 = self.bias_variable([self.filter_n2], name = "b_conv2")
@@ -72,98 +98,39 @@ class CNN_E2V_BERT:
 		## fully connected layer ##
 		# [n_samples, 7, 7, 64] ->> [-1, 7*7*64]
 		## func1 layer
-		h_pool2_flat = tf.reshape(h_pool1, [-1, 2*192*self.filter_n1])
-		W_fc1 = self.weight_variable([2*192*self.filter_n1, self.neural_node], name = "W_fc1")
+		h_pool_flat_1 = tf.reshape(h_pool1_1, [-1, 3*768*self.filter_n1])
+		h_pool_flat_2 = tf.reshape(h_pool1_2, [-1, 3*768*self.filter_n1])
+		h_pool_flat_3 = tf.reshape(h_pool1_3, [-1, 3*768*self.filter_n1])
+		h_pool_flat_4 = tf.reshape(h_pool1_4, [-1, 3*768*self.filter_n1])
+		h_pool_flat_concatenate = tf.concat([h_pool_flat_1, h_pool_flat_2, h_pool_flat_3, h_pool_flat_4], axis = 1)
+		print(h_pool_flat_concatenate.get_shape())
+		W_fc1 = self.weight_variable([3*768*4*self.filter_n1, self.neural_node], name = "W_fc1")
 		b_fc1 = self.bias_variable([self.neural_node], name = "b_fc1")
-		#h_pool2_flat_drop = tf.nn.dropout(h_pool2_flat, self.keep_prob)
-		h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
+		h_pool_flat_drop = tf.nn.dropout(h_pool_flat_concatenate, self.keep_prob)
+		h_fc1 = tf.nn.tanh(tf.matmul(h_pool_flat_drop, W_fc1) + b_fc1)
 		print(h_fc1.get_shape())
 
 		## func2 layer
 		W_fc2 = self.weight_variable([self.neural_node , self.n_class], name = "W_fc2")
 		b_fc2 = self.bias_variable([self.n_class], name = "b_fc2")
-		h_fc1_drop = tf.nn.dropout(h_fc1, self.keep_prob)
-		self.prediction = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+		# h_fc1_drop = tf.nn.dropout(h_fc1, self.keep_prob)
+		self.prediction = tf.nn.softmax(tf.matmul(h_fc1, W_fc2) + b_fc2)
 
 		# The Error Between Prediction And Real Data
-		# cross_entropy = tf.reduce_mean(-tf.reduce_sum(self.ys * tf.log(tf.clip_by_value(self.prediction, 1e-10,1.0)), reduction_indices = [1])) # loss
-		cross_entropy = tf.losses.softmax_cross_entropy(onehot_labels = self.ys, logits = self.prediction)
+		cross_entropy = tf.reduce_mean(-tf.reduce_sum(self.ys * tf.log(tf.clip_by_value(self.prediction, 1e-10,1.0)), reduction_indices = [1])) # loss
+		# cross_entropy = tf.losses.softmax_cross_entropy(onehot_labels = self.ys, logits = self.prediction)
+		# cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels = self.ys, logits = self.prediction))
+		
 		self.optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate).minimize(cross_entropy)
 		self.saver = tf.train.Saver()
-	# Train
-	def train(self, train_X, train_y, test_X, test_y, hyperparameter = "test"):
-		# Goal: Draw Picture
-		epoch_range = []
-		train_scores = []
-		test_scores = []
-		best_result = False
-		# Epoch about Max Accuracy and Best Epoch
-		max_accuracy = 0
-		best_epoch = 0
-		# TF structure initialize
-		self.neural_structure()
-		self.sess.run(tf.global_variables_initializer())
-		for epoch in range(self.train_epoch):
-			batch_xs, batch_ys = self.next_batch(num = self.batch_size, data = train_X, labels = train_y)
-			self.sess.run(self.optimizer, feed_dict = {self.xs: batch_xs, self.ys: batch_ys, self.keep_prob: 0.5})
-			if epoch % 10000 == 0:
-				batch_x, batch_y = self.next_batch(num = len(test_X), data = train_X, labels = train_y)
-				train_accuracy = self.compute_accuracy(batch_x, batch_y)
-				test_accuracy = self.compute_accuracy(test_X, test_y)
-				epoch_range.append(epoch)
-				train_scores.append(train_accuracy)
-				test_scores.append(test_accuracy)
-				if test_accuracy > max_accuracy:
-					max_accuracy = test_accuracy
-					best_epoch = epoch
-					if max_accuracy >= self.max_accuracy:
-						best_result = True
-						self.max_accuracy = max_accuracy
-						self.best_epoch = best_epoch
-						# Save model weights to disk
-						save_path = self.saver.save(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
-						print("Model saved in file: %s" % save_path)
-				print(test_accuracy)
-				print("Current Max accuracy:{0}, Current Best epoch:{1}".format(max_accuracy, best_epoch), end = "\n\n")
-		if best_result:
-			# Draw the Picture
-			plt.title("Accuracy with CNN Model")
-			plt.xlabel("epoch")
-			plt.ylabel("accuracy")
-			plt.plot(epoch_range, train_scores, "-o", color = "y", label = "Training Score")
-			plt.plot(epoch_range, test_scores, "-o", color = "b", label = "Testing Score")
-			plt.legend(loc = "best")
-			plt.savefig(self.model_path + hyperparameter + "/cnn.png")
-			print("cnn.png is saved")
-			plt.close()
-		print("\nFinal Max accuracy:{0}, Final Best epoch:{1}".format(self.max_accuracy, self.best_epoch))
-		return max_accuracy
-	# Test
-	def test(self, test_X, test_y, hyperparameter = "test"):
-		self.filter_n1 = int(hyperparameter.split('_')[0])
-		self.neural_node = int(hyperparameter.split('_')[1])
-		self.neural_structure()
-		self.sess.run(tf.global_variables_initializer())
-		self.saver.restore(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
-		print(self.compute_accuracy(test_X, test_y))
-		self.sess.close()
-	# Prediction
-	def predict(self, test_X, hyperparameter):
-		self.filter_n1 = int(hyperparameter.split('_')[0])
-		self.neural_node = int(hyperparameter.split('_')[1])
-		self.neural_structure()
-		self.sess.run(tf.global_variables_initializer())
-		self.saver.restore(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
-		y_pre = self.sess.run(self.prediction, feed_dict = {self.xs: test_X, self.keep_prob: 0.5})
-		result = self.sess.run(tf.argmax(y_pre, 1))
-		self.sess.close()
-		return result
 	# Cross Validaion and Tune Hyperparameters
 	def cross_validation(self, data, target, n_split = 10):
 		# fil = [30]
 		# neu = [300]
-		fil = [70, 90, 110, 130]
-		neu = [350, 400, 450, 500]
+		# fil = [70, 90, 110, 130]
+		# neu = [350, 400, 450, 500]
+		fil = [8]
+		neu = [128]
 		# 將不同 hyperparameter 每次 cross validation 平均 Accuracy 記錄下來
 		parameters_socre = []
 		for f in fil:
@@ -230,11 +197,11 @@ class CNN_E2V_BERT:
 
 	def conv2d(self, x, W):
 		# stride [1, x_movement, y_movement, 1]
-		return tf.nn.conv2d(x, W, strides = [1, 2, 2, 1], padding = 'SAME') # Must have srides[0] = 1 and strid[3] = 1
+		return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = 'SAME') # Must have srides[0] = 1 and strid[3] = 1
 
 	def max_pool(self, x):
 		# ksize [1, height, width, 1], stride [1, y_movement, x_movement, 1]
-		return tf.nn.max_pool(x, ksize = [1, 3, 3, 1], strides = [1, 2, 2, 1], padding = 'SAME')
+		return tf.nn.max_pool(x, ksize = [1, 2, 1, 1], strides = [1, 2, 1, 1], padding = 'SAME')
 	# Data 隨機抽取, Return a total of `num` random samples and labels.
 	def next_batch(self, num = 256, data = None, labels = None):
 		idx = np.arange(0 , len(data))
@@ -243,7 +210,75 @@ class CNN_E2V_BERT:
 		data_shuffle = [data[i] for i in idx]
 		labels_shuffle = [labels[i] for i in idx]
 		return np.asarray(data_shuffle), np.asarray(labels_shuffle)
-			
+	# Train
+	def train(self, train_X, train_y, test_X, test_y, hyperparameter = "test"):
+		# Goal: Draw Picture
+		epoch_range = []
+		train_scores = []
+		test_scores = []
+		best_result = False
+		# Epoch about Max Accuracy and Best Epoch
+		max_accuracy = 0
+		best_epoch = 0
+		# TF structure initialize
+		self.neural_structure()
+		self.sess.run(tf.global_variables_initializer())
+		for epoch in range(self.train_epoch):
+			batch_xs, batch_ys = self.next_batch(num = self.batch_size, data = train_X, labels = train_y)
+			self.sess.run(self.optimizer, feed_dict = {self.xs: batch_xs, self.ys: batch_ys, self.keep_prob: 0.5})
+			if epoch % 1000 == 0:
+				batch_x, batch_y = self.next_batch(num = len(test_X), data = train_X, labels = train_y)
+				train_accuracy = self.compute_accuracy(batch_x, batch_y)
+				test_accuracy = self.compute_accuracy(test_X, test_y)
+				epoch_range.append(epoch)
+				train_scores.append(train_accuracy)
+				test_scores.append(test_accuracy)
+				if test_accuracy > max_accuracy:
+					max_accuracy = test_accuracy
+					best_epoch = epoch
+					if max_accuracy >= self.max_accuracy:
+						best_result = True
+						self.max_accuracy = max_accuracy
+						self.best_epoch = best_epoch
+						# Save model weights to disk
+						save_path = self.saver.save(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
+						print("Model saved in file: %s" % save_path)
+				print(test_accuracy)
+				print("Current Max accuracy:{0}, Current Best epoch:{1}".format(max_accuracy, best_epoch), end = "\n\n")
+		if best_result:
+			# Draw the Picture
+			plt.title("Accuracy with CNN Model")
+			plt.xlabel("epoch")
+			plt.ylabel("accuracy")
+			plt.plot(epoch_range, train_scores, "-o", color = "y", label = "Training Score")
+			plt.plot(epoch_range, test_scores, "-o", color = "b", label = "Testing Score")
+			plt.legend(loc = "best")
+			plt.savefig(self.model_path + hyperparameter + "/cnn.png")
+			print("cnn.png is saved")
+			plt.close()
+		print("\nFinal Max accuracy:{0}, Final Best epoch:{1}".format(self.max_accuracy, self.best_epoch))
+		return max_accuracy
+	# Test
+	def test(self, test_X, test_y, hyperparameter = "test"):
+		self.filter_n1 = int(hyperparameter.split('_')[0])
+		self.neural_node = int(hyperparameter.split('_')[1])
+		self.neural_structure()
+		self.sess.run(tf.global_variables_initializer())
+		self.saver.restore(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
+		print(self.compute_accuracy(test_X, test_y))
+		self.sess.close()
+	# Prediction
+	def predict(self, test_X, hyperparameter):
+		self.filter_n1 = int(hyperparameter.split('_')[0])
+		self.neural_node = int(hyperparameter.split('_')[1])
+		self.neural_structure()
+		self.sess.run(tf.global_variables_initializer())
+		self.saver.restore(self.sess, self.model_path + hyperparameter + "/cnn.ckpt")
+		y_pre = self.sess.run(self.prediction, feed_dict = {self.xs: test_X, self.keep_prob: 0.5})
+		result = self.sess.run(tf.argmax(y_pre, 1))
+		self.sess.close()
+		return result
+	
 if __name__ == "__main__":
 	# Prediction Test
 	model = CNN_E2V_BERT()

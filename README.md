@@ -34,4 +34,7 @@ scenario classifier 訓練(scenario_algorithm_analysis) > 供給 server 存取(m
 ## View
 ### view
 目的：推薦系統視覺化
+### evaluate
+目的：評估系統
+
 

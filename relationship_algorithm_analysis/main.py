@@ -24,9 +24,9 @@ class Relationship:
 		self.sum_w2v_w2v_sg_name = 'sum_w2v_w2v_sg'
 	# relationship feature application
 	def relationship(self):
-		# self.relationship_model_training(self.relationship_e2v_bert_name)
+		self.relationship_model_training(self.relationship_e2v_bert_name)
 		# self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
-		self.relationship_model_training(self.sum_w2v_w2v_sg_name)
+		# self.relationship_model_training(self.sum_w2v_w2v_sg_name)
 	# Relationship Model Training
 	def relationship_model_training(self, feature_type):
 		data = []
@@ -44,7 +44,10 @@ class Relationship:
 			relationship_feature = self.cursor.fetchone()
 			for relationship_type in relationships_type.split(","):
 				relationship_feature_vector = []
-				relationship_feature = relationship_feature[0]
+				try:
+					relationship_feature = relationship_feature[0]
+				except:
+					continue
 				for s in relationship_feature[1:-1].split(', '):
 					try:
 						if s != "":

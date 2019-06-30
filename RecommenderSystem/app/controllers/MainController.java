@@ -105,7 +105,7 @@ public class MainController extends Controller {
         } catch (Exception e) {
             return ok("Connecting Error");
         }
-        JSONObject trailer1 = new JSONObject();
+        /*JSONObject trailer1 = new JSONObject();
         trailer1.put("artist", 1);
         trailer1.put("trailer_name", "陰兒房第4章：鎖命亡靈");
         trailer1.put("link", "https://www.youtube.com/embed/F56NfDUjn5o");
@@ -123,7 +123,7 @@ public class MainController extends Controller {
         trailer3.put("storyline", "喬和凱瑟琳是生意上的競爭對手。凱瑟琳經營著母親留下來的小書店，那裡溫馨宜人，已有40年曆史，為街坊所熟知。喬卻是同街一間大書店的老闆，憑著自身優勢，一開業就搞低折扣、服務佳的策略。凱瑟琳十分排斥他的入侵，白天二人展開鬥法。不料晚上卻透過電子郵件結為好友，不知道彼此身份的夜談，讓他們感情迅速升溫。");
         trailers.put("1", trailer1);
         trailers.put("2", trailer2);
-        trailers.put("3", trailer3);
+        trailers.put("3", trailer3);*/
         System.out.println(trailers.toString());
         JsonNode results = Json.parse(trailers.toString());
         return ok(results);

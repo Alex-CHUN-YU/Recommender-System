@@ -9,13 +9,14 @@ import re
 from scipy.spatial import distance
 from cnn_e2v_bert import CNN_E2V_BERT
 from cnn_e2v_w2v_sg import CNN_E2V_W2V_SG
+from word2vec import Word2Vec
 # 主要負責將判斷結果傳回去
 class RecommenderSystem():
 	def __init__(self):
 		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
-		# sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_bert FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 287 and b.scenario_e2v_bert !=''"
-		sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_w2v_sg FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 287 and b.scenario_e2v_w2v_sg !=''"
+		# sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_bert FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 1171 and b.scenario_e2v_bert !=''"
+		sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_w2v_sg FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 1171 and b.scenario_e2v_w2v_sg !=''"
 		print(sql)
 		self.cursor.execute(sql)
 		self.movies_information = self.cursor.fetchall()
@@ -36,7 +37,7 @@ class RecommenderSystem():
 		self.relationship_e2v_w2v_sg = []
 		self.scenario_e2v_w2v_sg = []
 	def main(self, content_ner_tag):
-		self.bert_vector_produce(content_ner_tag)
+		self.w2v_vector_produce(content_ner_tag)
 		print(self.relationship_e2v_w2v_sg.shape)
 		print(self.scenario_e2v_w2v_sg.shape)
 		relationship_type = self.relationship_model(self.relationship_e2v_w2v_sg)
@@ -63,7 +64,10 @@ class RecommenderSystem():
 				if " " not in term_ner_tag and term_ner_tag != "":
 					term = term_ner_tag.split(':')[0]
 					tag = term_ner_tag.split(':')[1]
-					entity_vector = self.t.term_to_vector(term)
+					try:
+						entity_vector = self.t.term_to_vector(term)
+					except:
+						continue;
 					if tag == 'none':
 						pass
 					elif tag == 'po':
@@ -98,6 +102,8 @@ class RecommenderSystem():
 		self.relationship_e2v_w2v_sg = np.append(self.relationship_e2v_w2v_sg, ti_vector/ti_count)
 		self.scenario_e2v_w2v_sg = np.append(self.scenario_e2v_w2v_sg, em_vector/em_count)
 		self.scenario_e2v_w2v_sg = np.append(self.scenario_e2v_w2v_sg, ev_vector/ev_count)
+		self.relationship_e2v_w2v_sg = np.array([self.relationship_e2v_w2v_sg]).astype(np.float32)
+		self.scenario_e2v_w2v_sg = np.array([self.scenario_e2v_w2v_sg]).astype(np.float32)
 
 	def bert_vector_produce(self, content_ner_tag):
 		sentences_ner_tag = content_ner_tag
@@ -222,8 +228,11 @@ class RecommenderSystem():
 				filter_n1 = str(p['filter_n1'])
 				neural_node = str(p['neural_node'])
 		# Result:
+		# print(filter_n1)
+		# print(neural_node)
+		# print(vector)
 		# y_test = np.array([[0, 1, 0, 0, 0, 0, 0]]).astype(np.float32) 代表愛情(2, index = 1)
-		result = int(self.model.predict(vector[:1], filter_n1 + '_' + neural_node)[0])
+		result = int(self.model.predict(vector, filter_n1 + '_' + neural_node)[0])
 		print("predictive result:", end = '')
 		# 由於 Relationship LSTM Model Predict 的結果必須加一才有辦法對應到資料庫
 		result = result + 1

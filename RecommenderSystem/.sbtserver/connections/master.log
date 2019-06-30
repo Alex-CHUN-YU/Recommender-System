@@ -1,13 +1,28 @@
-New log file opened at Sun Jun 23 23:05:43 CST 2019 by 14340@DESKTOP-00UHQEK
-Taking next connection to: 55432
-New client attempting to connect on port: 55433-55432
-  Address = /192.168.82.15:55432
-This client on port 55433 has uuid bd17dd6a-9acd-40f6-8329-15798298e75c configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
-Connected Clients: play-fork-run-bd17dd6a-9acd-40f6-8329-15798298e75c
-Taking next connection to: 55432
+New log file opened at Mon Jul 01 07:30:40 CST 2019 by 15216@DESKTOP-00UHQEK
+Taking next connection to: 60314
+New client attempting to connect on port: 60315-60314
+  Address = /192.168.82.15:60314
+This client on port 60315 has uuid d5a4ffba-7b9e-4c37-a753-5d6be3f4360f configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-d5a4ffba-7b9e-4c37-a753-5d6be3f4360f
+Taking next connection to: 60314
 Checking to see if clients are empty...
-No non-daemon clients connected after 3 min. Shutting down.
-Server socket thread exiting.
-0 clients open, will close them...
-All client sockets have been closed.
-Closing the 14340@DESKTOP-00UHQEK logs at Sun Jun 23 23:08:45 CST 2019, goodbye.
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 60314

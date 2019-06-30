@@ -22,8 +22,8 @@ class CNN_E2V_BERT:
 		self.prediction = None
 		self.learning_rate = 1e-4
 		self.optimizer = None
-		self.train_epoch = 10000
-		self.batch_size = 512
+		self.train_epoch = 20000
+		self.batch_size = 256
 		# Tuning Hyperparameter
 		# Cross Validation 最大平均正確率
 		self.max_score = 0
@@ -54,9 +54,18 @@ class CNN_E2V_BERT:
 		self.keep_prob = tf.placeholder(dtype = tf.float32) # dropout
 		########################################
 		## convolution1 layer ##
+		W_conv1_0 = self.weight_variable([1, 1, 1, self.filter_n1], name = "W_conv1_0") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
+		b_conv1_0 = self.bias_variable([self.filter_n1], name = "b_conv1_0")
+		h_conv1_0 = tf.nn.relu(self.conv2d(self.x_image, W_conv1_0) + b_conv1_0) # output size 28*28*32
+		print(h_conv1_0.get_shape())
+		## pooling1 layer ##
+		h_pool1_0 = self.max_pool(h_conv1_0) # output size 14*14*32
+		print(h_pool1_0.get_shape())
+		########################################
+		## convolution1 layer ##
 		W_conv1_1 = self.weight_variable([2, 2, 1, self.filter_n1], name = "W_conv1_1") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
 		b_conv1_1 = self.bias_variable([self.filter_n1], name = "b_conv1_1")
-		h_conv1_1 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_1) + b_conv1_1) # output size 28*28*32
+		h_conv1_1 = tf.nn.relu(self.conv2d(self.x_image, W_conv1_1) + b_conv1_1) # output size 28*28*32
 		print(h_conv1_1.get_shape())
 		## pooling1 layer ##
 		h_pool1_1 = self.max_pool(h_conv1_1) # output size 14*14*32
@@ -64,7 +73,7 @@ class CNN_E2V_BERT:
 		########################################
 		W_conv1_2 = self.weight_variable([3, 3, 1, self.filter_n1], name = "W_conv1_2") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
 		b_conv1_2 = self.bias_variable([self.filter_n1], name = "b_conv1_2")
-		h_conv1_2 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_2) + b_conv1_2) # output size 28*28*32
+		h_conv1_2 = tf.nn.relu(self.conv2d(self.x_image, W_conv1_2) + b_conv1_2) # output size 28*28*32
 		print(h_conv1_2.get_shape())
 		## pooling1 layer ##
 		h_pool1_2 = self.max_pool(h_conv1_2) # output size 14*14*32
@@ -72,7 +81,7 @@ class CNN_E2V_BERT:
 		########################################
 		W_conv1_3 = self.weight_variable([4, 4, 1, self.filter_n1], name = "W_conv1_3") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
 		b_conv1_3 = self.bias_variable([self.filter_n1], name = "b_conv1_3")
-		h_conv1_3 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_3) + b_conv1_3) # output size 28*28*32
+		h_conv1_3 = tf.nn.relu(self.conv2d(self.x_image, W_conv1_3) + b_conv1_3) # output size 28*28*32
 		print(h_conv1_3.get_shape())
 		## pooling1 layer ##
 		h_pool1_3 = self.max_pool(h_conv1_3) # output size 14*14*32
@@ -80,7 +89,7 @@ class CNN_E2V_BERT:
 		########################################
 		W_conv1_4 = self.weight_variable([5, 5, 1, self.filter_n1], name = "W_conv1_4") # filter(patch or kernel) size = 5*5*1, filter 數量 = 32
 		b_conv1_4 = self.bias_variable([self.filter_n1], name = "b_conv1_4")
-		h_conv1_4 = tf.nn.tanh(self.conv2d(self.x_image, W_conv1_4) + b_conv1_4) # output size 28*28*32
+		h_conv1_4 = tf.nn.relu(self.conv2d(self.x_image, W_conv1_4) + b_conv1_4) # output size 28*28*32
 		print(h_conv1_4.get_shape())
 		## pooling1 layer ##
 		h_pool1_4 = self.max_pool(h_conv1_4) # output size 14*14*32
@@ -98,16 +107,17 @@ class CNN_E2V_BERT:
 		## fully connected layer ##
 		# [n_samples, 7, 7, 64] ->> [-1, 7*7*64]
 		## func1 layer
+		h_pool_flat_0 = tf.reshape(h_pool1_1, [-1, 3*768*self.filter_n1])
 		h_pool_flat_1 = tf.reshape(h_pool1_1, [-1, 3*768*self.filter_n1])
 		h_pool_flat_2 = tf.reshape(h_pool1_2, [-1, 3*768*self.filter_n1])
 		h_pool_flat_3 = tf.reshape(h_pool1_3, [-1, 3*768*self.filter_n1])
 		h_pool_flat_4 = tf.reshape(h_pool1_4, [-1, 3*768*self.filter_n1])
-		h_pool_flat_concatenate = tf.concat([h_pool_flat_1, h_pool_flat_2, h_pool_flat_3, h_pool_flat_4], axis = 1)
+		h_pool_flat_concatenate = tf.concat([h_pool_flat_0, h_pool_flat_1, h_pool_flat_2, h_pool_flat_3, h_pool_flat_4], axis = 1)
 		print(h_pool_flat_concatenate.get_shape())
-		W_fc1 = self.weight_variable([3*768*4*self.filter_n1, self.neural_node], name = "W_fc1")
+		W_fc1 = self.weight_variable([3*768*5*self.filter_n1, self.neural_node], name = "W_fc1")
 		b_fc1 = self.bias_variable([self.neural_node], name = "b_fc1")
 		h_pool_flat_drop = tf.nn.dropout(h_pool_flat_concatenate, self.keep_prob)
-		h_fc1 = tf.nn.tanh(tf.matmul(h_pool_flat_drop, W_fc1) + b_fc1)
+		h_fc1 = tf.nn.relu(tf.matmul(h_pool_flat_drop, W_fc1) + b_fc1)
 		print(h_fc1.get_shape())
 
 		## func2 layer
@@ -226,7 +236,7 @@ class CNN_E2V_BERT:
 		for epoch in range(self.train_epoch):
 			batch_xs, batch_ys = self.next_batch(num = self.batch_size, data = train_X, labels = train_y)
 			self.sess.run(self.optimizer, feed_dict = {self.xs: batch_xs, self.ys: batch_ys, self.keep_prob: 0.5})
-			if epoch % 1000 == 0:
+			if epoch % 2000 == 0:
 				batch_x, batch_y = self.next_batch(num = len(test_X), data = train_X, labels = train_y)
 				train_accuracy = self.compute_accuracy(batch_x, batch_y)
 				test_accuracy = self.compute_accuracy(test_X, test_y)

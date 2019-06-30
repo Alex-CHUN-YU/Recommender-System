@@ -56,11 +56,12 @@
     function query_movie($movie_id){
         $con = connect();
         $DisList = array();
-        $SQL_Command = sprintf("SELECT storyline FROM movies WHERE id = %s", $movie_id);
+        $SQL_Command = sprintf("SELECT storyline, link FROM movies WHERE id = %s", $movie_id);
         $result = mysqli_query($con, $SQL_Command);
          while($row = mysqli_fetch_array($result))
             {
                 array_push($DisList, $row["storyline"]);
+                array_push($DisList, $row["link"]);
             }
         mysqli_close($con);
         return $DisList;

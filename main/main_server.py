@@ -8,32 +8,98 @@ from bert_embedding import BertEmbedding
 import re
 from scipy.spatial import distance
 from cnn_e2v_bert import CNN_E2V_BERT
+from cnn_e2v_w2v_sg import CNN_E2V_W2V_SG
 # 主要負責將判斷結果傳回去
 class RecommenderSystem():
 	def __init__(self):
 		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
-		sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_bert FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 287 and b.scenario_e2v_bert !=''"
+		# sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_bert FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 287 and b.scenario_e2v_bert !=''"
+		sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_w2v_sg FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 287 and b.scenario_e2v_w2v_sg !=''"
 		print(sql)
 		self.cursor.execute(sql)
 		self.movies_information = self.cursor.fetchall()
-		# For Produce Vector
-		self.bert_embedding = BertEmbedding(model = 'bert_12_768_12', dataset_name='wiki_cn', max_seq_length = 50)
-		self.relationship_e2v_bert = []
-		self.scenario_e2v_bert = []
 		# Relationship Model
-		self.model = CNN_E2V_BERT()
-
+		#######################
+		# self.model = CNN_E2V_BERT()
+		# For Produce Vector
+		# self.bert_embedding = BertEmbedding(model = 'bert_12_768_12', dataset_name='wiki_cn', max_seq_length = 50)
+		# self.relationship_e2v_bert = []
+		# self.scenario_e2v_bert = []
+		#######################
+		self.model = CNN_E2V_W2V_SG()
+		# 產生一個 word2vec 物件
+		self.t = Word2Vec()
+		self.t.train_file_setting("segmentation.txt", "e2v_w2v_sg")
+		self.t.load_model()
+		self.dimension = self.t.size
+		self.relationship_e2v_w2v_sg = []
+		self.scenario_e2v_w2v_sg = []
 	def main(self, content_ner_tag):
-		self.vector_produce(content_ner_tag)
-		print(self.relationship_e2v_bert.shape)
-		print(self.scenario_e2v_bert.shape)
-		relationship_type = self.relationship_model(self.relationship_e2v_bert)
-		scenario_type = self.scenario_model(relationship_type, self.scenario_e2v_bert)
-		candidates = self.relationship_scenario_based_trailer_recommendation(str(relationship_type), str(scenario_type), self.scenario_e2v_bert)
+		self.bert_vector_produce(content_ner_tag)
+		print(self.relationship_e2v_w2v_sg.shape)
+		print(self.scenario_e2v_w2v_sg.shape)
+		relationship_type = self.relationship_model(self.relationship_e2v_w2v_sg)
+		scenario_type = self.scenario_model(relationship_type, self.scenario_e2v_w2v_sg)
+		candidates = self.relationship_scenario_based_trailer_recommendation(str(relationship_type), str(scenario_type), self.scenario_e2v_w2v_sg)
 		return candidates
 
-	def vector_produce(self, content_ner_tag):
+	def w2v_vector_produce(self, content_ner_tag):
+		self.relationship_e2v_w2v_sg = []
+		self.scenario_e2v_w2v_sg = []
+		sentences_ner_tag = content_ner_tag
+		po_vector = np.zeros(self.dimension)
+		em_vector = np.zeros(self.dimension)
+		ev_vector = np.zeros(self.dimension)
+		lo_vector = np.zeros(self.dimension)
+		ti_vector = np.zeros(self.dimension)
+		po_count = 0
+		em_count = 0
+		ev_count = 0
+		lo_count = 0
+		ti_count = 0
+		for sentence_ner_tag in sentences_ner_tag.split('@'):
+			for term_ner_tag in sentence_ner_tag.split(' '):
+				if " " not in term_ner_tag and term_ner_tag != "":
+					term = term_ner_tag.split(':')[0]
+					tag = term_ner_tag.split(':')[1]
+					entity_vector = self.t.term_to_vector(term)
+					if tag == 'none':
+						pass
+					elif tag == 'po':
+						po_vector += entity_vector
+						po_count += 1
+					elif tag == 'em':
+						em_vector += entity_vector
+						em_count += 1
+					elif tag == 'ev':
+						ev_vector += entity_vector
+						ev_count += 1
+					elif tag == 'lo':
+						lo_vector += entity_vector
+						lo_count += 1
+					elif tag == 'ti':
+						ti_vector += entity_vector
+						ti_count += 1					
+		if po_count == 0:
+			po_count = 1
+		if em_count == 0:
+			em_count = 1
+		if ev_count == 0:
+			ev_count = 1
+		if lo_count == 0:
+			lo_count = 1
+		if ti_count == 0:
+			ti_count = 1
+		self.relationship_e2v_w2v_sg = np.append(self.relationship_e2v_w2v_sg, po_vector/po_count)
+		self.relationship_e2v_w2v_sg = np.append(self.relationship_e2v_w2v_sg, em_vector/em_count)
+		self.relationship_e2v_w2v_sg = np.append(self.relationship_e2v_w2v_sg, ev_vector/ev_count)
+		self.relationship_e2v_w2v_sg = np.append(self.relationship_e2v_w2v_sg, lo_vector/lo_count)
+		self.relationship_e2v_w2v_sg = np.append(self.relationship_e2v_w2v_sg, ti_vector/ti_count)
+		self.scenario_e2v_w2v_sg = np.append(self.scenario_e2v_w2v_sg, em_vector/em_count)
+		self.scenario_e2v_w2v_sg = np.append(self.scenario_e2v_w2v_sg, ev_vector/ev_count)
+
+	def bert_vector_produce(self, content_ner_tag):
 		sentences_ner_tag = content_ner_tag
 		dimension = 768
 		self.relationship_e2v_bert = []

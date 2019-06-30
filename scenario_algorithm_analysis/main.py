@@ -32,8 +32,8 @@ class Scenario():
 		self.sum_w2v_w2v_sg_name = 'sum_w2v_w2v_sg'
 	def scenario(self):
 		# self.scenario_model_training(self.scenario_e2v_bert_name)
-		# self.scenario_model_training(self.scenario_e2v_w2v_sg_name)
-		self.scenario_model_training(self.sum_w2v_w2v_sg_name)
+		self.scenario_model_training(self.scenario_e2v_w2v_sg_name)
+		# self.scenario_model_training(self.sum_w2v_w2v_sg_name)
 	# 主要將資料進行分析，選擇出適合的演算法，以及儲存每個演算法 model 和使用到的參數(Parameter)與它的精確性
 	def scenario_model_training(self, feature_type):
 		# 1~7 可指定(目前只針對1~6) 另外此部分主要對應過去就是 label 代號

@@ -18,7 +18,7 @@
 			<div class="form-group">
 				<label for="movie1_content" class="col-sm-2 control-label"><font color="white">系統說明</font></label>
 				<div class="col-sm-8">
-					<textarea rows="3" class="form-control" id="article" name="article" readonly>整體的系統分為兩大部分(一篇文章與對應的五篇故事情節), 標記過程中請不要考慮個人篇好的電影, 僅考慮故事情節本身描述的關係與情境!</textarea>
+					<textarea rows="3" class="form-control" id="article" name="article" readonly>整體的系統分為兩大部分(一篇文章與對應的五篇故事情節), 標記過程中請考慮當閱讀此文章時會想看的電影, 並考慮故事情節本身描述的關係與情境!</textarea>
 				</div>
 			</div>
 			<div class="form-group">

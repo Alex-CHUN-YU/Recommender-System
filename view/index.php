@@ -122,7 +122,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 					console.log(response);
 					for (order = 1; order <= 3; order++) {
 						song = response[order];
-						replaceRecommendSong(order, song);
+						replaceRecommendTrailer(order, song);
 					}
 					
 					//remove loading gif
@@ -149,7 +149,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 		$('#testinput-3').bind("click", {tid:3}, alterTestingInput);
 	});
 	
-	function replaceRecommendSong(order, song){
+	function replaceRecommendTrailer(order, song){
 		console.log(song.hasOwnProperty('artist'));
 		console.log(song.hasOwnProperty('trailer_name'));
 		console.log(song.hasOwnProperty('link'));

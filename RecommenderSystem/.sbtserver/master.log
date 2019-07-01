@@ -1,5 +1,5 @@
-New log file opened at Mon Jul 01 07:30:40 CST 2019 by 15216@DESKTOP-00UHQEK
-jvm 15216@DESKTOP-00UHQEK
+New log file opened at Mon Jul 01 12:22:49 CST 2019 by 14928@DESKTOP-00UHQEK
+jvm 14928@DESKTOP-00UHQEK
 jvm vmName=Java HotSpot(TM) 64-Bit Server VM vmVendor=Oracle Corporation vmVersion=25.181-b13
 jvm specName=Java Virtual Machine Specification specVendor=Oracle Corporation specVersion=1.8
 jvm arguments: [-Xms256m, -Xmx1024m, -XX:MetaspaceSize=64m, -XX:MaxMetaspaceSize=256m]
@@ -27,7 +27,7 @@ sorting: ns: List(sbt.plugins.CorePlugin, sbt.plugins.IvyPlugin, sbt.plugins.Jvm
   :: sorted deduced result: List(sbt.plugins.CorePlugin, sbt.plugins.IvyPlugin, sbt.plugins.JvmPlugin, sbt.plugins.JUnitXmlReportPlugin)
 [Loading] Done in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\project, returning: (recommendersystem-build)
 Loading project definition from C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\project
-Running task... Cancel: sbt.TaskCancellationStrategy$Null$@11d3fe8b, check cycles: false
+Running task... Cancel: sbt.TaskCancellationStrategy$Null$@719a6bcb, check cycles: false
 
 Initial source changes: 
 	removed:Set()
@@ -67,3 +67,10 @@ Set current project to RecommenderSystem (in build file:/C:/Users/alex/Desktop/P
 > iflast shell
 > server-send-ready-for-request
 > server-handle-next-server-request
+Done executing sbt server engine, result Right(Exit(0))
+Closing listening server socket
+Waiting for socket thread
+Waiting for request processor thread
+Waiting for command engine result
+Returning control to sbt launcher with result Exit(0)
+Closing the 14928@DESKTOP-00UHQEK logs at Mon Jul 01 12:37:50 CST 2019, goodbye.

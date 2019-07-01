@@ -77,6 +77,11 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 							<p id="storyline3" class="result-lyrics col-md-6 col-sm-12"></p>
 						</div>
 					</div>
+					<!--visualization 12/7-->
+					<div id="graph-area" class="col-md-12 area">
+						<p class="semi-title"><font color="white" size="6"><b>事件鏈 Event Chain</b></font></p>
+						<div id="show-graph" class="show-area"></div>
+					</div>
 					<!--<div class="col-md-12 col-sm-12 result-blk">
 						<div class="result-card">
 							<div class="result-rank">4</div>
@@ -98,6 +103,8 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 		</div>
 	</div>
 	</body>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./graph.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" crossorigin="anonymous" type="text/javascript"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script>
@@ -120,6 +127,11 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 				success: function(response) { // on success..
 					console.log("success!");
 					console.log(response);
+					var title = "測試程式";
+					var tlist = ['明天', '等等'];
+					var pnlist = ['人類', '動物'];
+					var selist = ['打人', '測試'];
+					showGraph(title, tlist, pnlist, selist);
 					for (order = 1; order <= 3; order++) {
 						song = response[order];
 						replaceRecommendTrailer(order, song);

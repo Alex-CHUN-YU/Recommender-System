@@ -1,4 +1,4 @@
-New log file opened at Mon Jul 01 12:20:01 CST 2019 by 14328@DESKTOP-00UHQEK
+New log file opened at Mon Jul 01 15:35:53 CST 2019 by 4160@DESKTOP-00UHQEK
 == resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna;4.1.0 [runtime->compile]
 == resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna-platform;4.1.0 [runtime->runtime(*)]
 == resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna-platform;4.1.0 [runtime->compile]
@@ -4693,7 +4693,7 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.11;2.3.8!akka-actor_2.11.jar
 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.3.8!akka-testkit_2.11.jar
 	[NOT REQUIRED] com.typesafe#config;1.2.1!config.jar(bundle)
-:: resolution report :: resolve 2743ms :: artifacts dl 126ms
+:: resolution report :: resolve 2339ms :: artifacts dl 103ms
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT compile produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-compile.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT runtime produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-runtime.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT test produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-test.xml
@@ -4708,21 +4708,27 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT pom produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-pom.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT scala-tool produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-scala-tool.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT fork-run produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-fork-run.xml
-	resolve done (2743ms resolve - 126ms download)
+	resolve done (2339ms resolve - 103ms download)
 Read from stdout: Done updating.
 Done updating.
-Total time: 4 s, completed 2019/7/1 下午 12:20:02
+Total time: 3 s, completed 2019/7/1 下午 03:35:55
 > server-post-command-cleanup
 > server-handle-next-server-request
 > root/playForkNotifyStart http://localhost:9000
 Evaluating tasks: *:playForkNotifyStart
-Running task... Cancel: sbt.server.ServerTaskCancellation@cf17fe3, check cycles: false
-Total time: 0 s, completed 2019/7/1 下午 12:20:04
+Running task... Cancel: sbt.server.ServerTaskCancellation@73e9886a, check cycles: false
+Total time: 0 s, completed 2019/7/1 下午 03:35:56
 > server-post-command-cleanup
 > server-handle-next-server-request
 > {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root/*:playForkReload
 Evaluating tasks: *:playForkReload
-Running task... Cancel: sbt.server.ServerTaskCancellation@28062efc, check cycles: false
+Running task... Cancel: sbt.server.ServerTaskCancellation@6c85c281, check cycles: false
+SLF4J: The following set of substitute loggers may have been accessed
+SLF4J: during the initialization phase. Logging calls during this
+SLF4J: phase were not honored. However, subsequent logging calls to these
+SLF4J: loggers will work as normally expected.
+SLF4J: See also http://www.slf4j.org/codes.html#substituteLogger
+SLF4J: org.webjars.WebJarExtractor
 
 Initial source changes: 
 	removed:Set()
@@ -4746,9 +4752,9 @@ Read from stdout: Note: C:\Users\alex\Desktop\Project\backup\Recommender-System\
 Note: C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\controllers\MainController.java uses unchecked or unsafe operations.
 Read from stdout: Note: Recompile with -Xlint:unchecked for details.
 Note: Recompile with -Xlint:unchecked for details.
-Java compilation took 1.256632412 s
-Java analysis took 0.027003185 s
-Java compile + analysis took 1.305935232 s
+Java compilation took 1.129473464 s
+Java analysis took 0.028796687 s
+Java compile + analysis took 1.182329035 s
 New invalidations:
 	Set()
 Initial set of included nodes: Set()
@@ -4790,7 +4796,7 @@ Copy resource mappings:
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\kinship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\kinship.list)
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\romantic_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\romantic_relationship.list)
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\teacher_student_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\teacher_student_relationship.list)
-Total time: 2 s, completed 2019/7/1 下午 12:21:21
+Total time: 2 s, completed 2019/7/1 下午 03:36:24
 > server-post-command-cleanup
 > server-handle-next-server-request
 Done executing sbt server engine, result Right(Exit(0))
@@ -4799,4 +4805,4 @@ Waiting for socket thread
 Waiting for request processor thread
 Waiting for command engine result
 Returning control to sbt launcher with result Exit(0)
-Closing the 14328@DESKTOP-00UHQEK logs at Mon Jul 01 12:22:43 CST 2019, goodbye.
+Closing the 4160@DESKTOP-00UHQEK logs at Mon Jul 01 15:38:39 CST 2019, goodbye.

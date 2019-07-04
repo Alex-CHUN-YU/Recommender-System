@@ -13,10 +13,10 @@
 	// 	echo "<script> alert('NO ID!'); </script>";
 	// }
 	if(isset($_POST['user_name']) and !empty($_POST['user_name'])){
-		for ($id = 1; $id <= 5; $id++) {
+		for ($id = 1; $id <= 60; $id++) {
 			$DisList = query_id($id);
 			if (query_user_score($_POST['user_name'], $DisList[0], $DisList[1])) {
-				if($id == 5) {?>
+				if($id == 60) {?>
 					<script>url="annotation_view1.php";window.location.href="annotation_view2.php";</script>
 				<?php
 				}
@@ -29,7 +29,7 @@
 				$_POST['score3'] = "";
 				$_POST['score4'] = "";
 				$_POST['score5'] = "";
-				if($id == 5) {?>
+				if($id == 60) {?>
 					<script>url="annotation_view1.php";window.location.href="annotation_view2.php";</script>
 				<?php
 				}

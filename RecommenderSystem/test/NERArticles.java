@@ -30,7 +30,7 @@ public class NERArticles {
         int titleRelationshipSum = 0;
         int titleRelationshipCount;
         int titleLabelSum = 0;
-        for (int id = 150001; id <= 221269; id++) {
+        for (int id = 1; id <= 221269; id++) {
             String titleParser = "";
             String contentParser = "";
             ResultSet articleResult = mysqlDatabaseController.execSelect(
@@ -51,20 +51,20 @@ public class NERArticles {
                 // General Features Generation.
                 generalFeaturesExtractor.produceGenerationFeatures(titleParser);
                 String titleNER = generalFeaturesExtractor.getNERResult();
+//                String emotions = generalFeaturesExtractor.getEmotionsResult();
+//                String events = generalFeaturesExtractor.getEventsResult();
+//                String personObject = generalFeaturesExtractor.getPersonObjectsResult();
+//                String time = generalFeaturesExtractor.getTimeResult();
+//                String location = generalFeaturesExtractor.getLocationResult();
+                System.out.println("Title NER:" + titleNER);
+                generalFeaturesExtractor.produceGenerationFeatures(contentParser);
+                String contentNER = generalFeaturesExtractor.getNERResult();
+                String contentNERTag = generalFeaturesExtractor.getNERResultTag();
                 String emotions = generalFeaturesExtractor.getEmotionsResult();
                 String events = generalFeaturesExtractor.getEventsResult();
                 String personObject = generalFeaturesExtractor.getPersonObjectsResult();
                 String time = generalFeaturesExtractor.getTimeResult();
                 String location = generalFeaturesExtractor.getLocationResult();
-                System.out.println("Title NER:" + titleNER);
-                generalFeaturesExtractor.produceGenerationFeatures(contentParser);
-                String contentNER = generalFeaturesExtractor.getNERResult();
-                String contentNERTag = generalFeaturesExtractor.getNERResultTag();
-                emotions += generalFeaturesExtractor.getEmotionsResult();
-                events += generalFeaturesExtractor.getEventsResult();
-                personObject += generalFeaturesExtractor.getPersonObjectsResult();
-                time += generalFeaturesExtractor.getTimeResult();
-                location += generalFeaturesExtractor.getLocationResult();
                 System.out.println("Content NER:" + contentNER);
                 // Scenario Features Generation.
                 ScenarioFeaturesExtractor scenarioFeaturesExtractor = new ScenarioFeaturesExtractor();
@@ -158,4 +158,5 @@ public class NERArticles {
 //        // 印出統計結果
 //        generalFeaturesExtractor.printStatisticResult();
     }
+
 }

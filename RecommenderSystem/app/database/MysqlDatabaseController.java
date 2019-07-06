@@ -100,7 +100,7 @@ public class MysqlDatabaseController {
     public void execInsert(String tableName, SqlObject obj) {
         String sql = "INSERT INTO " + tableName + " (" + obj.getColumnNameString() + ")"
                 + " VALUES (" + obj.getColumnValueString() + ");";
-        // System.out.println(sql);
+        System.out.println(sql);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();

@@ -114,23 +114,26 @@ public class GeneralFeaturesExtractor {
                 if (eventPresence) {
                     completeTaskProcess();
                 }
+                int index = 0;
                 for (Quad r : NERCandidateWordList) {
                     // System.out.println(r.getSegmentWord() + ":" + r.getNER() + ":" + r.getTagging() + ":" + r.getThematicRole());
                     boolean f = false;
                     String result = r.getSegmentWord().toString();
                     length += result.length();
-                    for (String s : stopWords.getLineList()) {
-                        if (result.equals(s)) {
-                            f = true;
-                            break;
-                        }
-                    }
+//                    for (String s : stopWords.getLineList()) {
+//                        if (result.equals(s)) {
+//                            f = true;
+//                            break;
+//                        }
+//                    }
                     // 透過辭典來過濾部必要的詞彙(改成 false 才算是有讀辭典)
                     boolean co = false;
                     boolean lo = false;
                     boolean ti = false;
                     boolean em = false;
                     boolean ev = false;
+                    result = clearNotChinese(result);
+                    result = result.replaceAll(" ", "");
                     // 非 Stop word 在進入
                     if (!f && !result.equals("")) {
                         this.NERResult += result + " ";
@@ -142,7 +145,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (co) {
-                                this.NERResultTag = this.NERResultTag + result + ":po ";
+                                this.NERResultTag = this.NERResultTag + result + ":po:" + index + ":" + result.length() + " ";
                                 personObjects += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.TIME)) {
@@ -153,7 +156,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (ti) {
-                                this.NERResultTag = this.NERResultTag + result + ":ti ";
+                                this.NERResultTag = this.NERResultTag + result + ":ti:" + index + ":" + result.length() + " ";
                                 time += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.LOCATION)) {
@@ -164,7 +167,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (lo) {
-                                this.NERResultTag = this.NERResultTag + result + ":lo ";
+                                this.NERResultTag = this.NERResultTag + result + ":lo:" + index + ":" + result.length() + " ";
                                 location += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.EVENT)) {
@@ -175,7 +178,7 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (ev) {
-                                this.NERResultTag = this.NERResultTag + result + ":ev ";
+                                this.NERResultTag = this.NERResultTag + result + ":ev:" + index + ":" + result.length() + " ";
                                 events += result + " ";
                             }
                         } else if (r.getNER().equals(ModuleConstant.STATE)) {
@@ -186,13 +189,14 @@ public class GeneralFeaturesExtractor {
                                 }
                             }
                             if (em) {
-                                this.NERResultTag = this.NERResultTag + result + ":em ";
+                                this.NERResultTag = this.NERResultTag + result + ":em:" + index + ":" + result.length() + " ";
                                 emotions += result + " ";
                             }
                         }
                         if (!co & !em & !ev & !ti & !lo) {
-                            this.NERResultTag = this.NERResultTag + result + ":none ";
+                            this.NERResultTag = this.NERResultTag + result + ":none:" + index + ":" + result.length() + " ";
                         }
+                        index += result.length();
 //                        // Statistic
 //                        if (r.getNER().equals(ModuleConstant.PERSON_OBJECT)) {
 //                            if (r.getTagging().equals("Na")) {
@@ -321,6 +325,29 @@ public class GeneralFeaturesExtractor {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Clear not chinese.
+     * @param buff sentence
+     * @return reuslt
+     */
+    private String clearNotChinese(String buff){
+
+        String tmpString =buff.replaceAll("(?i)[^a-zA-Z0-9\u4E00-\u9FA5]", "");//去掉所有中英文符号
+
+        char[] carr = tmpString.toCharArray();
+
+        for(int i = 0; i<tmpString.length();i++){
+
+            if(carr[i] < 0xFF){
+
+                carr[i] = ' ' ;//过滤掉非汉字内容
+
+            }
+        }
+        return String.copyValueOf(carr).trim();
+
     }
 
     /**

@@ -8058,3 +8058,22 @@ Sending msg to client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef: Detach
 Sending msg to client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef: DetachedLogEvent(LogMessage(debug,> server-send-ready-for-request))
 Sending msg to client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef: BuildLoaded()
 Sending msg to client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef: DetachedLogEvent(LogMessage(debug,> server-handle-next-server-request))
+Got request: UnlistenToEvents()
+Reading next message from client.
+Sending msg to client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef: (4,ReceivedResponse())
+Got request: ListenToValue(AttributeKey[play.forkrun.protocol.ForkConfig]("playForkConfig") in Scope(Build: file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/, , Project: ProjectReference(file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/,root)))
+Reading next message from client.
+Got request: UnlistenToValue(AttributeKey[play.forkrun.protocol.ForkConfig]("playForkConfig") in Scope(Build: file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/, , Project: ProjectReference(file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/,root)))
+Reading next message from client.
+Got request: ListenToValue(AttributeKey[play.runsupport.Reloader$CompileResult]("playForkReload") in Scope(Build: file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/, , Project: ProjectReference(file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/,root)))
+Reading next message from client.
+Got request: UnlistenToValue(AttributeKey[play.runsupport.Reloader$CompileResult]("playForkReload") in Scope(Build: file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/, , Project: ProjectReference(file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/,root)))
+Reading next message from client.
+Client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef closed, java.net.SocketException: Software caused connection abort: recv failed, shutting down
+Stopping client.
+Client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef thread exiting.
+Dropping message (5,ReceivedResponse()) to dead client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef
+Dropping message (6,ReceivedResponse()) to dead client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef
+Dropping message (7,ReceivedResponse()) to dead client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef
+Dropping message (8,ReceivedResponse()) to dead client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef
+Dropping message (0,ReceivedResponse()) to dead client play-fork-run-900a3e17-2e10-4e44-96c1-572b342eb0ef

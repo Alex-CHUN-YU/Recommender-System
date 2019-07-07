@@ -10,7 +10,7 @@ import re
 class E2V_BERT:
 	# init
 	def __init__(self):
-		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
+		self.db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
 		self.articles_ner_tag = []
 		self.movies_ner_tag = []

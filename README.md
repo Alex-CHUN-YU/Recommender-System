@@ -22,6 +22,8 @@ scenario classifier 訓練(scenario_algorithm_analysis) > 供給 server 存取(m
 目的：訓練 scenario 模型(KNN, NB, SVM, RFC)
 ### main_embedding
 目的：針對 Entity2Vec-BERT, Entity2Vec-W2V-SG, Word2Vec-W2V-SG(baseline)
+### rstr_evaluation
+目的：給予評分項目，產生評估結果
 ### knowledge base
 目的：產生 relationship lexicon(person), emotion lexicon(emotion), time lexicon(time), location lexicon(location)and event 辭典 
 ### article(Dcard Mood)
@@ -32,9 +34,9 @@ scenario classifier 訓練(scenario_algorithm_analysis) > 供給 server 存取(m
 目的：測試資料用
 
 ## View
-### view
+### rstr_view
 目的：推薦系統視覺化
-### evaluate
+### rstr_view_evaluation
 目的：評估系統
 
 

@@ -116,29 +116,15 @@ class RecommenderSystem():
 			if sentences_ner_tag != "":
 				sentence = ""
 				entity_type_position_length_in_sentence = []
-				position = 0
 				for term_ner_tag in sentence_ner_tag.split(' '):
 					if " " not in term_ner_tag and term_ner_tag != "":
-						term = term_ner_tag.split(':')[0]
-						tag = term_ner_tag.split(':')[1]
-						# 由於連續的英文或數字會在 bert embedding 變成一個字故必須做此處理
-						en_re = re.compile(r'[A-Za-z]')
-						chi = True
-						length = 0
-						for t in term:							
-							if bool(re.match(en_re, t)) or t.isdigit():
-								chi = False
-							else:
-								if chi != True:
-									length += 2
-									chi = True
-								else:
-									length += 1
-						if chi != True:
-							length += 1
+						term_ner_tag = term_ner_tag.split(':')
+						term = term_ner_tag[0]
+						tag = term_ner_tag[1]
+						position = int(term_ner_tag[2])
+						length = int(term_ner_tag[3])
 						entity_type_position_length_in_sentence.append([term, tag, position, length])
 						sentence += term
-						position += length
 				sentences.append(sentence)
 				# print(len(entity_type_position_length_in_sentence))
 				entity_type_position_length_in_sentences.append(entity_type_position_length_in_sentence)

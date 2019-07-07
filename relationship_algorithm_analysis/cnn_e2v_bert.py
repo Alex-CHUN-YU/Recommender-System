@@ -139,8 +139,8 @@ class CNN_E2V_BERT:
 		# neu = [300]
 		# fil = [70, 90, 110, 130]
 		# neu = [350, 400, 450, 500]
-		fil = [8]
-		neu = [128]
+		fil = [4, 8, 16, 24, 36, 40, 44]
+		neu = [32, 64, 128, 256, 512]
 		# 將不同 hyperparameter 每次 cross validation 平均 Accuracy 記錄下來
 		parameters_socre = []
 		for f in fil:

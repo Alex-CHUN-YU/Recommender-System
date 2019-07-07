@@ -21,11 +21,11 @@ class E2V_BERT:
 		# 透過 bert embedding 產生向量並將生成的 relationship feature 和 scenario feature 存入		
 		self.load_data()
 		self.extract_vector_and_save_vector(dimension = 768)
-		self.produce_entity_vector_table()
+		# self.produce_entity_vector_table()
 	# load data
 	def load_data(self):
 		# articles ner 221269
-		self.cursor.execute("SELECT a.id, a.content_ner_tag FROM articles_ner as a, articles as b Where a.id = b.id and a.id >= 1 and a.id <= 221269 and b.relationship_type != ''")
+		self.cursor.execute("SELECT a.id, a.content_ner_tag FROM articles_ner as a, articles as b Where a.id = b.id and a.id >= 61844 and a.id <= 221269 and b.relationship_type != ''")
 		self.articles_ner_tag = self.cursor.fetchall()
 		# movies ner 3722
 		self.cursor.execute("SELECT a.id, a.storyline_ner_tag FROM movies_ner as a, movies as b Where a.id = b.id and a.id >= 1 and a.id <= 3722 and b.scenario_type != ''")
@@ -48,29 +48,16 @@ class E2V_BERT:
 				if sentences_ner_tag != "":
 					sentence = ""
 					entity_type_position_length_in_sentence = []
-					position = 0
 					for term_ner_tag in sentence_ner_tag.split(' '):
 						if " " not in term_ner_tag and term_ner_tag != "":
-							term = term_ner_tag.split(':')[0]
-							tag = term_ner_tag.split(':')[1]
-							# 由於連續的英文或數字會在 bert embedding 變成一個字故必須做此處理
-							en_re = re.compile(r'[A-Za-z]')
-							chi = True
-							length = 0
-							for t in term:							
-								if bool(re.match(en_re, t)) or t.isdigit():
-									chi = False
-								else:
-									if chi != True:
-										length += 2
-										chi = True
-									else:
-										length += 1
-							if chi != True:
-								length += 1
+							# print(term_ner_tag)
+							term_ner_tag = term_ner_tag.split(':')
+							term = term_ner_tag[0]
+							tag = term_ner_tag[1]
+							position = int(term_ner_tag[2])
+							length = int(term_ner_tag[3])
 							entity_type_position_length_in_sentence.append([term, tag, position, length])
 							sentence += term
-							position += length
 					sentences.append(sentence)
 					# print(len(entity_type_position_length_in_sentence))
 					entity_type_position_length_in_sentences.append(entity_type_position_length_in_sentence)
@@ -118,7 +105,8 @@ class E2V_BERT:
 					elif entity[1] == 'ti':
 						ti_vector += entity_vector
 						ti_count += 1
-					self.entity_and_vector.append([entity[0], entity_vector])
+					# 建立 Bert Table
+					# self.entity_and_vector.append([entity[0], entity_vector])
 				print(po_vector[:5])
 				print(em_vector[:5])
 				print(ev_vector[:5])
@@ -167,29 +155,14 @@ class E2V_BERT:
 				if sentence_ner_tag != "":
 					sentence = ""
 					entity_type_position_length_in_sentence = []
-					position = 0
 					for term_ner_tag in sentence_ner_tag.split(' '):
-						if " " not in term_ner_tag and term_ner_tag != "":
-							term = term_ner_tag.split(':')[0]
-							tag = term_ner_tag.split(':')[1]
-							# 由於連續的英文或數字會在 bert embedding 變成一個字故必須做此處理
-							en_re = re.compile(r'[A-Za-z]')
-							chi = True
-							length = 0
-							for t in term:							
-								if bool(re.match(en_re, t)) or t.isdigit():
-									chi = False
-								else:
-									if chi != True:
-										length += 2
-										chi = True
-									else:
-										length += 1
-							if chi != True:
-								length += 1
+							term_ner_tag = term_ner_tag.split(':')
+							term = term_ner_tag[0]
+							tag = term_ner_tag[1]
+							position = int(term_ner_tag[2])
+							length = int(term_ner_tag[3])
 							entity_type_position_length_in_sentence.append([term, tag, position, length])
 							sentence += term
-							position += length
 					sentences.append(sentence)
 					# print(len(entity_type_position_length_in_sentence))
 					entity_type_position_length_in_sentences.append(entity_type_position_length_in_sentence)
@@ -228,7 +201,7 @@ class E2V_BERT:
 						pass
 					elif entity[1] == 'ti':
 						pass
-					self.entity_and_vector.append([entity[0], entity_vector])
+					# self.entity_and_vector.append([entity[0], entity_vector])
 				print(em_vector[:5])
 				print(ev_vector[:5])
 			# print(em_count)

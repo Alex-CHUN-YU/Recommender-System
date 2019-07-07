@@ -1,1 +1,0 @@
-{"hyperparameter": [{"neural_node": 128, "filter_n1": 24}], "scoring": [{"max accuracy": 0.8508792519569397, "average accuracy": 0.8405824899673462, "best epoch": 10000.0}]}

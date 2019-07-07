@@ -6,7 +6,7 @@ from scipy.spatial import distance
 # System Experiments
 class SystemExperiment:
 	def __init__(self):
-		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
+		self.db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
 		# system type 1
 		self.movies_sum_w2v_w2v_sg_vector_relationship_dic = {}

@@ -92,6 +92,22 @@ public class MainController extends Controller {
                     trailer.put("link", readMovieDetailer.getLink());
                     trailer.put("storyline", readMovieDetailer.getStoryline());
                     trailers.put(Integer.toString(id + 1), trailer);
+                    if (id == 0) {
+                        JSONObject eventChain = new JSONObject();
+                        System.out.println("Detail:");
+                        System.out.println(readMovieDetailer.getCharacter());
+                        System.out.println(readMovieDetailer.getEmotion());
+                        System.out.println(readMovieDetailer.getEvent());
+                        System.out.println(readMovieDetailer.getLocation());
+                        System.out.println(readMovieDetailer.getTime());
+                        eventChain.put("title", readMovieDetailer.getName());
+                        eventChain.put("character", readMovieDetailer.getCharacter());
+                        eventChain.put("emotion", readMovieDetailer.getEmotion());
+                        eventChain.put("event", readMovieDetailer.getEvent());
+                        eventChain.put("location", readMovieDetailer.getLocation());
+                        eventChain.put("time", readMovieDetailer.getTime());
+                        trailers.put(Integer.toString(4), eventChain);
+                    }
                 }
             }
         } catch (Exception e) {

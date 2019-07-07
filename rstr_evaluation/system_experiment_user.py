@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 class SystemEvaluationUser:
 	# init
 	def __init__(self):
-		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
+		self.db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
 	def system_evaluation_user(self):
 		self.whole_evaluation()

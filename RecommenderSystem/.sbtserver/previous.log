@@ -1,4 +1,4 @@
-New log file opened at Sun Jul 07 14:02:32 CST 2019 by 17396@DESKTOP-00UHQEK
+New log file opened at Sun Jul 07 17:11:41 CST 2019 by 18160@DESKTOP-00UHQEK
 == resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna;4.1.0 [runtime->compile]
 == resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna-platform;4.1.0 [runtime->runtime(*)]
 == resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna-platform;4.1.0 [runtime->compile]
@@ -4693,7 +4693,7 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.11;2.3.8!akka-actor_2.11.jar
 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.3.8!akka-testkit_2.11.jar
 	[NOT REQUIRED] com.typesafe#config;1.2.1!config.jar(bundle)
-:: resolution report :: resolve 2970ms :: artifacts dl 128ms
+:: resolution report :: resolve 2214ms :: artifacts dl 99ms
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT compile produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-compile.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT runtime produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-runtime.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT test produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-test.xml
@@ -4708,16 +4708,85 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT pom produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-pom.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT scala-tool produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-scala-tool.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT fork-run produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-fork-run.xml
-	resolve done (2970ms resolve - 128ms download)
+	resolve done (2214ms resolve - 99ms download)
 Read from stdout: Done updating.
 Done updating.
-Total time: 4 s, completed 2019/7/7 下午 02:02:34
+Total time: 3 s, completed 2019/7/7 下午 05:11:43
 > server-post-command-cleanup
 > server-handle-next-server-request
 > root/playForkNotifyStart http://localhost:9000
 Evaluating tasks: *:playForkNotifyStart
-Running task... Cancel: sbt.server.ServerTaskCancellation@11799c06, check cycles: false
-Total time: 0 s, completed 2019/7/7 下午 02:02:37
+Running task... Cancel: sbt.server.ServerTaskCancellation@25c6fe1e, check cycles: false
+Total time: 0 s, completed 2019/7/7 下午 05:11:44
+> server-post-command-cleanup
+> server-handle-next-server-request
+> {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root/*:playForkReload
+Evaluating tasks: *:playForkReload
+Running task... Cancel: sbt.server.ServerTaskCancellation@8fa8224, check cycles: false
+
+Initial source changes: 
+	removed:Set()
+	added: Set()
+	modified: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\read_write_file\ReadMovieDetailer.java)
+Removed products: Set()
+External API changes: API Changes: Set()
+Modified binary dependencies: Set()
+Initial directly invalidated sources: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\read_write_file\ReadMovieDetailer.java)
+
+Sources indirectly invalidated by:
+	product: Set()
+	binary dep: Set()
+	external source: Set()
+All initially invalidated sources: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\read_write_file\ReadMovieDetailer.java)
+
+Read from stdout: Compiling 1 Java source to C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes...
+Compiling 1 Java source to C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes...
+Warning: node.js detection failed, sbt will use the Rhino based Trireme JavaScript engine instead to run JavaScript assets compilation, which in some cases may be orders of magnitude slower than using node.js.
+Java compilation took 0.957281065 s
+Java analysis took 0.080256878 s
+Java compile + analysis took 1.059650086 s
+New invalidations:
+	Set()
+Initial set of included nodes: Set()
+Previously invalidated, but (transitively) depend on new invalidations:
+	Set()
+All newly invalidated sources after taking into account (previously) recompiled sources:Set()
+Copy resource mappings: 
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\application.conf,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\application.conf)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\databaseConfiguration.properties,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\databaseConfiguration.properties)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\logback.xml,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\logback.xml)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\routes,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\routes)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\character_object.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\character_object.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\duplication_filter.py,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\duplication_filter.py)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\emotion.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\emotion.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\event.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\event.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\location.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\location.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\stopwords.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\stopwords.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\filter\time.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\filter\time.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\COMPLEX_EVENT_RULE.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\COMPLEX_EVENT_RULE.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\EVENT_RULE.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\EVENT_RULE.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\LOCATION_RULE.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\LOCATION_RULE.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\NER_TEST.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\NER_TEST.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\PERSON_OBJECT_RULE.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\PERSON_OBJECT_RULE.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\STATE_RULE.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\STATE_RULE.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\parser_rule\TIME_RULE.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\parser_rule\TIME_RULE.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule\action.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule\action.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule\NER_TEST.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule\NER_TEST.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule\object.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule\object.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule\when.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule\when.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule\where.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule\where.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\pos_tagging_rule\who.txt,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\pos_tagging_rule\who.txt)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\business_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\business_relationship.list)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\friendship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\friendship.list)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\kinship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\kinship.list)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\romantic_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\romantic_relationship.list)
+	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\teacher_student_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\teacher_student_relationship.list)
+Total time: 2 s, completed 2019/7/7 下午 05:12:39
 > server-post-command-cleanup
 > server-handle-next-server-request
 Done executing sbt server engine, result Right(Exit(0))
@@ -4726,4 +4795,4 @@ Waiting for socket thread
 Waiting for request processor thread
 Waiting for command engine result
 Returning control to sbt launcher with result Exit(0)
-Closing the 17396@DESKTOP-00UHQEK logs at Sun Jul 07 14:05:13 CST 2019, goodbye.
+Closing the 18160@DESKTOP-00UHQEK logs at Sun Jul 07 17:14:28 CST 2019, goodbye.

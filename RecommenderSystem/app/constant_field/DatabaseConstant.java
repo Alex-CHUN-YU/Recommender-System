@@ -54,6 +54,8 @@ public class DatabaseConstant {
     // Movies NER Table Name
     public static String MOVIES_NER = "movies_ner";
     // Column Name
+    public static String MOVIES_NER_TAG = "storyline_ner_tag";
+    // Column Name
     public static String STORYLINE_NER = "storyline_ner";
     public static String STORYLINE_NER_Tag = "storyline_ner_tag";
     public static String FILM_EMOTIONS = "emotion";

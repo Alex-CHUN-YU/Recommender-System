@@ -1,48 +1,64 @@
 //visualization 12/7
-function showGraph(title, tlist, pnlist, selist){
-	var graphArea = $("#show-graph");
-	//graphArea.empty();
-	d3.select("body").selectAll("svg").remove();
-	var w = 1500;
+function showGraph(title, clist, emlist, evlist, llist, tlist){
+  var graphArea = $("#show-graph");
+  //graphArea.empty();
+  d3.select("body").selectAll("svg").remove();
+  var w = 1500;
     var h = 800;
     var linkDistance=200;
-	
-	pnlist = d3.set(pnlist);
-	tlist = d3.set(tlist);
-	var dataset = {
-		'people':new Array(),
-		'time':new Array(),
-		'nodes':[{name: title, type: "none"}],
-		'edges': new Array()
+  
+  clist = d3.set(clist);
+  tlist = d3.set(tlist);
+  emlist = d3.set(emlist);
+  llist = d3.set(llist);
+  var dataset = {
+    'people':new Array(),
+    'time':new Array(),
+    'emotion':new Array(),
+    'location':new Array(),
+    'nodes':[{name: title, type: "none"}],
+    'edges': new Array()
     };
-	list2node(dataset, selist, "event");
-	list2node(dataset, pnlist, "person");
-	list2node(dataset, tlist, "time");
-	dataset['nodes'].forEach(function(entry, i) 
-	{
-		var singleObj = {};
-		switch(entry.type)
-		{
-			case 'event':
-				singleObj['source'] = i-1;
-				singleObj['target'] = i;
-				dataset['edges'].push(singleObj);
-				break;
-			case 'person':
-				singleObj['source'] = 0;
-				singleObj['target'] = i;
-				dataset['edges'].push(singleObj);
-				break;
-			case 'time':
-				singleObj['source'] = 0;
-				singleObj['target'] = i;
-				dataset['edges'].push(singleObj);
-				break;
-			default:
-				break;
-		}	
-	});
-	//console.log(dataset.edges);
+  list2node(dataset, evlist, "event");
+  list2node(dataset, emlist, "emotion");
+  list2node(dataset, clist, "person");
+  list2node(dataset, llist, "location");
+  list2node(dataset, tlist, "time");
+  dataset['nodes'].forEach(function(entry, i) 
+  {
+    var singleObj = {};
+    switch(entry.type)
+    {
+      case 'person':
+        singleObj['source'] = 0;
+        singleObj['target'] = i;
+        dataset['edges'].push(singleObj);
+        break;
+      case 'emotion':
+        singleObj['source'] = 0;
+        singleObj['target'] = i;
+        dataset['edges'].push(singleObj);
+        break;
+      case 'event':
+        singleObj['source'] = i-1;
+        singleObj['target'] = i;
+        dataset['edges'].push(singleObj);
+        break;
+      case 'location':
+        singleObj['source'] = 0;
+        singleObj['target'] = i;
+        dataset['edges'].push(singleObj);
+        break;
+      case 'time':
+        singleObj['source'] = 0;
+        singleObj['target'] = i;
+        dataset['edges'].push(singleObj);
+        break;
+      default:
+        break;
+    } 
+  });
+  //console.log(dataset.edges);
     //var colors = d3.scale.category10();
  
     var svg = d3.select("body").append("svg").attr({"width":w,"height":h});
@@ -73,26 +89,32 @@ function showGraph(title, tlist, pnlist, selist){
       .enter()
       .append("ellipse")
       .attr("rx", function(d,i){return i===0?100:40})
-	  .attr("ry", function(d,i){return i===0?75:30})
+    .attr("ry", function(d,i){return i===0?75:30})
       .style("fill",function(d,i)
-	  {
-		if(i===0)
-			return "#FF6600";
-		switch(d.type)
-		{
-			case 'event':
-				return "#6699FF";
-				break;
-			case 'person':
-				return 'yellow';
-				break;
-			case 'time':
-				return 'green';
-				break;
-			default:
-				break;
-		}
-	  })
+    {
+    if(i===0)
+      return "#FF6600";
+    switch(d.type)
+    {
+      case 'person':
+        return 'yellow';
+        break;
+      case 'emotion':
+        return 'red';
+        break;
+      case 'event':
+        return "#6699FF";
+        break;
+      case 'location':
+        return 'white';
+        break;
+      case 'time':
+        return 'green';
+        break;
+      default:
+        break;
+    }
+    })
       .call(force.drag)
 
 
@@ -103,8 +125,8 @@ function showGraph(title, tlist, pnlist, selist){
        .attr({"x":function(d){return d.x;},
               "y":function(d){return d.y;},
               "class":"nodelabel",
-			  "font-size":15,
-			  "text-anchor":"middle",
+        "font-size":15,
+        "text-anchor":"middle",
               "stroke":"black"})
        .text(function(d){return d.name;});
 
@@ -137,23 +159,29 @@ function showGraph(title, tlist, pnlist, selist){
         .attr('xlink:href',function(d,i) {return '#edgepath'+i})
         .style("pointer-events", "none")
         .text(function(d,i)
-		{
-			switch(d.target.type)
-			{
-				case 'event':
-					return '事件'+(i+1);
-					break;
-				case 'person':
-					return '相關人物';
-					break;
-				case 'time':
-					return '時間';
-					break;
-				default:
-					break;
-			}
-			//console.log(d);
-		});
+    {
+      switch(d.target.type)
+      {
+        case 'person':
+          return '相關人物';
+          break;
+        case 'emotion':
+          return '情緒';
+          break;
+        case 'event':
+          return '事件'+(i+1);
+          break;
+        case 'location':
+          return '地點';
+          break;
+        case 'time':
+          return '時間';
+          break;
+        default:
+          break;
+      }
+      //console.log(d);
+    });
 
 
     svg.append('defs').append('marker')
@@ -207,11 +235,11 @@ function showGraph(title, tlist, pnlist, selist){
 
 function list2node(dataset, list, type)
 {
-	list.forEach(function(entry) 
-	{
-		var singleObj = {}
-		singleObj['name'] = entry;
-		singleObj['type'] = type;
-		dataset['nodes'].push(singleObj);
-	})
-}  
+  list.forEach(function(entry) 
+  {
+    var singleObj = {}
+    singleObj['name'] = entry;
+    singleObj['type'] = type;
+    dataset['nodes'].push(singleObj);
+  })
+} 

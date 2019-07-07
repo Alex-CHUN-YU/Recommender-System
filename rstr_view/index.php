@@ -41,6 +41,11 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 							<textarea id="article" class="form-control" rows="20" name="article" onkeyup="this.value=this.value.slice(0, 400)"></textarea>
 						</div>
 					</form>
+					<!--visualization 12/7-->
+					<div id="graph-area" class="col-md-12 area">
+						<p class="semi-title"><font color="white" size="6"><b>事件鏈 Event Chain</b></font></p>
+						<div id="show-graph" class="show-area"></div>
+					</div>
 				</div>
 			</div>
 			<!-- RESULT FORMAT-->
@@ -76,11 +81,6 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 							<iframe id="video3" class="video-display col-md-6 col-sm-12" src="" frameborder="0"></iframe>
 							<p id="storyline3" class="result-lyrics col-md-6 col-sm-12"></p>
 						</div>
-					</div>
-					<!--visualization 12/7-->
-					<div id="graph-area" class="col-md-12 area">
-						<p class="semi-title"><font color="white" size="6"><b>事件鏈 Event Chain</b></font></p>
-						<div id="show-graph" class="show-area"></div>
 					</div>
 					<!--<div class="col-md-12 col-sm-12 result-blk">
 						<div class="result-card">
@@ -127,16 +127,59 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 				success: function(response) { // on success..
 					console.log("success!");
 					console.log(response);
-					var title = "測試程式";
-					var tlist = ['明天', '等等'];
-					var pnlist = ['人類', '動物'];
-					var selist = ['打人', '測試'];
-					showGraph(title, tlist, pnlist, selist);
 					for (order = 1; order <= 3; order++) {
-						song = response[order];
-						replaceRecommendTrailer(order, song);
+						trailer = response[order];
+						replaceRecommendTrailer(order, trailer);
 					}
-					
+					// event chain
+					trailer = response[4]
+					arr = trailer['character'].split(" ")
+					character = []
+					for(var i = 0; i < arr.length; i++){ 
+						if (arr[i] !== "") {
+							character.push(arr[i]); 
+						}
+					}
+					arr = trailer['emotion'].split(" ")
+					emotion = []
+					for(var i = 0; i < arr.length; i++){ 
+						if (arr[i] !== "") {
+							emotion.push(arr[i]); 
+						}
+					}
+					arr = trailer['event'].split(" ")
+					event = []
+					for(var i = 0; i < arr.length; i++){ 
+						if (arr[i] !== "") {
+							event.push(arr[i]); 
+						}
+					}
+					arr = trailer['location'].split(" ")
+					locaion_test = []
+					for(var i = 0; i < arr.length; i++){ 
+						if (arr[i] !== "") {
+							locaion_test.push(arr[i]); 
+						}
+					}
+					arr = trailer['time'].split(" ")
+					time = []
+					for(var i = 0; i < arr.length; i++){ 
+						if (arr[i] !== "") {
+							time.push(arr[i]); 
+						}
+					}
+					console.log(character);
+					console.log(emotion);
+					console.log(event);
+					// console.log(location);
+					console.log(time);
+					var title = trailer['title'];
+					var clist = character;
+					var emlist = emotion;
+					var evlist = event;	
+					var llist = locaion_test;				
+					var tlist = time;
+					showGraph(title, clist, emlist, evlist, llist, tlist);
 					//remove loading gif
 					$('#cards').show();
 					$('#errormsg').hide();
@@ -161,19 +204,30 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 		$('#testinput-3').bind("click", {tid:3}, alterTestingInput);
 	});
 	
-	function replaceRecommendTrailer(order, song){
-		console.log(song.hasOwnProperty('artist'));
-		console.log(song.hasOwnProperty('trailer_name'));
-		console.log(song.hasOwnProperty('link'));
-		console.log(song.hasOwnProperty('storyline'));
+	function replaceRecommendTrailer(order, trailer){
+		console.log(trailer.hasOwnProperty('artist'));
+		console.log(trailer.hasOwnProperty('trailer_name'));
+		console.log(trailer.hasOwnProperty('link'));
+		console.log(trailer.hasOwnProperty('storyline'));
 		artistBlk = '#artist' + order.toString();
 		trailernameBlk = '#trailer_name' + order.toString();
 		videoBlk = '#video' + order.toString();
 		storylineBlk = '#storyline' + order.toString();
-		$(artistBlk).text(song['artist']);		
-		$(trailernameBlk).text(song['trailer_name']);
-		$(videoBlk).attr("src", song['link']);
-		$(storylineBlk).text(song['storyline']);
+		$(artistBlk).text(trailer['artist']);		
+		$(trailernameBlk).text(trailer['trailer_name']);
+		$(videoBlk).attr("src", trailer['link']);
+		$(storylineBlk).text(trailer['storyline']);
+	}
+
+		function removeSpace(arr) {
+		artistBlk = '#artist' + order.toString();
+		trailernameBlk = '#trailer_name' + order.toString();
+		videoBlk = '#video' + order.toString();
+		storylineBlk = '#storyline' + order.toString();
+		$(artistBlk).text(trailer['artist']);		
+		$(trailernameBlk).text(trailer['trailer_name']);
+		$(videoBlk).attr("src", trailer['link']);
+		$(storylineBlk).text(trailer['storyline']);
 	}
 	
 	function alterTestingInput(e){

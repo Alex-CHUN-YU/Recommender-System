@@ -13,7 +13,7 @@ from word2vec import Word2Vec
 # 主要負責將判斷結果傳回去
 class RecommenderSystem():
 	def __init__(self):
-		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
+		self.db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
 		# sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_bert FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 1171 and b.scenario_e2v_bert !=''"
 		sql = "SELECT a.relationship_type, a.scenario_type, b.id, b.scenario_e2v_w2v_sg FROM movies as a, movies_vector as b Where a.id=b.id and a.id >= 1 and a.id <= 1171 and b.scenario_e2v_w2v_sg !=''"

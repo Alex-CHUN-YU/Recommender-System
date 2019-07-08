@@ -17,22 +17,22 @@ from sklearn.metrics import accuracy_score
 class Relationship:
 	# init
 	def __init__(self):
-		self.db = MySQLdb.connect(host = "localhost", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
+		self.db = MySQLdb.connect(host = "127.0.0.1", user = "root", passwd = "wmmkscsie", db = "recommender_system", charset = "utf8")
 		self.cursor = self.db.cursor()
 		self.relationship_e2v_bert_name = 'relationship_e2v_bert'
 		self.relationship_e2v_w2v_sg_name = 'relationship_e2v_w2v_sg'
 		self.sum_w2v_w2v_sg_name = 'sum_w2v_w2v_sg'
 	# relationship feature application
 	def relationship(self):
-		# self.relationship_model_training(self.relationship_e2v_bert_name)
-		self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
+		self.relationship_model_training(self.relationship_e2v_bert_name)
+		# self.relationship_model_training(self.relationship_e2v_w2v_sg_name)
 		# self.relationship_model_training(self.sum_w2v_w2v_sg_name)
 	# Relationship Model Training
 	def relationship_model_training(self, feature_type):
 		data = []
 		target = []
 		# Article 221269
-		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <=221269 and relationship_type !=''")
+		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <= 60000 and relationship_type !=''")
 		articles = self.cursor.fetchall()
 		for article in articles:
 			# Access Articles Vector

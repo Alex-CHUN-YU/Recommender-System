@@ -32,7 +32,7 @@ class Relationship:
 		data = []
 		target = []
 		# Article 221269
-		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <= 60000 and relationship_type !=''")
+		self.cursor.execute("SELECT id, relationship_type FROM articles Where id >= 1 and id <= 221269 and relationship_type !=''")
 		articles = self.cursor.fetchall()
 		for article in articles:
 			# Access Articles Vector

@@ -25,7 +25,7 @@ class E2V_BERT:
 	# load data
 	def load_data(self):
 		# articles ner 221269
-		self.cursor.execute("SELECT a.id, a.content_ner_tag FROM articles_ner as a, articles as b Where a.id = b.id and a.id >= 61844 and a.id <= 221269 and b.relationship_type != ''")
+		self.cursor.execute("SELECT a.id, a.content_ner_tag FROM articles_ner as a, articles as b Where a.id = b.id and a.id >= 0 and a.id <= 0 and b.relationship_type != ''")
 		self.articles_ner_tag = self.cursor.fetchall()
 		# movies ner 3722
 		self.cursor.execute("SELECT a.id, a.storyline_ner_tag FROM movies_ner as a, movies as b Where a.id = b.id and a.id >= 1 and a.id <= 3722 and b.scenario_type != ''")
@@ -156,6 +156,7 @@ class E2V_BERT:
 					sentence = ""
 					entity_type_position_length_in_sentence = []
 					for term_ner_tag in sentence_ner_tag.split(' '):
+						if " " not in term_ner_tag and term_ner_tag != "":
 							term_ner_tag = term_ner_tag.split(':')
 							term = term_ner_tag[0]
 							tag = term_ner_tag[1]

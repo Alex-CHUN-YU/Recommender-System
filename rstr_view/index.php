@@ -115,7 +115,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 			$.ajax({
 				data: {'article': input}, // get the form data
 				type: "GET", // GET or POST
-				url: "http://localhost:8309/getRecommendSystemResult", // the file to call
+				url: "http://127.0.0.1:8309/getRecommendSystemResult", // the file to call
 				//dataType: "text",
 				//dataType: "json",
 				beforeSend : function(xhr, opts){

@@ -43,7 +43,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
 					</form>
 					<!--visualization 12/7-->
 					<div id="graph-area" class="col-md-12 area">
-						<p class="semi-title"><font color="white" size="6"><b>事件鏈 Event Chain</b></font></p>
+						<p class="semi-title"><font color="white" size="6"><b>Relationship-Scenario Emotion-Event Chain</b></font></p>
 						<div id="show-graph" class="show-area"></div>
 					</div>
 				</div>

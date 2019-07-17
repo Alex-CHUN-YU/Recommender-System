@@ -1,7 +1,7 @@
 # Paper
 [Paper](https://drive.google.com/file/d/1sTiMc5iiclh7sX4-pCcu70-YmRbIzU6b/view?usp=sharing)</br>
-[PPT](https://docs.google.com/presentation/d/17gZmq5NnkH2Lkjm8CTHAbB_iujkVxEEKrHPlJSj602U/edit?usp=sharing)
-[Committee member comment](https://docs.google.com/document/d/1bmTHGyHcXncy5IYhcjdpPY03P3pNnmX2pP4a3CfUaqM/edit)
+[PPT](https://docs.google.com/presentation/d/17gZmq5NnkH2Lkjm8CTHAbB_iujkVxEEKrHPlJSj602U/edit?usp=sharing)</br>
+[Committee member comment](https://docs.google.com/document/d/1bmTHGyHcXncy5IYhcjdpPY03P3pNnmX2pP4a3CfUaqM/edit)</br>
 ## Overview Flow
 * Pretrained Model(I used 3 kind of embeddings method)</br>
 1. BERT(trained: wiki(WordPiece), fine tunning: single article or single storyline)</br>

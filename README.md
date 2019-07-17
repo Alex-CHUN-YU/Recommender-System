@@ -1,4 +1,6 @@
 # Paper
+[Paper](https://drive.google.com/file/d/1sTiMc5iiclh7sX4-pCcu70-YmRbIzU6b/view?usp=sharing)</br>
+[PPT](https://docs.google.com/presentation/d/17gZmq5NnkH2Lkjm8CTHAbB_iujkVxEEKrHPlJSj602U/edit?usp=sharing)
 ## Overview Flow
 * Pretrained Model(I used 3 kind of embeddings method)</br>
 1. BERT(trained: wiki(WordPiece), fine tunning: single article or single storyline)</br>

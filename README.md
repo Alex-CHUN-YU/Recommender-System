@@ -1,6 +1,7 @@
 ## Relationship-Scenario based Trailer Recommendation(RSTR)
 [PPT](https://docs.google.com/presentation/d/17gZmq5NnkH2Lkjm8CTHAbB_iujkVxEEKrHPlJSj602U/edit?usp=sharing)</br>
 [RSTR Demo](http://140.116.245.146/rstr_view/)</br>
+[RSTR API Test](http://140.116.245.146/service_Client_example.php)</br>
 [Paper](https://drive.google.com/file/d/1sTiMc5iiclh7sX4-pCcu70-YmRbIzU6b/view?usp=sharing)</br>
 [Committee member comment](https://docs.google.com/document/d/1bmTHGyHcXncy5IYhcjdpPY03P3pNnmX2pP4a3CfUaqM/edit)</br>
 

@@ -1,4 +1,21 @@
-New log file opened at Mon Jul 08 17:53:05 CST 2019 by 12372@DESKTOP-00UHQEK
+New log file opened at Sun Aug 11 15:50:18 CST 2019 by 18440@DESKTOP-00UHQEK
+== resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna;4.1.0 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna-platform;4.1.0 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-remote-driver;2.48.2->net.java.dev.jna#jna-platform;4.1.0 [runtime->compile]
+== resolving dependencies net.java.dev.jna#jna-platform;4.1.0->net.java.dev.jna#jna;4.1.0 [runtime->runtime(*)]
+== resolving dependencies net.java.dev.jna#jna-platform;4.1.0->net.java.dev.jna#jna;4.1.0 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-java;2.48.2->org.seleniumhq.selenium#selenium-edge-driver;2.48.2 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-java;2.48.2->org.seleniumhq.selenium#selenium-edge-driver;2.48.2 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-edge-driver;2.48.2->org.seleniumhq.selenium#selenium-remote-driver;2.48.2 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-edge-driver;2.48.2->org.seleniumhq.selenium#selenium-remote-driver;2.48.2 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-edge-driver;2.48.2->commons-io#commons-io;2.4 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-edge-driver;2.48.2->commons-io#commons-io;2.4 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-edge-driver;2.48.2->org.apache.commons#commons-exec;1.3 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-edge-driver;2.48.2->org.apache.commons#commons-exec;1.3 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-java;2.48.2->org.seleniumhq.selenium#selenium-htmlunit-driver;2.48.2 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-java;2.48.2->org.seleniumhq.selenium#selenium-htmlunit-driver;2.48.2 [runtime->compile]
+== resolving dependencies org.seleniumhq.selenium#selenium-htmlunit-driver;2.48.2->org.seleniumhq.selenium#selenium-support;2.48.2 [runtime->runtime(*)]
+== resolving dependencies org.seleniumhq.selenium#selenium-htmlunit-driver;2.48.2->org.seleniumhq.selenium#selenium-support;2.48.2 [runtime->compile]
 == resolving dependencies org.seleniumhq.selenium#selenium-support;2.48.2->org.seleniumhq.selenium#selenium-remote-driver;2.48.2 [runtime->runtime(*)]
 == resolving dependencies org.seleniumhq.selenium#selenium-support;2.48.2->org.seleniumhq.selenium#selenium-remote-driver;2.48.2 [runtime->compile]
 == resolving dependencies org.seleniumhq.selenium#selenium-htmlunit-driver;2.48.2->net.sourceforge.htmlunit#htmlunit;2.18 [runtime->runtime(*)]
@@ -4676,7 +4693,7 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.11;2.3.8!akka-actor_2.11.jar
 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.11;2.3.8!akka-testkit_2.11.jar
 	[NOT REQUIRED] com.typesafe#config;1.2.1!config.jar(bundle)
-:: resolution report :: resolve 2642ms :: artifacts dl 171ms
+:: resolution report :: resolve 2492ms :: artifacts dl 107ms
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT compile produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-compile.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT runtime produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-runtime.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT test produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-test.xml
@@ -4691,37 +4708,51 @@ sbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT pom produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-pom.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT scala-tool produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-scala-tool.xml
 	report for recommendersystem#recommendersystem_2.11;1.0-SNAPSHOT fork-run produced in C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\resolution-cache\reports\recommendersystem-recommendersystem_2.11-fork-run.xml
-	resolve done (2642ms resolve - 171ms download)
+	resolve done (2492ms resolve - 107ms download)
 Read from stdout: Done updating.
 Done updating.
-Total time: 3 s, completed 2019/7/8 下午 05:53:06
+Total time: 3 s, completed 2019/8/11 下午 03:50:19
 > server-post-command-cleanup
 > server-handle-next-server-request
 > root/playForkNotifyStart http://localhost:9000
 Evaluating tasks: *:playForkNotifyStart
-Running task... Cancel: sbt.server.ServerTaskCancellation@6b8709b9, check cycles: false
-Total time: 0 s, completed 2019/7/8 下午 05:53:07
+Running task... Cancel: sbt.server.ServerTaskCancellation@403412d0, check cycles: false
+Total time: 0 s, completed 2019/8/11 下午 03:50:20
 > server-post-command-cleanup
 > server-handle-next-server-request
 > {file:/C:/Users/alex/Desktop/Project/backup/Recommender-System/RecommenderSystem/}root/*:playForkReload
 Evaluating tasks: *:playForkReload
-Running task... Cancel: sbt.server.ServerTaskCancellation@554c0ca, check cycles: false
+Running task... Cancel: sbt.server.ServerTaskCancellation@42c83355, check cycles: false
+Invalidating C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\database\MysqlDatabaseController.class: stamp changed from lastModified(1562484374298) to lastModified(1565509642354)
+Invalidating C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\constant_field\DatabaseConstant.class: stamp changed from lastModified(1562486076759) to lastModified(1565509641962)
 
 Initial source changes: 
 	removed:Set()
 	added: Set()
 	modified: Set()
-Removed products: Set()
+Removed products: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\read_write_file\ReadMovieDetailer.class)
 External API changes: API Changes: Set()
-Modified binary dependencies: Set()
+Modified binary dependencies: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\database\MysqlDatabaseController.class, C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\constant_field\DatabaseConstant.class)
 Initial directly invalidated sources: Set()
 
 Sources indirectly invalidated by:
-	product: Set()
-	binary dep: Set()
+	product: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\read_write_file\ReadMovieDetailer.java)
+	binary dep: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\read_write_file\ReadMovieDetailer.java)
 	external source: Set()
-All initially invalidated sources: Set()
+All initially invalidated sources: Set(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\app\read_write_file\ReadMovieDetailer.java)
 
+Read from stdout: Compiling 1 Java source to C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes...
+Compiling 1 Java source to C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes...
+Warning: node.js detection failed, sbt will use the Rhino based Trireme JavaScript engine instead to run JavaScript assets compilation, which in some cases may be orders of magnitude slower than using node.js.
+Java compilation took 1.294481886 s
+Java analysis took 0.088477613 s
+Java compile + analysis took 1.40347192 s
+New invalidations:
+	Set()
+Initial set of included nodes: Set()
+Previously invalidated, but (transitively) depend on new invalidations:
+	Set()
+All newly invalidated sources after taking into account (previously) recompiled sources:Set()
 Copy resource mappings: 
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\application.conf,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\application.conf)
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\databaseConfiguration.properties,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\databaseConfiguration.properties)
@@ -4757,8 +4788,7 @@ Copy resource mappings:
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\kinship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\kinship.list)
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\romantic_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\romantic_relationship.list)
 	(C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\conf\resources\relation\teacher_student_relationship.list,C:\Users\alex\Desktop\Project\backup\Recommender-System\RecommenderSystem\target\scala-2.11\classes\resources\relation\teacher_student_relationship.list)
-Warning: node.js detection failed, sbt will use the Rhino based Trireme JavaScript engine instead to run JavaScript assets compilation, which in some cases may be orders of magnitude slower than using node.js.
-Total time: 1 s, completed 2019/7/8 下午 05:54:35
+Total time: 3 s, completed 2019/8/11 下午 03:50:33
 > server-post-command-cleanup
 > server-handle-next-server-request
 Done executing sbt server engine, result Right(Exit(0))
@@ -4767,4 +4797,4 @@ Waiting for socket thread
 Waiting for request processor thread
 Waiting for command engine result
 Returning control to sbt launcher with result Exit(0)
-Closing the 12372@DESKTOP-00UHQEK logs at Mon Jul 08 17:55:47 CST 2019, goodbye.
+Closing the 18440@DESKTOP-00UHQEK logs at Sun Aug 11 15:53:03 CST 2019, goodbye.

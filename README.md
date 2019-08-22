@@ -23,8 +23,12 @@ scenario classifier 訓練(scenario_algorithm_analysis) > 供給 server 存取(m
 ## Main
 ### RecommenderSystem
 目的：NER 運用(Insert Article, Movie Parser and Article, Movie NER), Server 架設
+activator "start 8309"
 ### main
 目的：存取模型結果, Server 架設
+python3 server.py
+### token
+python3 service_Server.py
 
 ## Module
 ### main_embedding
